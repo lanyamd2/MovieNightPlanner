@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sparta.projectmovie1.movienightplanner.model.Production;
 
 public class Episode {
-
 	@JsonProperty("episode_type")
 	private String episodeType;
 

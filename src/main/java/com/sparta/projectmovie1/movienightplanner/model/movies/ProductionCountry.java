@@ -3,7 +3,6 @@ package com.sparta.projectmovie1.movienightplanner.model.movies;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ProductionCountry {
-
 	@JsonProperty("iso_3166_1")
 	private String iso31661;
 

@@ -1,70 +1,53 @@
 package com.sparta.projectmovie1.movienightplanner.model;
 
+
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
+@Getter
+@Setter
 public class Production {
+    protected int id;
 
-    private int id;
+    @JsonProperty("title")
+    @JsonAlias("name")
+    protected String name;//should this be name or title when writing to JSON
 
-//    @JsonProperty("title")
+    @JsonProperty("overview")
+    protected String overview;
 
-    protected String name;
-    private String imagePath;
+    @JsonProperty("original_title")
+    @JsonAlias("original_name")
+    protected String originalTitle;
+
+    @JsonProperty("poster_path")
+    protected String posterPath;
+
+    @JsonProperty("genres")
     protected List<Genre> genres;
+
+    @JsonProperty("spoken_languages")
     protected List<SpokenLanguage> spokenLanguages;
 
+    @JsonProperty("original_language")
+    protected String originalLanguage;
 
+    @JsonProperty("popularity")
+    protected Object popularity;
 
-    public int getId() {
-        return id;
-    }
+    @JsonProperty("vote_average")
+    protected Object voteAverage;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    @JsonProperty("vote_count")
+    protected int voteCount;
 
-    public String getName() {
-        return name;
-    }
+    @JsonProperty("status")
+    protected String status;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImagePath() {
-        return imagePath;
-    }
-
-    public void setImagePath(String imagePath) {
-        this.imagePath = imagePath;
-    }
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
-    public List<SpokenLanguage> getSpokenLanguages() {
-        return spokenLanguages;
-    }
-
-    public void setSpokenLanguages(List<SpokenLanguage> spokenLanguages) {
-        this.spokenLanguages = spokenLanguages;
-    }
-
-    @Override
-    public String toString() {
-        return "Production{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", imagePath='" + imagePath + '\'' +
-                ", genres=" + genres +
-                ", spokenLanguages=" + spokenLanguages +
-                '}';
-    }
+    @JsonProperty("tagline")
+    protected String tagline;
 }

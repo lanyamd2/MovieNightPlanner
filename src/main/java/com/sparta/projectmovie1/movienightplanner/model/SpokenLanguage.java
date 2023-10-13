@@ -3,7 +3,6 @@ package com.sparta.projectmovie1.movienightplanner.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class SpokenLanguage {
-
 	@JsonProperty("name")
 	private String name;
 

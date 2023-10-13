@@ -3,7 +3,6 @@ package com.sparta.projectmovie1.movienightplanner.model.tvshows;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Season {
-
 	@JsonProperty("air_date")
 	private String airDate;
 

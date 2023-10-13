@@ -3,7 +3,6 @@ package com.sparta.projectmovie1.movienightplanner.model.tvshows;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Network {
-
 	@JsonProperty("logo_path")
 	private String logoPath;
 
