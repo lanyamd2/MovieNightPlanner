@@ -23,9 +23,10 @@ public class TrendingProduction {
     @JsonProperty("poster_path")
     protected String posterPath;
 
-    /*@JsonProperty("genres")
+    @JsonProperty("genres")
     @JsonAlias("genre_ids")
-    protected List<Genre> genres;*/
+    //protected List<Genre> genres;
+    protected List<Integer> genres;
 
     @JsonProperty("original_language")
     protected String originalLanguage;
@@ -39,4 +40,83 @@ public class TrendingProduction {
     @JsonProperty("vote_count")
     protected int voteCount;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public String getOriginalTitle() {
+        return originalTitle;
+    }
+
+    public void setOriginalTitle(String originalTitle) {
+        this.originalTitle = originalTitle;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
+    }
+
+    public List<Integer> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Integer> genres) {
+        this.genres = genres;
+    }
+
+    public String getOriginalLanguage() {
+        return originalLanguage;
+    }
+
+    public void setOriginalLanguage(String originalLanguage) {
+        this.originalLanguage = originalLanguage;
+    }
+
+    public Object getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Object popularity) {
+        this.popularity = popularity;
+    }
+
+    public Object getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(Object voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public int getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(int voteCount) {
+        this.voteCount = voteCount;
+    }
 }
