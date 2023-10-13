@@ -1,16 +1,12 @@
 package com.sparta.projectmovie1.movienightplanner.model;
 
-
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
-public class Production {
+public class TrendingProduction {
+
     protected int id;
 
     @JsonProperty("title")
@@ -27,12 +23,9 @@ public class Production {
     @JsonProperty("poster_path")
     protected String posterPath;
 
-    @JsonProperty("genres")
+    /*@JsonProperty("genres")
     @JsonAlias("genre_ids")
-    protected List<Genre> genres;
-
-    @JsonProperty("spoken_languages")
-    protected List<SpokenLanguage> spokenLanguages;
+    protected List<Genre> genres;*/
 
     @JsonProperty("original_language")
     protected String originalLanguage;
@@ -46,9 +39,4 @@ public class Production {
     @JsonProperty("vote_count")
     protected int voteCount;
 
-    @JsonProperty("status")
-    protected String status;
-
-    @JsonProperty("tagline")
-    protected String tagline;
 }
