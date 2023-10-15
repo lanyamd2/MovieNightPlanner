@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <!--Adding external style sheet-->
+    <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
+
+</head>
+<body onload="changeOptions()">
+<!--NavBar begins here-->
+<div th:insert="navbar :: navbar">  </div>
+<!--Navbar ends here-->
+<br>
+<div class="container">
+
+<!--Search Section starts here-->
+<div class="searchsection" style="margin:auto">
+<form th:action="@{/search-results}" method="post">
+<div class="container">
+    <div class="row">
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-sm-2"><label for="searchQuery" class="form-label">Search</label></div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="searchQuery" name="searchQuery">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <select class="form-select" name="productionType" id="productionType" onchange="changeOptions()">
+                    <option value="movie">Movie</option>
+                    <option value="tv">Tv</option>
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <select class="form-select" name="searchGenre" id="searchGenre">
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <input type="submit" class="btn btn-dark" value="Search">
+            </div>
+
+
+    </div>
+</div>
+</form>
+</div>
+<!--Search Section ends here-->
+<br>
+    <!--Sorting Section starts here-->
+<div class="sortSection">
+<div class="row">
+    <div class="col-sm-8"></div>
+    <div class="col-sm-4">
+        <form th:action="@{/home}" method="post">
+        <div class="row">
+            <div class="col-sm-4">
+                <select class="form-select form-select-sm" name="timeWindow" id="timeWindow">
+                    <option value="" disabled selected>Choose Trending Time Window</option>
+                    <option value="day">Trending Today</option>
+                    <option value="week">Trending This Week</option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <select class="form-select form-select-sm" name="sortBy" id="sortBy">
+                    <option value="" disabled selected>SortBy</option>
+                    <option value="popularity">Popularity</option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <input type="submit" class="btn btn-dark btn-sm" value="Apply">
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+    <!--Sorting Section ends here-->
+
+<h2>Trending <span th:text="${selectedTimeWindow}"></span>..</h2>
+<br>
+<!--Trending movies/tv display section starts here-->
+
+<div class="displaySection">
+<div class="row">
+    <div class="col-sm-3" th:each="production:${productions}">
+    <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
+    <br>
+    <span th:text="${production.getName()}"></span>
+    <br>
+    <span th:text="${production.getPopularity()}"></span>
+    <br><br>
+    </div>
+</div>
+
+</div>
+
+<!--Trending movies/tv display section starts here-->
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script>
+    var movieGenres=[
+    {
+      "id": 28,
+      "name": "Action"
+    },
+    {
+      "id": 12,
+      "name": "Adventure"
+    },
+    {
+      "id": 16,
+      "name": "Animation"
+    },
+    {
+      "id": 35,
+      "name": "Comedy"
+    },
+    {
+      "id": 80,
+      "name": "Crime"
+    },
+    {
+      "id": 99,
+      "name": "Documentary"
+    },
+    {
+      "id": 18,
+      "name": "Drama"
+    },
+    {
+      "id": 10751,
+      "name": "Family"
+    },
+    {
+      "id": 14,
+      "name": "Fantasy"
+    },
+    {
+      "id": 36,
+      "name": "History"
+    },
+    {
+      "id": 27,
+      "name": "Horror"
+    },
+    {
+      "id": 10402,
+      "name": "Music"
+    },
+    {
+      "id": 9648,
+      "name": "Mystery"
+    },
+    {
+      "id": 10749,
+      "name": "Romance"
+    },
+    {
+      "id": 878,
+      "name": "Science Fiction"
+    },
+    {
+      "id": 10770,
+      "name": "TV Movie"
+    },
+    {
+      "id": 53,
+      "name": "Thriller"
+    },
+    {
+      "id": 10752,
+      "name": "War"
+    },
+    {
+      "id": 37,
+      "name": "Western"
+    }
+  ]
+
+
+  var tvGenres=[
+    {
+      "id": 10759,
+      "name": "Action & Adventure"
+    },
+    {
+      "id": 16,
+      "name": "Animation"
+    },
+    {
+      "id": 35,
+      "name": "Comedy"
+    },
+    {
+      "id": 80,
+      "name": "Crime"
+    },
+    {
+      "id": 99,
+      "name": "Documentary"
+    },
+    {
+      "id": 18,
+      "name": "Drama"
+    },
+    {
+      "id": 10751,
+      "name": "Family"
+    },
+    {
+      "id": 10762,
+      "name": "Kids"
+    },
+    {
+      "id": 9648,
+      "name": "Mystery"
+    },
+    {
+      "id": 10763,
+      "name": "News"
+    },
+    {
+      "id": 10764,
+      "name": "Reality"
+    },
+    {
+      "id": 10765,
+      "name": "Sci-Fi & Fantasy"
+    },
+    {
+      "id": 10766,
+      "name": "Soap"
+    },
+    {
+      "id": 10767,
+      "name": "Talk"
+    },
+    {
+      "id": 10768,
+      "name": "War & Politics"
+    },
+    {
+      "id": 37,
+      "name": "Western"
+    }
+  ]
+
+    function changeOptions(){
+
+    if(document.getElementById("productionType").value=="movie")
+    {
+        var element=document.getElementById("searchGenre");
+        var child=element.lastChild;
+        while(child){
+            element.removeChild(child);
+            child=element.lastChild;
+        }
+        for(i=0;i<movieGenres.length;i++){
+            var newOption=document.createElement("option");
+            newOption.value=movieGenres[i].id;
+            newOption.innerHTML=movieGenres[i].name;
+            element.appendChild(newOption);
+        }
+    }
+    else{
+        var element=document.getElementById("searchGenre");
+        var child=element.lastChild;
+        while(child){
+            element.removeChild(child);
+            child=element.lastChild;
+        }
+        for(i=0;i<tvGenres.length;i++){
+            var newOption=document.createElement("option");
+            newOption.value=tvGenres[i].id;
+            newOption.innerHTML=tvGenres[i].name;
+            element.appendChild(newOption);
+        }
+    }
+
+    }
+</script>
+</body>
+</html>

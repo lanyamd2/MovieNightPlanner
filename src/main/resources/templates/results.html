@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <!--Adding external style sheet-->
+    <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<!--NavBar begins here-->
+<div th:insert="navbar :: navbar">  </div>
+<!--Navbar ends here-->
+<br>
+<div class="container">
+
+    <!--Search Section starts here-->
+    <div class="searchsection" style="margin:auto">
+        <form th:action="@{/search-results}" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <div class="row">
+                            <div class="col-sm-2"><label for="searchQuery" class="form-label">Search</label></div>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="searchQuery" name="searchQuery">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <select class="form-select" name="productionType" id="productionType">
+                            <option value="movie">Movie</option>
+                            <option value="tv">Tv</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <select class="form-select" name="searchGenre" id="searchGenre">
+                            <option value="28">Action</option>
+                            <option value="12">Adventure</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="submit" class="btn btn-dark" value="Search">
+                    </div>
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--Search Section ends here-->
+    <br>
+    <h2>Search Results..</h2>
+    <!--Search results display section starts here-->
+    <br>
+    <div class="displaySection">
+        <div class="row">
+            <div class="col-sm-3" th:each="production:${productions}">
+                <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
+                <br>
+                <span th:text="${production.getName()}"></span>
+                <br><br>
+            </div>
+        </div>
+
+    </div>
+
+    <!--Search results display section starts here-->
+
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+</body>
+</html>
