@@ -107,7 +107,7 @@ public class TrialController {
                          finalProductionList=movieList.getResults();
                          finalProductionList.addAll(tvList.getResults());
 
-                         
+
                     }
                     else{
                         //What to show when nothing selected
