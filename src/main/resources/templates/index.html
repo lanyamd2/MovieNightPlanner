@@ -22,7 +22,8 @@
 
 <!--Search Section starts here-->
 <div class="searchsection" style="margin:auto">
-<form th:action="@{/search-results}" method="post">
+<!--<form th:action="@{/search-results}" method="post">-->
+<form th:action="@{/search-results-new}" method="post">
 <div class="container">
     <div class="row">
             <div class="col-sm-3">
@@ -60,7 +61,7 @@
 <div class="row">
     <div class="col-sm-8"></div>
     <div class="col-sm-4">
-        <form th:action="@{/home}" method="post">
+        <form th:action="@{/index}" method="post">
         <div class="row">
             <div class="col-sm-4">
                 <select class="form-select form-select-sm" name="timeWindow" id="timeWindow">
@@ -92,12 +93,16 @@
 <div class="displaySection">
 <div class="row">
     <div class="col-sm-3" th:each="production:${productions}">
+    <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
     <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
     <br>
     <span th:text="${production.getName()}"></span>
     <br>
     <span th:text="${production.getPopularity()}"></span>
+    <br>
+    <span th:text="${production.getMedia_type()}"></span>
     <br><br>
+    </a>
     </div>
 </div>
 
