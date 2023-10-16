@@ -31,7 +31,7 @@ public class SearchService {
 
     }
 
-    public List<Production> getAllSearchResults(String searchQuery, String productionType, Integer searchGenre) {
+    public List<Production> getAllSearchResults(String searchQuery, String productionType, Integer searchGenre,Integer page) {
         {
             List<Production> finalProductionList = null;
 
@@ -53,6 +53,7 @@ public class SearchService {
                     }
 
                 } else {
+                    //ProductionList productionList = restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&api_key=" + tmdbApiKey, ProductionList.class);
                     ProductionList productionList = restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&api_key=" + tmdbApiKey, ProductionList.class);
                     List<Production> finalList = productionList.getResults();
                     finalList.forEach(p->p.setMedia_type(productionType));

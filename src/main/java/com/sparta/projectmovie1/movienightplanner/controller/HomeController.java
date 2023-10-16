@@ -47,6 +47,7 @@ public class HomeController {
     public String showResultsPageNew(@RequestParam(required = false) String searchQuery,
                                      @RequestParam(required = false) String productionType,
                                      @RequestParam(required = false) Integer searchGenre,
+                                     @RequestParam(required = false) Integer page,
                                      @RequestParam(required = false) String sortBy, Model model){
 
 
@@ -54,7 +55,7 @@ public class HomeController {
         LastSearchCriteria lastSearchCriteria=new LastSearchCriteria(searchQuery,productionType,searchGenre);
         model.addAttribute("lastSearchCriteria",lastSearchCriteria);
 
-        List<Production> productions=searchService.getAllSearchResults(searchQuery,productionType,searchGenre);
+        List<Production> productions=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
 
         if(sortBy!=null && sortBy.equals("popularity")){
             productions=searchService.sortResultByPopularityNew(productions);
