@@ -22,24 +22,6 @@ public class HomeController {
         this.searchService = searchService;
     }
 
-    @RequestMapping("/home")
-    public String showHomePage(@RequestParam(required = false) String timeWindow,
-                               @RequestParam(required = false) String sortBy,
-                               Model model){
-
-        System.out.println(timeWindow+"--------------"+sortBy);
-        if(timeWindow==null){
-            timeWindow="day";
-        }
-        List<TrendingProduction> trendingProductions=searchService.getTrendingproductions(timeWindow);
-        if(sortBy!=null && sortBy.equals("popularity")){
-            System.out.println("sort by popularity called..");
-            trendingProductions=searchService.sortResultByPopularity(trendingProductions);
-        }
-        model.addAttribute("productions",trendingProductions);
-        model.addAttribute("selectedTimeWindow",timeWindow.equals("day")?"Today":"This Week");
-        return "index.html";
-    }
 
     @RequestMapping("/index")
     public String showIndexPage(@RequestParam(required = false) String timeWindow,
@@ -59,20 +41,7 @@ public class HomeController {
         model.addAttribute("selectedTimeWindow",timeWindow.equals("day")?"Today":"This Week");
         return "index.html";
     }
-
-    @RequestMapping("/search-results")
-    public String showResultsPage(@RequestParam(required = false) String searchQuery,
-                                  @RequestParam(required = false) String productionType,
-                                  @RequestParam(required = false) Integer searchGenre,Model model){
-        System.out.println(searchQuery+"------------"+productionType+"---------------"+searchGenre);
-        if(searchQuery.equals("")){
-            System.out.println("searchQuery is null");
-        }
-
-        model.addAttribute("productions",searchService.getAllSearchResults(searchQuery,productionType,searchGenre));
-        return "results";
-    }
-
+    
     @RequestMapping("/search-results-new")
     public String showResultsPageNew(@RequestParam(required = false) String searchQuery,
                                      @RequestParam(required = false) String productionType,
