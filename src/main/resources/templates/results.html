@@ -60,7 +60,7 @@
         <div class="row">
             <div class="col-sm-8"></div>
             <div class="col-sm-4">
-                <form th:action="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()})}" method="post">
+                <form th:action="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},page=${page})}" method="post">
                     <div class="row">
                         <div class="col-sm-4">
                             <!--<select class="form-select form-select-sm" name="timeWindow" id="timeWindow">
@@ -93,8 +93,8 @@
     <div class="row">
         <!--<span th:text="${page}"></span>&nbsp;<span th:text="${totalpages}"></span>-->
         <div class="col-sm-2">
-            <a th:if="${page>1}" th:href="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},,page=${page-1})}">Back</a>
-            <a th:if="${page<totalpages}" th:href="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},,page=${page+1})}">Next</a>
+            <a th:if="${page>1}" th:href="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},page=${page-1})}">Back</a>
+            <a th:if="${page<totalpages}" th:href="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},page=${page+1})}">Next</a>
         </div>
         <div class="col-sm-10"></div>
         </div>
