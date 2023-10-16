@@ -10,6 +10,15 @@ public class ProductionList {
 
     Integer total_pages;
 
+    public ProductionList() {
+    }
+
+    public ProductionList(Integer page, List<Production> results, Integer total_pages) {
+        this.page = page;
+        this.results = results;
+        this.total_pages = total_pages;
+    }
+
     public Integer getPage() {
         return page;
     }

@@ -2,6 +2,7 @@ package com.sparta.projectmovie1.movienightplanner.controller;
 
 import com.sparta.projectmovie1.movienightplanner.model.LastSearchCriteria;
 import com.sparta.projectmovie1.movienightplanner.model.Production;
+import com.sparta.projectmovie1.movienightplanner.model.ProductionList;
 import com.sparta.projectmovie1.movienightplanner.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,17 +52,24 @@ public class HomeController {
                                      @RequestParam(required = false) String sortBy, Model model){
 
 
-
+        if(page==null || page==0){
+            page=1;
+        }
         LastSearchCriteria lastSearchCriteria=new LastSearchCriteria(searchQuery,productionType,searchGenre);
         model.addAttribute("lastSearchCriteria",lastSearchCriteria);
 
-        List<Production> productions=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
+        //List<Production> productions=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
+        ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
+        List<Production> productions=productionList.getResults();
 
         if(sortBy!=null && sortBy.equals("popularity")){
             productions=searchService.sortResultByPopularityNew(productions);
         }
 
         model.addAttribute("productions",productions);
+        model.addAttribute("page",productionList.getPage());
+        model.addAttribute("totalpages",productionList.getTotal_pages());
+
         return "results";
     }
 }
