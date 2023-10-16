@@ -89,6 +89,7 @@
     <h2>Search Results..</h2>
     <!--Search results display section starts here-->
     <br>
+    <div th:if="${productions.isEmpty()}">No items matching your search</div>
     <div class="displaySection">
         <div class="row">
             <div class="col-sm-3" th:each="production:${productions}">

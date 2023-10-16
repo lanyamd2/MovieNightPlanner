@@ -1,18 +1,18 @@
 package com.sparta.projectmovie1.movienightplanner.model;
 
-
-
 import java.util.List;
 
 public class ProductionList {
-    List<TrendingProduction> results;
 
-    public List<TrendingProduction> getResults() {
+    List<Production> results;
+
+    public List<Production> getResults() {
         return results;
     }
 
-    public void setResults(List<TrendingProduction> results) {
+    public void setResults(List<Production> results) {
         this.results = results;
     }
-}
 
+
+}
