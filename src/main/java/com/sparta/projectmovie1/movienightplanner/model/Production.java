@@ -28,7 +28,13 @@ public class Production {
     protected String posterPath;
 
     @JsonProperty("genres")
+    @JsonAlias("genre_ids")
     protected List<Genre> genres;
+
+   // @JsonProperty("genres")
+    //@JsonAlias("genre_ids")
+    private List<Integer> genre_ids;
+    private String media_type;
 
     @JsonProperty("spoken_languages")
     protected List<SpokenLanguage> spokenLanguages;
@@ -50,4 +56,36 @@ public class Production {
 
     @JsonProperty("tagline")
     protected String tagline;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Integer> getGenre_ids() {
+        return genre_ids;
+    }
+
+    public void setGenre_ids(List<Integer> genre_ids) {
+        this.genre_ids = genre_ids;
+    }
+
+    public Object getPopularity() {
+        return popularity;
+    }
+
+    public void setPopularity(Object popularity) {
+        this.popularity = popularity;
+    }
+
+    public String getMedia_type() {
+        return media_type;
+    }
+
+    public void setMedia_type(String media_type) {
+        this.media_type = media_type;
+    }
 }
