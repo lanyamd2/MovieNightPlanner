@@ -1,7 +1,7 @@
-package com.sparta.projectmovie1.movienightplanner.service;
+package com.sparta.projectmovie1.movienightplanner.services;
 
-import com.sparta.projectmovie1.movienightplanner.model.Production;
-import com.sparta.projectmovie1.movienightplanner.model.ProductionList;
+import com.sparta.projectmovie1.movienightplanner.models.Production;
+import com.sparta.projectmovie1.movienightplanner.models.ProductionList;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

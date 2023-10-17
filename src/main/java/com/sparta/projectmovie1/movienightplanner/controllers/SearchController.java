@@ -1,11 +1,8 @@
-package com.sparta.projectmovie1.movienightplanner.controller;
+package com.sparta.projectmovie1.movienightplanner.controllers;
 
-import com.sparta.projectmovie1.movienightplanner.model.*;
-import com.sparta.projectmovie1.movienightplanner.model.movies.Movie;
-import com.sparta.projectmovie1.movienightplanner.model.tvshows.Series;
+import com.sparta.projectmovie1.movienightplanner.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,7 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class TrialController {
+public class SearchController {
     @Value("${tmdb.api.key}")
     private String tmdbApiKey;
 
@@ -26,20 +23,8 @@ public class TrialController {
     private final RestTemplate restTemplate;
 
     @Autowired
-    public TrialController(RestTemplate restTemplate) {
+    public SearchController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-    }
-
-    @RequestMapping("/movie/{movieId}")
-    public Movie getMovieInfo(@PathVariable("movieId") String movieId){
-        return restTemplate.getForObject("https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + tmdbApiKey, Movie.class);
-
-    }
-
-    @RequestMapping("/tv/{seriesId}")
-    public Series getSeriesInfo(@PathVariable("seriesId") String seriesId){
-        return restTemplate.getForObject("https://api.themoviedb.org/3/tv/" + seriesId + "?api_key=" + tmdbApiKey, Series.class);
-
     }
 
     @RequestMapping("all/trending")

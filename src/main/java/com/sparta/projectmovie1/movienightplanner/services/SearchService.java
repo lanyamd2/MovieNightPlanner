@@ -1,6 +1,6 @@
-package com.sparta.projectmovie1.movienightplanner.service;
+package com.sparta.projectmovie1.movienightplanner.services;
 
-import com.sparta.projectmovie1.movienightplanner.model.*;
+import com.sparta.projectmovie1.movienightplanner.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

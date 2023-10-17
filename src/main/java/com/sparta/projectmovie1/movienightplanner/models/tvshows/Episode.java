@@ -1,7 +1,6 @@
-package com.sparta.projectmovie1.movienightplanner.model.tvshows;
+package com.sparta.projectmovie1.movienightplanner.models.tvshows;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sparta.projectmovie1.movienightplanner.model.Production;
 
 public class Episode {
 	@JsonProperty("episode_type")

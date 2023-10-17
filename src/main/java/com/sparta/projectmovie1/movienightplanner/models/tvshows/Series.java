@@ -1,9 +1,8 @@
-package com.sparta.projectmovie1.movienightplanner.model.tvshows;
+package com.sparta.projectmovie1.movienightplanner.models.tvshows;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sparta.projectmovie1.movienightplanner.model.Production;
-import com.sparta.projectmovie1.movienightplanner.model.SpokenLanguage;
+import com.sparta.projectmovie1.movienightplanner.models.Production;
 
 public class Series extends Production {
 	@JsonProperty("number_of_episodes")
@@ -15,14 +14,8 @@ public class Series extends Production {
 	@JsonProperty("type")
 	private String type;
 
-	@JsonProperty("production_countries")
-	private List<Object> productionCountries;
-
 	@JsonProperty("number_of_seasons")
 	private int numberOfSeasons;
-
-	@JsonProperty("first_air_date")
-	private String firstAirDate;
 
 	@JsonProperty("seasons")
 	private List<Season> seasons;
@@ -79,30 +72,12 @@ public class Series extends Production {
 		return type;
 	}
 
-	public void setProductionCountries(List<Object> productionCountries){
-		this.productionCountries = productionCountries;
-	}
-
-	public List<Object> getProductionCountries(){
-		return productionCountries;
-	}
-
-
 	public void setNumberOfSeasons(int numberOfSeasons){
 		this.numberOfSeasons = numberOfSeasons;
 	}
 
 	public int getNumberOfSeasons(){
 		return numberOfSeasons;
-	}
-
-
-	public void setFirstAirDate(String firstAirDate){
-		this.firstAirDate = firstAirDate;
-	}
-
-	public String getFirstAirDate(){
-		return firstAirDate;
 	}
 
 	public void setSeasons(List<Season> seasons){
@@ -186,39 +161,39 @@ public class Series extends Production {
 	}
 
 	@Override
- 	public String toString(){
-		return 
-			"Movie{" +
-			",spoken_languages = '" + super.spokenLanguages + '\'' +
-			",genres = '" + super.genres + '\'' +
-			"original_language = '" + super.originalLanguage + '\'' +
-			",number_of_episodes = '" + numberOfEpisodes + '\'' + 
-			",networks = '" + networks + '\'' + 
-			",type = '" + type + '\'' + 
-			",popularity = '" + super.popularity + '\'' +
-			",production_countries = '" + productionCountries + '\'' + 
-			",id = '" + super.id + '\'' +
-			",number_of_seasons = '" + numberOfSeasons + '\'' + 
-			",vote_count = '" + super.voteCount + '\'' +
-			",first_air_date = '" + firstAirDate + '\'' + 
-			",overview = '" + super.overview + '\'' +
-			",seasons = '" + seasons + '\'' + 
-			",languages = '" + languages + '\'' + 
-			",created_by = '" + createdBy + '\'' + 
-			",last_episode_to_air = '" + lastEpisodeToAir + '\'' + 
-			",poster_path = '" + super.posterPath + '\'' +
-			",origin_country = '" + originCountry + '\'' + 
-			",spoken_languages = '" + spokenLanguages + '\'' + 
-			",original_name = '" + super.originalTitle + '\'' +
-			",vote_average = '" + super.voteAverage + '\'' +
-			",name = '" + super.name + '\'' +
-			",tagline = '" + super.tagline + '\'' +
-			",episode_run_time = '" + episodeRunTime + '\'' + 
-			",next_episode_to_air = '" + nextEpisodeToAir + '\'' + 
-			",in_production = '" + inProduction + '\'' + 
-			",last_air_date = '" + lastAirDate + '\'' + 
-			",homepage = '" + homepage + '\'' + 
-			",status = '" + super.status + '\'' +
-			"}";
-		}
+	public String toString(){
+		return
+				"Movie{" +
+						",spoken_languages = '" + super.spokenLanguages + '\'' +
+						",genres = '" + super.genres + '\'' +
+						"original_language = '" + super.originalLanguage + '\'' +
+						",number_of_episodes = '" + numberOfEpisodes + '\'' +
+						",networks = '" + networks + '\'' +
+						",type = '" + type + '\'' +
+						",popularity = '" + super.popularity + '\'' +
+						",production_countries = '" +super.productionCountries + '\'' +
+						",id = '" + super.id + '\'' +
+						",number_of_seasons = '" + numberOfSeasons + '\'' +
+						",vote_count = '" + super.voteCount + '\'' +
+						",first_air_date = '" + super.releaseDate + '\'' +
+						",overview = '" + super.overview + '\'' +
+						",seasons = '" + seasons + '\'' +
+						",languages = '" + languages + '\'' +
+						",created_by = '" + createdBy + '\'' +
+						",last_episode_to_air = '" + lastEpisodeToAir + '\'' +
+						",poster_path = '" + super.posterPath + '\'' +
+						",origin_country = '" + originCountry + '\'' +
+						",spoken_languages = '" + spokenLanguages + '\'' +
+						",original_name = '" + super.originalTitle + '\'' +
+						",vote_average = '" + super.voteAverage + '\'' +
+						",name = '" + super.name + '\'' +
+						",tagline = '" + super.tagline + '\'' +
+						",episode_run_time = '" + episodeRunTime + '\'' +
+						",next_episode_to_air = '" + nextEpisodeToAir + '\'' +
+						",in_production = '" + inProduction + '\'' +
+						",last_air_date = '" + lastAirDate + '\'' +
+						",homepage = '" + homepage + '\'' +
+						",status = '" + super.status + '\'' +
+						"}";
+	}
 }

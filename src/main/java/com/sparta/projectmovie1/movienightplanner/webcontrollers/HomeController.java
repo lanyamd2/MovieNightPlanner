@@ -1,9 +1,9 @@
-package com.sparta.projectmovie1.movienightplanner.controller;
+package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
-import com.sparta.projectmovie1.movienightplanner.model.LastSearchCriteria;
-import com.sparta.projectmovie1.movienightplanner.model.Production;
-import com.sparta.projectmovie1.movienightplanner.model.ProductionList;
-import com.sparta.projectmovie1.movienightplanner.service.SearchService;
+import com.sparta.projectmovie1.movienightplanner.models.LastSearchCriteria;
+import com.sparta.projectmovie1.movienightplanner.models.Production;
+import com.sparta.projectmovie1.movienightplanner.models.ProductionList;
+import com.sparta.projectmovie1.movienightplanner.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,10 +1,10 @@
-package com.sparta.projectmovie1.movienightplanner.model.movies;
+package com.sparta.projectmovie1.movienightplanner.models.movies;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sparta.projectmovie1.movienightplanner.model.Production;
-import com.sparta.projectmovie1.movienightplanner.model.SpokenLanguage;
+import com.sparta.projectmovie1.movienightplanner.models.Production;
+import com.sparta.projectmovie1.movienightplanner.models.SpokenLanguage;
 
 public class Movie extends Production {
     @JsonProperty("imdb_id")
@@ -15,13 +15,6 @@ public class Movie extends Production {
 
     @JsonProperty("spoken_languages")
     private List<SpokenLanguage> spokenLanguages;
-
-    @JsonProperty("release_date")
-    private String releaseDate;
-
-    @JsonProperty("production_countries")
-    private List<ProductionCountry> productionCountries;
-
 
     public void setImdbId(String imdbId) {
         this.imdbId = imdbId;
@@ -39,21 +32,6 @@ public class Movie extends Production {
         return runtime;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
-    public String getReleaseDate() {
-        return releaseDate;
-    }
-
-    public void setProductionCountries(List<ProductionCountry> productionCountries) {
-        this.productionCountries = productionCountries;
-    }
-
-    public List<ProductionCountry> getProductionCountries() {
-        return productionCountries;
-    }
 
     @Override
     public String toString() {
@@ -67,11 +45,11 @@ public class Movie extends Production {
                         ",title = '" + super.name + '\'' +
                         ",poster_path = '" + super.posterPath + '\'' +
                         ",spoken_languages = '" + super.spokenLanguages + '\'' +
-                        ",release_date = '" + releaseDate + '\'' +
+                        ",release_date = '" + super.releaseDate + '\'' +
                         ",genres = '" + super.genres + '\'' +
                         ",popularity = '" + super.popularity + '\'' +
                         ",vote_average = '" + super.voteAverage + '\'' +
-                        ",production_countries = '" + productionCountries + '\'' +
+                        ",production_countries = '" + super.productionCountries + '\'' +
                         ",tagline = '" + super.tagline + '\'' +
                         ",vote_count = '" + super.voteCount + '\'' +
                         ",status = '" + super.status + '\'' +

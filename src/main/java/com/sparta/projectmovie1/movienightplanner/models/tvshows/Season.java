@@ -1,4 +1,4 @@
-package com.sparta.projectmovie1.movienightplanner.model.tvshows;
+package com.sparta.projectmovie1.movienightplanner.models.tvshows;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

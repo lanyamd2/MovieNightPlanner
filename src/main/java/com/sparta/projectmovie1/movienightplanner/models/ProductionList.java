@@ -1,4 +1,4 @@
-package com.sparta.projectmovie1.movienightplanner.model;
+package com.sparta.projectmovie1.movienightplanner.models;
 
 import java.util.List;
 
