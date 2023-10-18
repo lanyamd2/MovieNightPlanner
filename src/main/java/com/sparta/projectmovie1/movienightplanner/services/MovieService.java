@@ -77,8 +77,9 @@ public class MovieService {
         else if(response.statusCode().is4xxClientError()){
             return Mono.error(new ProductionNotFoundException("Movie not found"));
         }
-        else if(response.statusCode().is5xxServerError()){
+        else if(response.statusCode().is5xxServerError()) {
             return Mono.error(new RuntimeException("Server error"));
+        }
         else{
             return Mono.error(new RuntimeException("Unexpected error"));
         }
@@ -131,6 +132,4 @@ public class MovieService {
     public List<Offer> fetchJustWatchOffers(String title, String type,String releaseYear){
         return fetchJustWatchOffers(title, type, releaseYear, "en_GB");
     }
-
-
 }
