@@ -79,7 +79,6 @@ public class MovieService {
         }
         else if(response.statusCode().is5xxServerError()){
             return Mono.error(new RuntimeException("Server error"));
-        }
         else{
             return Mono.error(new RuntimeException("Unexpected error"));
         }
@@ -104,9 +103,7 @@ public class MovieService {
     }
 
     public List<Offer> fetchJustWatchOffers(String title, String type, String releaseYear, String userLocale){
-        String url = getJustWatchUrl(title, type, releaseYear, userLocale); //if type is movie
-        //if type is show
-        //else throw exception
+        String url = getJustWatchUrl(title, type, releaseYear, userLocale);
         ObjectMapper mapper = new ObjectMapper();
         return webClient.get()
                 .uri(url)
