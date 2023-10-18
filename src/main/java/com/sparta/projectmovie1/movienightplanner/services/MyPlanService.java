@@ -28,7 +28,9 @@ public class MyPlanService {
     for(MyPlanEntry myPlanEntry : myPlanEntryRepository.findMyPlanEntriesByDate(date)) {
       String productionId = myPlanEntry.getProductionId();
       if(myPlanEntry.isMovie()) {
-        productions.add(movieService.getMovieById(productionId));
+        Movie movie = movieService.getMovieById(productionId);
+        movie.setMedia_type("movie");
+        productions.add(movie);
       }
 //      else {
 //        productions.add(seriesService.getSeriesById(productionId));
@@ -42,7 +44,9 @@ public class MyPlanService {
     for(MyPlanEntry myPlanEntry : myPlanEntryRepository.findAll()) {
       String productionId = myPlanEntry.getProductionId();
       if(myPlanEntry.isMovie()) {
-        productions.add(movieService.getMovieById(productionId));
+        Movie movie = movieService.getMovieById(productionId);
+        movie.setMedia_type("movie");
+        productions.add(movie);
       }
 //      else {
 //        productions.add(seriesService.getSeriesById(productionId));
