@@ -1,22 +1,34 @@
 package com.sparta.projectmovie1.movienightplanner.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Document("myPlanEntries")
 public class MyPlanEntry {
 
   @Id
+  @JsonProperty("_id")
   private String id;
 
-  @Field
-  private int productionId;
+  @JsonProperty("production_id")
+  private String productionId;
 
-  @Field
-  @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+  @JsonProperty("is_movie")
+  private boolean isMovie;
+
+  public boolean isMovie() {
+    return isMovie;
+  }
+
+  public void setMovie(boolean movie) {
+    isMovie = movie;
+  }
+
+  @JsonProperty("date")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date date;
 
   public String getId() {
@@ -27,11 +39,11 @@ public class MyPlanEntry {
     this.id = id;
   }
 
-  public int getProductionId() {
+  public String getProductionId() {
     return productionId;
   }
 
-  public void setProductionId(int productionId) {
+  public void setProductionId(String productionId) {
     this.productionId = productionId;
   }
 
@@ -43,11 +55,21 @@ public class MyPlanEntry {
     this.date = date;
   }
 
+  public MyPlanEntry(String id, String productionId, boolean isMovie, Date date) {
+    this.id = id;
+    this.productionId = productionId;
+    this.isMovie = isMovie;
+    this.date = date;
+  }
+
+  public MyPlanEntry() {}
+
   @Override
   public String toString() {
     return "MyPlanEntry{" +
         "id='" + id + '\'' +
         ", productionId='" + productionId + '\'' +
+        ", isMovie=" + isMovie +
         ", date=" + date +
         '}';
   }

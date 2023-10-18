@@ -46,8 +46,8 @@ public class HomeController {
     
     @RequestMapping("/search-results-new")
     public String showResultsPageNew(@RequestParam(required = false) String searchQuery,
-                                     @RequestParam(required = false) String productionType,
-                                     @RequestParam(required = false) Integer searchGenre,
+                                     @RequestParam String productionType,
+                                     @RequestParam Integer searchGenre,
                                      @RequestParam(required = false) Integer page,
                                      @RequestParam(required = false) String sortBy, Model model){
 
@@ -72,4 +72,5 @@ public class HomeController {
 
         return "results";
     }
+
 }
