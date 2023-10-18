@@ -1,24 +1,19 @@
 package com.sparta.projectmovie1.movienightplanner.services;
 
-import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
+import com.sparta.projectmovie1.movienightplanner.models.Offer;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
 import com.sparta.projectmovie1.movienightplanner.services.exceptions.ProductionNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
 public class SeriesService {
-    @Value("${tmdb.api.key}")
-    private String tmdbApiKey;
-
-    @Value("${justwatch.api.key}")
-    private String justWatchApiKey;
     private final WebClient webClient;
     private final MovieService movieService;
 
@@ -29,11 +24,15 @@ public class SeriesService {
     }
 
     public Series getSeriesById(String id) {
-        Series tmdbSeries = fetchTmdbSeriesById(id, "tv").block();
-        if (tmdbSeries == null) throw new ProductionNotFoundException("TV Show not found");
-        tmdbSeries.setMedia_type("show");
-        tmdbSeries.setOffers(movieService.fetchJustWatchOffers(id, "show"));
-        return tmdbSeries;
+        Optional<Series> tmdbSeries = fetchTmdbSeriesById(id, "tv").blockOptional();
+        if (tmdbSeries.isEmpty()) throw new ProductionNotFoundException("TV Show not found");
+        tmdbSeries.get().setMedia_type("show");
+
+        String title = tmdbSeries.get().getName().toLowerCase();
+
+        movieService.setProductionOffers(tmdbSeries.get(), title);
+
+        return tmdbSeries.get();
     }
 
     public Mono<Series> fetchTmdbSeriesById(String id, String type) {

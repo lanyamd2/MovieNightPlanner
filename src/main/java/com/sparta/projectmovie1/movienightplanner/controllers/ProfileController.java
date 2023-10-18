@@ -1,6 +1,5 @@
 package com.sparta.projectmovie1.movienightplanner.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.sparta.projectmovie1.movienightplanner.models.Offer;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
@@ -30,27 +29,25 @@ public class ProfileController {
         return movieService.getMovieById(id);
     }
 
-//    @RequestMapping("details/show/{id}")
-//    public Series getSeriesById(@PathVariable("id") String id){
-//        return seriesService.getSeriesById(id);
-//    }
-
-    @RequestMapping("/details/movie/justwatch/{id}")
-    public List<Offer> getjustMovieById(@PathVariable("id") String id){
-        return movieService.fetchJustWatchOffers(id,"movie");
+    @RequestMapping("details/tv/{id}")
+    public Series getSeriesById(@PathVariable("id") String id){
+        return seriesService.getSeriesById(id);
     }
 
-//    @RequestMapping("details/show/justwatch/{id}")
-//    public List<Offer> getjustSeriesById(@PathVariable("id") String id){
-//        return movieService.fetchJustWatchOffers(id, "show");
-//    }
+    @RequestMapping("/details/justwatch/{title}/{type}/{releaseYear}")
+    public List<Offer> getjustMovieById(@PathVariable("title") String title,
+                                        @PathVariable("type") String type,
+                                        @PathVariable("releaseYear") String releaseYear
+                                        ){
+        return movieService.fetchJustWatchOffers(title,type,releaseYear);
+    }
 
     @RequestMapping("/details/movie/tmdb/{id}")
     public Mono<Movie> gettmdbMovieById(@PathVariable("id") String id){
         return movieService.fetchTmdbMovieById(id,"movie");
     }
 
-    @RequestMapping("/details/series/tmdb/{id}")
+    @RequestMapping("/details/tv/tmdb/{id}")
     public Mono<Series> gettmdbSeriesById(@PathVariable("id") String id){
         return seriesService.fetchTmdbSeriesById(id, "tv");
     }
