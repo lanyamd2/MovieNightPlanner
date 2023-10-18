@@ -19,6 +19,10 @@ public class MyPlanEntry {
   @JsonProperty("is_movie")
   private boolean isMovie;
 
+  @JsonProperty("date")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private Date date;
+
   public boolean isMovie() {
     return isMovie;
   }
@@ -27,9 +31,6 @@ public class MyPlanEntry {
     isMovie = movie;
   }
 
-  @JsonProperty("date")
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
-  private Date date;
 
   public String getId() {
     return id;

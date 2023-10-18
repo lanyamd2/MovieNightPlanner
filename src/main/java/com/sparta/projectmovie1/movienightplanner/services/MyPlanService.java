@@ -3,58 +3,61 @@ package com.sparta.projectmovie1.movienightplanner.services;
 import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
 import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
+import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class MyPlanService {
+
+  @Value("${tmdb.api.key}")
+  private String apiKey;
+
+  @Value("https://api.themoviedb.org/3/")
+  private String rootUrl;
+
   MyPlanEntryRepository myPlanEntryRepository;
 
-  MovieService movieService;
+  RestTemplate restTemplate;
 
   @Autowired
-  public MyPlanService(MyPlanEntryRepository myPlanEntryRepository, MovieService movieService) {
+  public MyPlanService(MyPlanEntryRepository myPlanEntryRepository, RestTemplate restTemplate) {
     this.myPlanEntryRepository = myPlanEntryRepository;
-    this.movieService = movieService;
-  }
-
-  public List<Production> getProductionsOnDate(Date date) {
-    List<Production> productions = new ArrayList<>();
-    for(MyPlanEntry myPlanEntry : myPlanEntryRepository.findMyPlanEntriesByDate(date)) {
-      String productionId = myPlanEntry.getProductionId();
-      if(myPlanEntry.isMovie()) {
-        Movie movie = movieService.getMovieById(productionId);
-        movie.setMedia_type("movie");
-        productions.add(movie);
-      }
-//      else {
-//        productions.add(seriesService.getSeriesById(productionId));
-//      }
-    }
-    return productions;
+    this.restTemplate = restTemplate;
   }
 
   public List<Production> getAllProductionsInPlan() {
+    return getProductions(myPlanEntryRepository.findAll());
+  }
+
+  public List<Production> getProductionsOnDate(Date date) {
+    return getProductions(myPlanEntryRepository.findMyPlanEntriesByDate(date));
+  }
+
+  public List<Production> getProductions(List<MyPlanEntry> myPlanEntries) {
     List<Production> productions = new ArrayList<>();
-    for(MyPlanEntry myPlanEntry : myPlanEntryRepository.findAll()) {
+    for(MyPlanEntry myPlanEntry : myPlanEntries) {
       String productionId = myPlanEntry.getProductionId();
       if(myPlanEntry.isMovie()) {
-        Movie movie = movieService.getMovieById(productionId);
+        Movie movie = restTemplate.getForObject(rootUrl + "movie/" + productionId + "?api_key=" + apiKey, Movie.class);
+        assert movie != null;
         movie.setMedia_type("movie");
         productions.add(movie);
+      } else {
+        Series series = restTemplate.getForObject(rootUrl + "tv/" + productionId + "?api_key=" + apiKey, Series.class);
+        assert series != null;
+        series.setMedia_type("tv");
+        productions.add(series);
       }
-//      else {
-//        productions.add(seriesService.getSeriesById(productionId));
-//      }
     }
     return productions;
   }
-
 
   public MyPlanEntry addEntry(MyPlanEntry myPlanEntry) {
     return myPlanEntryRepository.save(myPlanEntry);
@@ -63,11 +66,5 @@ public class MyPlanService {
   public List<MyPlanEntry> getAllEntries() {
     return myPlanEntryRepository.findAll();
   }
-
-
-
-
-
-
 
 }
