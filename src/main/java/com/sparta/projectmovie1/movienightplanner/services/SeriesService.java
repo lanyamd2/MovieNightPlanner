@@ -10,6 +10,8 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 @Service
 public class SeriesService {
     @Value("${tmdb.api.key}")
@@ -21,9 +23,17 @@ public class SeriesService {
     private final MovieService movieService;
 
     @Autowired
-    public SeriesService(WebClient webClient, MovieService movieService){
+    public SeriesService(WebClient webClient, MovieService movieService) {
         this.webClient = webClient;
         this.movieService = movieService;
+    }
+
+    public Series getSeriesById(String id) {
+        Series tmdbSeries = fetchTmdbSeriesById(id, "tv").block();
+        if (tmdbSeries == null) throw new ProductionNotFoundException("TV Show not found");
+        tmdbSeries.setMedia_type("show");
+        tmdbSeries.setOffers(movieService.fetchJustWatchOffers(id, "show"));
+        return tmdbSeries;
     }
 
     public Mono<Series> fetchTmdbSeriesById(String id, String type) {
@@ -33,26 +43,22 @@ public class SeriesService {
                 .exchangeToMono(this::handleSeriesResponse);
     }
 
-    private Mono<Series> handleSeriesResponse(ClientResponse response){
-        if(response.statusCode().is2xxSuccessful()){
+    private Mono<Series> handleSeriesResponse(ClientResponse response) {
+        if (response.statusCode().is2xxSuccessful()) {
             return response.bodyToMono(Series.class);
-        }
-        else if(response.statusCode().is4xxClientError()){
+        } else if (response.statusCode().is4xxClientError()) {
             return Mono.error(new ProductionNotFoundException("TV Show not found"));
-        }
-        else if(response.statusCode().is5xxServerError()){
+        } else if (response.statusCode().is5xxServerError()) {
             return Mono.error(new RuntimeException("Server error"));
-        }
-        else{
+        } else {
             return Mono.error(new RuntimeException("Unexpected error"));
         }
+
     }
 
-//    public Series getSeriesById(String id){
-//        Series tmdbSeries = fetchTmdbSeriesById(id, "show");
+//    public String getJustWatchSeriesUrl(String url, String userLocale){
+//        Optional<Series> series
 //    }
-
-
 
 
 }

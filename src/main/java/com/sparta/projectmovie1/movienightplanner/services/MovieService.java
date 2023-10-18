@@ -45,6 +45,8 @@ public class MovieService {
         Movie tmdbMovie = fetchTmdbMovieById(id, "movie").block();
         if(tmdbMovie==null) throw new ProductionNotFoundException("Movie not found");
         tmdbMovie.setMedia_type("movie");
+        //get credentials for just watch api call
+
         tmdbMovie.setOffers(fetchJustWatchOffers(id,"movie"));
         return tmdbMovie;
     }
