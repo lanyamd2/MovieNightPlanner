@@ -1,5 +1,7 @@
 package com.sparta.projectmovie1.movienightplanner.services;
 
+import com.sparta.projectmovie1.movienightplanner.models.Genre;
+import com.sparta.projectmovie1.movienightplanner.models.GenreList;
 import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.models.ProductionList;
 import org.junit.jupiter.api.Assertions;
@@ -28,6 +30,7 @@ public class SearchServiceTests {
 
     @Test
     public void getTrendingproductionsNewTest(){
+
         String timeWindow="day";
         Production p1=new Production();
         Production p2=new Production();
@@ -60,7 +63,113 @@ public class SearchServiceTests {
 
         Assertions.assertEquals(200.6,searchService.sortResultByPopularityNew(productions).get(0).getPopularity());
 
+    }
 
+    @Test
+    public void getGenreListTest(){
+
+        String productionType="movie";
+
+        GenreList genreList=new GenreList();
+        Genre action=new Genre();
+        action.setId(28);
+        action.setName("Action");
+
+        List<Genre> genres=new ArrayList<>();
+        genres.add(action);
+
+        genreList.setGenres(genres);
+
+        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/genre/" + productionType + "/list" + "?&api_key=" + tmdbApiKey, GenreList.class)).thenReturn(genreList);
+        Assertions.assertEquals(1,searchService.getGenreList(productionType).getGenres().size());
+
+    }
+
+    @Test
+    public void getGenreNameTest(){
+
+        Genre action=new Genre();
+        action.setId(28);
+        action.setName("Action");
+
+        List<Genre> genres=new ArrayList<>();
+        genres.add(action);
+
+        Assertions.assertEquals("Action",searchService.getGenreName(genres,28));
+
+    }
+
+
+    @Test
+    public void getAllSearchResultsTestWithSearchQuery(){
+
+        String searchQuery="Mission";
+        String productionType="movie";
+        Integer searchGenre=28;
+        Integer page=1;
+
+        Genre action=new Genre();
+        action.setId(28);
+        action.setName("Action");
+
+        Genre adventure=new Genre();
+        adventure.setId(30);
+        adventure.setName("Adventure");
+
+        List<Genre> genres1=new ArrayList<>();
+        genres1.add(action);
+        List<Integer> genre_ids1=new ArrayList<>();
+        genre_ids1.add(28);
+
+        List<Genre> genres2=new ArrayList<>();
+        genres2.add(adventure);
+        List<Integer> genre_ids2=new ArrayList<>();
+        genre_ids2.add(30);
+
+        Production p1=new Production();
+        p1.setName("Mission Impossible");
+        p1.setGenre_ids(genre_ids1);
+        System.out.println(p1.getGenre_ids());
+
+        Production p2=new Production();
+        p2.setName("Mission Mars");
+        p2.setGenre_ids(genre_ids2);
+
+        List<Production> productions=new ArrayList<>();
+        productions.add(p1);
+        productions.add(p2);
+        ProductionList productionList=new ProductionList();
+        productionList.setResults(productions);
+
+
+        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
+
+        Assertions.assertEquals(1,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().size());
+        Assertions.assertEquals("movie",searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().get(0).getMedia_type());
+
+
+    }
+
+    @Test
+    public void getAllSearchResultsTestWithSearchQuery_EmptySearchResultFromApi(){
+
+        String searchQuery="Mission";
+        String productionType="movie";
+        Integer searchGenre=28;
+        Integer page=1;
+
+        List<Production> productions=new ArrayList<>();
+        ProductionList productionList=new ProductionList();
+        productionList.setResults(productions);
+
+        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
+
+        Assertions.assertEquals(0,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().size());
+
+    }
+
+    @Test
+    public void getAllSearchResultsTestWithoutSearchQuery(){
 
     }
 }
