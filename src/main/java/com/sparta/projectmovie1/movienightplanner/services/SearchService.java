@@ -1,6 +1,7 @@
 package com.sparta.projectmovie1.movienightplanner.services;
 
 import com.sparta.projectmovie1.movienightplanner.models.*;
+import com.sparta.projectmovie1.movienightplanner.services.exceptions.InvalidPageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,100 +32,6 @@ public class SearchService {
 
     }
 
-    public ProductionList getAllSearchResults(String searchQuery, String productionType, Integer searchGenre,Integer page) {
-        {
-            ProductionList productionListObj=null;
-            List<Production> finalProductionList = null;
-
-            if (searchQuery != null && !searchQuery.equals("")) {
-
-                if (productionType == null) {
-
-                    //option not provided from front end
-
-                    ProductionList movieList = restTemplate.getForObject("https://api.themoviedb.org/3/search/movie?query=" + searchQuery + "&api_key=" + tmdbApiKey, ProductionList.class);
-                    movieList.getResults().forEach(p->p.setMedia_type("movie"));
-                    ProductionList tvList = restTemplate.getForObject("https://api.themoviedb.org/3/search/tv?query=" + searchQuery + "&api_key=" + tmdbApiKey, ProductionList.class);
-                    tvList.getResults().forEach(p->p.setMedia_type("tv"));
-                    List<Production> finalList = movieList.getResults();
-                    finalList.addAll(tvList.getResults());
-
-                    if (searchGenre != null) {
-                        finalProductionList = finalList.stream().filter(p -> p.getGenre_ids().contains(searchGenre)).collect(Collectors.toList());
-                    }
-
-                } else {
-                    //ProductionList productionList = restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&api_key=" + tmdbApiKey, ProductionList.class);
-
-                    ProductionList productionList = restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
-                    List<Production> finalList = productionList.getResults();
-                    finalList.forEach(p->p.setMedia_type(productionType));
-                    if (searchGenre != null) {
-                        finalProductionList = finalList.stream().filter(p -> p.getGenre_ids().contains(searchGenre)).collect(Collectors.toList());
-                        productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
-                    }
-                    else{
-                        finalProductionList=finalList;
-                        productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
-                    }
-                }
-
-            } else {
-
-                if (productionType != null) {
-                    if (searchGenre != null) {
-
-                        GenreList genreList = restTemplate.getForObject("https://api.themoviedb.org/3/genre/" + productionType + "/list" + "?&api_key=" + tmdbApiKey, GenreList.class);
-                        String genreName = genreList.getGenres().stream().filter(g -> g.getId() == searchGenre).findFirst().get().getName();
-
-                        System.out.println(productionType+"-----------------"+genreName);
-
-                        //ProductionList productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + genreName + "&api_key=" + tmdbApiKey, ProductionList.class);
-                        ProductionList productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + genreName + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
-                        System.out.println("page---"+productionList.getPage());
-                        System.out.println("totalpages---"+productionList.getTotal_pages());
-
-                        finalProductionList = productionList.getResults();
-                        finalProductionList.forEach(p->p.setMedia_type(productionType));
-                        productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
-                    } else {
-                        //option not provided from front end
-                        //what to show with only TV or Movie selected - popular movies
-
-                        ProductionList productionList=restTemplate.getForObject("https://api.themoviedb.org/3/"+productionType+"/popular?api_key="+tmdbApiKey, ProductionList.class);
-                        finalProductionList=productionList.getResults();
-                    }
-                } else {
-                    if (searchGenre != null) {
-                        //Only genre selected, Show both TV and movie in that genre
-                        //option not given in the front end
-
-                        GenreList genreListForMovies = restTemplate.getForObject("https://api.themoviedb.org/3/genre/movie/list" + "?&api_key=" + tmdbApiKey, GenreList.class);
-                        String genreNameForMovie = genreListForMovies.getGenres().stream().filter(g -> g.getId() == searchGenre).findFirst().get().getName();
-                        ProductionList movieList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/movie?with_genres=" + genreNameForMovie + "&api_key=" + tmdbApiKey, ProductionList.class);
-                        movieList.getResults().forEach(p->p.setMedia_type("movie"));
-
-                        GenreList genreListForTv = restTemplate.getForObject("https://api.themoviedb.org/3/genre/tv/list" + "?&api_key=" + tmdbApiKey, GenreList.class);
-                        String genreNameForTv = genreListForMovies.getGenres().stream().filter(g -> g.getId() == searchGenre).findFirst().get().getName();
-                        ProductionList tvList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/tv?with_genres=" + genreNameForTv + "&api_key=" + tmdbApiKey, ProductionList.class);
-                        tvList.getResults().forEach(p->p.setMedia_type("tv"));
-                        finalProductionList = movieList.getResults();
-                        finalProductionList.addAll(tvList.getResults());
-
-
-                    } else {
-                        //What to show when nothing selected
-                        //option not provided from front end
-                    }
-
-                }
-            }
-
-            //return finalProductionList;
-            return productionListObj;
-
-        }
-    }
 
     public List<Production> sortResultByPopularityNew(List<Production> results){
 
@@ -133,4 +40,56 @@ public class SearchService {
 
         return sortedResults;
     }
+
+    public ProductionList getAllSearchResults(String searchQuery, String productionType, Integer searchGenre, Integer page) {
+
+        ProductionList productionListObj=null;
+        List<Production> finalProductionList = null;
+
+        if(searchQuery != null && !searchQuery.equals("")){
+
+            ProductionList productionList=null;
+            List<Production> finalList=null;
+            try{
+
+                productionList = restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+                finalList = productionList.getResults();
+                finalList.forEach(p->p.setMedia_type(productionType));
+
+            }catch (Exception exception){
+                throw new InvalidPageException(exception.getMessage());
+            }
+            finalProductionList = finalList.stream().filter(p -> p.getGenre_ids().contains(searchGenre)).collect(Collectors.toList());
+            productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
+
+        }
+        else{
+
+            GenreList genreList = getGenreList(productionType);
+            String genreName = getGenreName(genreList.getGenres(),searchGenre);
+
+            System.out.println(productionType+"-----------------"+genreName);
+
+
+            ProductionList productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + genreName + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+
+            finalProductionList = productionList.getResults();
+            finalProductionList.forEach(p->p.setMedia_type(productionType));
+            productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
+
+        }
+
+        return productionListObj;
+    }
+
+    public GenreList getGenreList(String productionType){
+        return restTemplate.getForObject("https://api.themoviedb.org/3/genre/" + productionType + "/list" + "?&api_key=" + tmdbApiKey, GenreList.class);
+    }
+
+    public String getGenreName(List<Genre> genres,Integer searchGenre){
+        return genres.stream().filter(g -> g.getId() == searchGenre).findFirst().get().getName();
+    }
+
+
+
 }
