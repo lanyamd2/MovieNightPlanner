@@ -153,6 +153,19 @@ public class SearchServiceTests {
     @Test
     public void getAllSearchResultsTestWithSearchQuery_EmptySearchResultFromApi(){
 
+        String searchQuery="Mission";
+        String productionType="movie";
+        Integer searchGenre=28;
+        Integer page=1;
+
+        List<Production> productions=new ArrayList<>();
+        ProductionList productionList=new ProductionList();
+        productionList.setResults(productions);
+
+        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
+
+        Assertions.assertEquals(0,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().size());
+
     }
 
     @Test
