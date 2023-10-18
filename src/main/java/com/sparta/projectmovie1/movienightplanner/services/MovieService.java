@@ -55,7 +55,7 @@ public class MovieService {
         String title="";
         String releaseYear;
         if(movie.isPresent()){
-            title +=movie.get().getName();//validate title
+            title +=movie.get().getName().toLowerCase();//validate title
 
             //CREATE SEPARATE METHOD
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
