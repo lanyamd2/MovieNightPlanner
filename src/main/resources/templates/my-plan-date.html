@@ -6,6 +6,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+<div th:insert="(~{navbar :: navbar})"></div>
+<br>
 <div class="container">
   <div class="row">
     <div class="col-sm-4">
@@ -15,7 +17,7 @@
             <label for="date">Select Date: </label>
           </div>
           <div class="col-sm-7">
-            <input type="datetime-local" id="date" name="date" class="form-control" th:value="${date}">
+            <input type="date" id="date" name="date" class="form-control" th:value="${date}">
           </div>
           <div class="col-sm-2">
             <input type="submit" value="Select" class="btn btn-primary"/>
@@ -24,10 +26,12 @@
       </form>
     </div>
     <div class="col-sm-4" th:each="production:${productions}">
+      <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
       <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
       <br>
       <span th:text="${production.getName()}"></span>
       <br><br>
+      </a>
     </div>
   </div>
 </div>
