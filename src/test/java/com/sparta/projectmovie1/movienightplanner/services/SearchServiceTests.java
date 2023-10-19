@@ -133,7 +133,8 @@ public class SearchServiceTests {
 
 
     @Test
-    public void getAllSearchResultsTestWithSearchQuery(){
+    @Description("getAllSearchResults with searchQuery and searchGenre exists")
+    public void getAllSearchResultsTestWithSearchQuery_searchGenreExits(){
 
         String searchQuery="Mission";
         String productionType="movie";
@@ -179,10 +180,59 @@ public class SearchServiceTests {
         Assertions.assertEquals(1,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().size());
         Assertions.assertEquals("movie",searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().get(0).getMedia_type());
 
+    }
+
+    @Test
+    @Description("getAllSearchResults with searchQuery and searchGenre does not exist")
+    public void getAllSearchResultsTestWithSearchQuery_searchGenreDoesNotExits(){
+
+        String searchQuery="Mission";
+        String productionType="movie";
+        Integer searchGenre=32;
+        Integer page=1;
+
+        Genre action=new Genre();
+        action.setId(28);
+        action.setName("Action");
+
+        Genre adventure=new Genre();
+        adventure.setId(30);
+        adventure.setName("Adventure");
+
+        List<Genre> genres1=new ArrayList<>();
+        genres1.add(action);
+        List<Integer> genre_ids1=new ArrayList<>();
+        genre_ids1.add(28);
+
+        List<Genre> genres2=new ArrayList<>();
+        genres2.add(adventure);
+        List<Integer> genre_ids2=new ArrayList<>();
+        genre_ids2.add(30);
+
+        Production p1=new Production();
+        p1.setName("Mission Impossible");
+        p1.setGenre_ids(genre_ids1);
+        System.out.println(p1.getGenre_ids());
+
+        Production p2=new Production();
+        p2.setName("Mission Mars");
+        p2.setGenre_ids(genre_ids2);
+
+        List<Production> productions=new ArrayList<>();
+        productions.add(p1);
+        productions.add(p2);
+        ProductionList productionList=new ProductionList();
+        productionList.setResults(productions);
+
+
+        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
+
+        Assertions.assertEquals(0,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().size());
 
     }
 
     @Test
+    @Description("getAllSearchResults method returned correct value for empty search result from api")
     public void getAllSearchResultsTestWithSearchQuery_EmptySearchResultFromApi(){
 
         String searchQuery="Mission";
@@ -200,6 +250,7 @@ public class SearchServiceTests {
 
     }
 
+
     @Test
     public void getAllSearchResultsTestWithoutSearchQuery(){
 
@@ -208,12 +259,9 @@ public class SearchServiceTests {
         Integer page=1;
         String genreName="Action";
 
-
         Genre action=new Genre();
         action.setId(28);
         action.setName("Action");
-
-
 
         List<Genre> genres1=new ArrayList<>();
         genres1.add(action);
@@ -225,8 +273,6 @@ public class SearchServiceTests {
         p1.setName("Mission Impossible");
         p1.setGenre_ids(genre_ids1);
         System.out.println(p1.getGenre_ids());
-
-
 
         List<Production> productions=new ArrayList<>();
         productions.add(p1);
@@ -247,6 +293,51 @@ public class SearchServiceTests {
 
         Assertions.assertEquals(1,searchService.getAllSearchResults(null,productionType,searchGenre,page).getResults().size());
 
+    }
+
+    @Test
+    public void getAllSearchResultsTestWithoutSearchQuery_InvalidSearchGenre(){
+
+        String productionType="movie";
+        Integer searchGenre=32;
+        Integer page=1;
+        String genreName="Action";
+
+        Genre action=new Genre();
+        action.setId(28);
+        action.setName("Action");
+
+        List<Genre> genres1=new ArrayList<>();
+        genres1.add(action);
+        List<Integer> genre_ids1=new ArrayList<>();
+        genre_ids1.add(28);
+
+
+        Production p1=new Production();
+        p1.setName("Mission Impossible");
+        p1.setGenre_ids(genre_ids1);
+        System.out.println(p1.getGenre_ids());
+
+        List<Production> productions=new ArrayList<>();
+        productions.add(p1);
+
+        ProductionList productionList=new ProductionList();
+        productionList.setResults(productions);
+
+
+        GenreList genreList=new GenreList();
+        List<Genre> genres=new ArrayList<>();
+        genres.add(action);
+        genreList.setGenres(genres);
+
+
+
+        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + genreName + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
+        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/genre/" + productionType + "/list" + "?&api_key=" + tmdbApiKey, GenreList.class)).thenReturn(genreList);
+
+        Assertions.assertThrows(InvalidGenreIdException.class,()->searchService.getAllSearchResults(null,productionType,searchGenre,page));
+
 
     }
+
 }
