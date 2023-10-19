@@ -1,0 +1,49 @@
+image: maven:3.8.3-openjdk-17
+
+stages:
+    - build
+    - test
+    - package
+    - deploy
+
+build:
+    stage: build
+    tags:
+        - docker
+    script:
+        - echo "Maven build started"
+        - cd movie-planner
+        - "mvn compile"
+    artifacts:
+        paths:
+            - movie-planner/target
+    only:
+        - dev
+
+test:
+    stage: test
+    tags:
+        - docker
+    script:
+        - echo "Maven test started"
+        - cd movie-planner
+        - "mvn --batch-mode test"
+
+package:
+    stage: package
+    tags:
+        - docker
+    script:
+        - echo "Maven packaging started"
+        - cd movie-planner
+        - "mvn clean package"
+
+deploy:
+    stage: deploy
+    tags:
+        - docker
+    script:
+        - echo "Maven deploy started"
+        - cd movie-planner
+    only:
+        - dev
