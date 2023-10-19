@@ -4,6 +4,7 @@ import com.sparta.projectmovie1.movienightplanner.models.Genre;
 import com.sparta.projectmovie1.movienightplanner.models.GenreList;
 import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.models.ProductionList;
+import com.sparta.projectmovie1.movienightplanner.services.exceptions.InvalidGenreIdException;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -100,7 +101,8 @@ public class SearchServiceTests {
     }
 
     @Test
-    public void getGenreNameTest(){
+    @Description("getGenreName method returns correct genre name")
+    public void getGenreNameTest_IdPresentInTheList(){
 
         Genre action=new Genre();
         action.setId(28);
@@ -114,7 +116,19 @@ public class SearchServiceTests {
     }
 
     @Test
-    public void getGenreNameTest_IdNotPresentIntheList(){}
+    @Description("getGenreName method throws InvalidGenreIdException when searchGenre not present in the list of genres")
+    public void getGenreNameTest_IdNotPresentIntheList(){
+
+        Genre action=new Genre();
+        action.setId(28);
+        action.setName("Action");
+
+        List<Genre> genres=new ArrayList<>();
+        genres.add(action);
+
+        Assertions.assertThrows(InvalidGenreIdException.class,()->searchService.getGenreName(genres,30));
+
+    }
 
 
 

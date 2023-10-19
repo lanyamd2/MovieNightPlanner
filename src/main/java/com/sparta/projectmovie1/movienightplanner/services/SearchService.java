@@ -36,7 +36,6 @@ public class SearchService {
 
     }
 
-
     public List<Production> sortResultByPopularityNew(List<Production> results){
 
         List<Production> sortedResults=
