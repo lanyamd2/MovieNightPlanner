@@ -4,6 +4,7 @@ import com.sparta.projectmovie1.movienightplanner.models.Genre;
 import com.sparta.projectmovie1.movienightplanner.models.GenreList;
 import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.models.ProductionList;
+import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -31,6 +32,7 @@ public class SearchServiceTests {
     private String tmdbApiKey;
 
     @Test
+    @Description("getTrendingproductionsNew method returns correct results")
     public void getTrendingproductionsNewTest(){
 
         String timeWindow="day";
@@ -49,6 +51,7 @@ public class SearchServiceTests {
 
 
     @Test
+    @Description("sortResultByPopularityNew method returns correct results")
     public void sortResultByPopularityNewTest(){
 
         Production p1=new Production();
@@ -68,6 +71,15 @@ public class SearchServiceTests {
     }
 
     @Test
+    @Description("sortResultByPopularityNew method returns empty list when an empty list is passed")
+    public void sortResultByPopularityNewTest_PassingEmptyList(){
+        List<Production> productions=new ArrayList<>();
+        Assertions.assertEquals(0,searchService.sortResultByPopularityNew(productions).size());
+
+    }
+
+    @Test
+    @Description("getGenreList method returns correct results")
     public void getGenreListTest(){
 
         String productionType="movie";
