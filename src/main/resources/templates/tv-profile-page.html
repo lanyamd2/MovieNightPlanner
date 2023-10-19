@@ -57,8 +57,37 @@
         <div id="content" class="container-fluid">
             <div class="w-25 float-end col border border-1 rounded ">
                 <div class="mt-3 mx-3 text-center">
-                    <button type="button" class="btn btn-primary">Add to My Plan</button>
+                    <button type="button" class="btn btn-primary"
+                            data-bs-toggle="modal" data-bs-target="#addToMyPlanForm">Add to My Plan</button>
                 </div>
+                <!-- Modal -->
+                <div class="modal fade" id="addToMyPlanForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Choose a date</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form th:action="@{/myplan/date}" method="get">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label for="date">Select Date: </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input type="date" id="date" name="date" class="form-control">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Select</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mt-3 mx-3 text-center"><h2 th:text="${show.name}">Movie Title</h2></div>
                 <div class="mx-3 text-center text-capitalize"><h3 th:text="'('+${show.media_type}+')'">(Type)</h3></div>
                 <div class="mt-3 mx-3 text-center">
@@ -260,6 +289,17 @@
         </div>
     </main>
 </div>
+<script>
+    var today=new Date().toISOString().split('T')[0];
+    document.getElementById("date").setAttribute("min",today);
+
+    const maxDate = new Date();
+    maxDate.setDate(maxDate.getDate()+30);
+    const [maxDateFormatted] = maxDate.toISOString().split('T');
+
+    document.getElementById("date").setAttribute("max",maxDateFormatted);
+
+</script>
 <!--search bar script begins here-->
 <script>
     var movieGenres=[
