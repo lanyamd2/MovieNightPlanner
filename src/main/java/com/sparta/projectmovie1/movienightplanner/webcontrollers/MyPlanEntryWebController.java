@@ -1,6 +1,5 @@
 package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
-import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
 import com.sparta.projectmovie1.movienightplanner.services.MyPlanService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -24,7 +22,7 @@ public class MyPlanEntryWebController {
   }
 
   @GetMapping("/myplan")
-  public String getAllMoviesInPlan(Model model) {
+  public String getAllProductionsInPlan(Model model) {
     model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
     return "my-plan";
   }
