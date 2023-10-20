@@ -13,7 +13,7 @@
 </head>
 <body onload="changeOptions()">
 <!--Nav bar and search bar begin here-->
-<div th:insert="navbar :: navbar">  </div>
+<div th:insert="navbar :: navbar"></div>
 <br>
 <div class="searchsection" style="margin:auto">
     <!--<form th:action="@{/search-results}" method="post">-->
@@ -59,40 +59,55 @@
             <div class="w-25 float-end col border border-1 rounded ">
                 <div class="mt-3 mx-3 text-center">
                     <button type="button" class="btn btn-primary"
-                    data-bs-toggle="modal" data-bs-target="#addToMyPlanForm">Add to My Plan</button>
+                            data-bs-toggle="modal" data-bs-target="#addToMyPlanForm">Add to My Plan
+                    </button>
                 </div>
                 <!-- Modal -->
-                <div class="modal fade" id="addToMyPlanForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Choose a date</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form th:action="@{/myplan/date}" method="post">
+                <form th:action="@{/myplan/create}" th:object="${myPlanEntry}" method="post">
+                    <div class="modal fade" id="addToMyPlanForm" tabindex="-1" aria-labelledby="exampleModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Choose a date</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row d-none">
+                                        <div class="col-sm-3">
+                                            <label for="productionid">Production ID: </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input type="text" id="productionid" name="productionid" class="form-control" th:field="*{productionId}"  th:placeholder="${movie.id}" disabled />
+                                        </div>
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <label for="date">Select Date: </label>
                                         </div>
                                         <div class="col-sm-7">
-                                            <input type="date" id="date" name="date" class="form-control">
+                                            <input type="date" id="date" name="date" class="form-control" th:field="*{date}">
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Select</button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Select</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
 
                 <div class="mt-3 mx-3 text-center"><h2 th:text="${movie.name}">Movie Title</h2></div>
-                <div class="mx-3 text-center text-capitalize"><h3 th:text="'('+${movie.media_type}+')'">(Type)</h3></div>
+                <div class="mx-3 text-center text-capitalize"><h3 th:text="'('+${movie.media_type}+')'">(Type)</h3>
+                </div>
                 <div class="mt-3 mx-3 text-center">
-                    <img th:if="${movie.posterPath!=null}" th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${movie.getPosterPath()}}" class="img-thumbnail" style="width:200px">
+                    <img th:if="${movie.posterPath!=null}"
+                         th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${movie.getPosterPath()}}"
+                         class="img-thumbnail" style="width:200px">
                     <img th:unless="${movie.posterPath!=null}"
                          src="https://i0.wp.com/moviemarker.co.uk/wp-content/uploads/NoPosterAvailable.jpg" alt="Poster"
                          class="img-thumbnail" style="width:200px">
@@ -125,7 +140,8 @@
 
                         <tr>
                             <th>User Score</th>
-                            <td class="border-start" th:text="${#numbers.formatPercent((movie.voteAverage/10),1,0)}"></td>
+                            <td class="border-start"
+                                th:text="${#numbers.formatPercent((movie.voteAverage/10),1,0)}"></td>
                         </tr>
                         <tr>
                             <th>Status</th>
@@ -140,22 +156,22 @@
                             </td>
                         </tr>
 
-<!--                        <tr th:if="${movie.cast!=null}">-->
-<!--                            <th>Cast</th>-->
-<!--                            <td class="border-start">-->
-<!--                                <ul class="list-unstyled" th:each="member:${movie.cast}">-->
-<!--                                    <li th:text="${member}">Margot Robbie</li>-->
-<!--                                </ul>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-<!--                        <tr th:if="${production.crew!=null}">-->
-<!--                            <th>Directors</th>-->
-<!--                            <td class="border-start">-->
-<!--                                <ul class="list-unstyled" th:each="director:${movie.directors}">-->
-<!--                                    <li th:text="${director}">Greta Gerwig</li>-->
-<!--                                </ul>-->
-<!--                            </td>-->
-<!--                        </tr>-->
+                        <!--                        <tr th:if="${movie.cast!=null}">-->
+                        <!--                            <th>Cast</th>-->
+                        <!--                            <td class="border-start">-->
+                        <!--                                <ul class="list-unstyled" th:each="member:${movie.cast}">-->
+                        <!--                                    <li th:text="${member}">Margot Robbie</li>-->
+                        <!--                                </ul>-->
+                        <!--                            </td>-->
+                        <!--                        </tr>-->
+                        <!--                        <tr th:if="${production.crew!=null}">-->
+                        <!--                            <th>Directors</th>-->
+                        <!--                            <td class="border-start">-->
+                        <!--                                <ul class="list-unstyled" th:each="director:${movie.directors}">-->
+                        <!--                                    <li th:text="${director}">Greta Gerwig</li>-->
+                        <!--                                </ul>-->
+                        <!--                            </td>-->
+                        <!--                        </tr>-->
                         <tr th:if="${movie.spokenLanguages!=null}">
                             <th>Languages</th>
                             <td class="border-start">
@@ -172,18 +188,18 @@
                                 </ul>
                             </td>
                         </tr>
-<!--                        <tr th:if="${movie.rated!=null}">-->
-<!--                            <th>Rating</th>-->
-<!--                            <td class="border-start" th:text="${movie.rated}">PG</td>-->
-<!--                        </tr>-->
-<!--                        <tr th:if="${production.run!=null}">-->
-<!--                            <th>Runtime</th>-->
-<!--                            <td class="border-start" th:text="${movie.runtime}"></td>-->
-<!--                        </tr>-->
-<!--                        <tr th:if="${movie.released!=null}">-->
-<!--                            <th>Release Date</th>-->
-<!--                            <td class="border-start" th:text="${movie.released}"></td>-->
-<!--                        </tr>-->
+                        <!--                        <tr th:if="${movie.rated!=null}">-->
+                        <!--                            <th>Rating</th>-->
+                        <!--                            <td class="border-start" th:text="${movie.rated}">PG</td>-->
+                        <!--                        </tr>-->
+                        <!--                        <tr th:if="${production.run!=null}">-->
+                        <!--                            <th>Runtime</th>-->
+                        <!--                            <td class="border-start" th:text="${movie.runtime}"></td>-->
+                        <!--                        </tr>-->
+                        <!--                        <tr th:if="${movie.released!=null}">-->
+                        <!--                            <th>Release Date</th>-->
+                        <!--                            <td class="border-start" th:text="${movie.released}"></td>-->
+                        <!--                        </tr>-->
                     </table>
                 </div>
             </div>
@@ -196,12 +212,12 @@
                     <ol class="list-unstyled mx-3">
                         <li><a href="#Overview" th:if="${movie.overview!=null}">Overview</a></li>
                         <li><a href="#Offers" th:if="${movie.offers!=null}">Where to Watch</a></li>
-<!--                        <li th:if="${movie.imdb!=null} or ${movie.tomatoes!=null}"><a href="#Reviews">Reviews</a>-->
-<!--                            <ul class="list-unstyled mx-3">-->
-<!--                                <li th:if="${movie.imdb!=null}"><a href="#imdb">IMDB</a></li>-->
-<!--                                <li th:if="${movie.tomatoes!=null}"><a href="#Tomatoes">Tomatoes</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
+                        <!--                        <li th:if="${movie.imdb!=null} or ${movie.tomatoes!=null}"><a href="#Reviews">Reviews</a>-->
+                        <!--                            <ul class="list-unstyled mx-3">-->
+                        <!--                                <li th:if="${movie.imdb!=null}"><a href="#imdb">IMDB</a></li>-->
+                        <!--                                <li th:if="${movie.tomatoes!=null}"><a href="#Tomatoes">Tomatoes</a></li>-->
+                        <!--                            </ul>-->
+                        <!--                        </li>-->
 
                     </ol>
                 </div>
@@ -219,92 +235,94 @@
                      data-theme='light'"
                     ></div>
                     <div style="">
-                        <a style="display:flex; font-size: 11px; font-family: sans-serif; color: black; text-decoration: none; align-items:center;" target="_blank" data-original="https://www.justwatch.com" href="https://www.justwatch.com">
-                            <img alt="JustWatch" height="11px" src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg">
+                        <a style="display:flex; font-size: 11px; font-family: sans-serif; color: black; text-decoration: none; align-items:center;"
+                           target="_blank" data-original="https://www.justwatch.com" href="https://www.justwatch.com">
+                            <img alt="JustWatch" height="11px"
+                                 src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg">
                         </a>
                     </div>
                     <script async src="https://widget.justwatch.com/justwatch_widget.js"></script>
                 </div>
-<!--                <div th:if="${movie.awards!=null}" class="mx-3">-->
-<!--                    <h4 id="Awards" class="border-bottom">Awards</h4>-->
-<!--                    <div class="mx-3">-->
-<!--                        <table class="table table-hover table-striped table-bordered caption-top">-->
-<!--                            <caption th:text="${movie.awards.text}" class="text-center">1 win.</caption>-->
-<!--                            <tr>-->
-<!--                                <th>Nominations</th>-->
-<!--                                <td th:text="${movie.awards.nominations}">1</td>-->
-<!--                            </tr>-->
-<!--                            <tr>-->
-<!--                                <th>Wins</th>-->
-<!--                                <td th:text="${movie.awards.wins}">1</td>-->
-<!--                            </tr>-->
-<!--                        </table>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div th:if="${movie.imdb!=null} or ${movie.tomatoes!=null}" class="mx-3">-->
-<!--                    <h4 id="Reviews" class="border-bottom">Reviews</h4>-->
-<!--                    <div>-->
-<!--                        <div th:if="${movie.imdb!=null}" class="mx-3">-->
-<!--                            <h5 id="imdb" class="border-bottom">IMDB</h5>-->
-<!--                            <table class="table table-hover table-striped table-bordered caption-top">-->
-<!--                                <tr>-->
-<!--                                    <th>ID</th>-->
-<!--                                    <td th:text="${movie.imdb.id}">1</td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <th>Rating</th>-->
-<!--                                    <td th:text="${movie.imdb.rating}">1</td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <th>Votes</th>-->
-<!--                                    <td th:text="${movie.imdb.votes}">1</td>-->
-<!--                                </tr>-->
-<!--                            </table>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div>-->
-<!--                        <div th:if="${movie.tomatoes!=null}" class="mx-3">-->
-<!--                            <h5 id="Tomatoes" class="border-bottom">Tomatoes</h5>-->
-<!--                            <h6 class="border-bottom">Viewer</h6>-->
-<!--                            <table class="table table-hover table-striped table-bordered caption-top">-->
-<!--                                <tr>-->
-<!--                                    <th>Meter</th>-->
-<!--                                    <td th:text="${movie.tomatoes.viewer.meter}">1</td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <th>Rating</th>-->
-<!--                                    <td th:text="${movie.tomatoes.viewer.rating}">1</td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <th>Number of Reviews</th>-->
-<!--                                    <td th:text="${movie.tomatoes.viewer.numReviews}">1</td>-->
-<!--                                </tr>-->
-<!--                            <caption th:text="'Tomatoes was last updated '+${movie.tomatoes.lastUpdated}">Last updated</caption>-->
-<!--                            </table>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                <div th:if="${movie.awards!=null}" class="mx-3">-->
+                <!--                    <h4 id="Awards" class="border-bottom">Awards</h4>-->
+                <!--                    <div class="mx-3">-->
+                <!--                        <table class="table table-hover table-striped table-bordered caption-top">-->
+                <!--                            <caption th:text="${movie.awards.text}" class="text-center">1 win.</caption>-->
+                <!--                            <tr>-->
+                <!--                                <th>Nominations</th>-->
+                <!--                                <td th:text="${movie.awards.nominations}">1</td>-->
+                <!--                            </tr>-->
+                <!--                            <tr>-->
+                <!--                                <th>Wins</th>-->
+                <!--                                <td th:text="${movie.awards.wins}">1</td>-->
+                <!--                            </tr>-->
+                <!--                        </table>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <!--                <div th:if="${movie.imdb!=null} or ${movie.tomatoes!=null}" class="mx-3">-->
+                <!--                    <h4 id="Reviews" class="border-bottom">Reviews</h4>-->
+                <!--                    <div>-->
+                <!--                        <div th:if="${movie.imdb!=null}" class="mx-3">-->
+                <!--                            <h5 id="imdb" class="border-bottom">IMDB</h5>-->
+                <!--                            <table class="table table-hover table-striped table-bordered caption-top">-->
+                <!--                                <tr>-->
+                <!--                                    <th>ID</th>-->
+                <!--                                    <td th:text="${movie.imdb.id}">1</td>-->
+                <!--                                </tr>-->
+                <!--                                <tr>-->
+                <!--                                    <th>Rating</th>-->
+                <!--                                    <td th:text="${movie.imdb.rating}">1</td>-->
+                <!--                                </tr>-->
+                <!--                                <tr>-->
+                <!--                                    <th>Votes</th>-->
+                <!--                                    <td th:text="${movie.imdb.votes}">1</td>-->
+                <!--                                </tr>-->
+                <!--                            </table>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <div>-->
+                <!--                        <div th:if="${movie.tomatoes!=null}" class="mx-3">-->
+                <!--                            <h5 id="Tomatoes" class="border-bottom">Tomatoes</h5>-->
+                <!--                            <h6 class="border-bottom">Viewer</h6>-->
+                <!--                            <table class="table table-hover table-striped table-bordered caption-top">-->
+                <!--                                <tr>-->
+                <!--                                    <th>Meter</th>-->
+                <!--                                    <td th:text="${movie.tomatoes.viewer.meter}">1</td>-->
+                <!--                                </tr>-->
+                <!--                                <tr>-->
+                <!--                                    <th>Rating</th>-->
+                <!--                                    <td th:text="${movie.tomatoes.viewer.rating}">1</td>-->
+                <!--                                </tr>-->
+                <!--                                <tr>-->
+                <!--                                    <th>Number of Reviews</th>-->
+                <!--                                    <td th:text="${movie.tomatoes.viewer.numReviews}">1</td>-->
+                <!--                                </tr>-->
+                <!--                            <caption th:text="'Tomatoes was last updated '+${movie.tomatoes.lastUpdated}">Last updated</caption>-->
+                <!--                            </table>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
             </div>
         </div>
         <div id="footer" class="mx-3">
-<!--            <footer class="fst-italic" th:if="${movie.lastupdated!=null}" th:text="'Last Updated: '+${movie.lastupdated}">Last Updated: 2015-08-29 00:27:45.437000000</footer>-->
+            <!--            <footer class="fst-italic" th:if="${movie.lastupdated!=null}" th:text="'Last Updated: '+${movie.lastupdated}">Last Updated: 2015-08-29 00:27:45.437000000</footer>-->
         </div>
     </main>
 </div>
 <script>
-    var today=new Date().toISOString().split('T')[0];
-    document.getElementById("date").setAttribute("min",today);
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById("date").setAttribute("min", today);
 
     const maxDate = new Date();
-    maxDate.setDate(maxDate.getDate()+30);
+    maxDate.setDate(maxDate.getDate() + 30);
     const [maxDateFormatted] = maxDate.toISOString().split('T');
 
-    document.getElementById("date").setAttribute("max",maxDateFormatted);
+    document.getElementById("date").setAttribute("max", maxDateFormatted);
 
 </script>
 <!--search bar script begins here-->
 <script>
-    var movieGenres=[
+    var movieGenres = [
         {
             "id": 28,
             "name": "Action"
@@ -384,7 +402,7 @@
     ]
 
 
-    var tvGenres=[
+    var tvGenres = [
         {
             "id": 10759,
             "name": "Action & Adventure"
@@ -451,34 +469,32 @@
         }
     ]
 
-    function changeOptions(){
+    function changeOptions() {
 
-        if(document.getElementById("productionType").value=="movie")
-        {
-            var element=document.getElementById("searchGenre");
-            var child=element.lastChild;
-            while(child){
+        if (document.getElementById("productionType").value == "movie") {
+            var element = document.getElementById("searchGenre");
+            var child = element.lastChild;
+            while (child) {
                 element.removeChild(child);
-                child=element.lastChild;
+                child = element.lastChild;
             }
-            for(i=0;i<movieGenres.length;i++){
-                var newOption=document.createElement("option");
-                newOption.value=movieGenres[i].id;
-                newOption.innerHTML=movieGenres[i].name;
+            for (i = 0; i < movieGenres.length; i++) {
+                var newOption = document.createElement("option");
+                newOption.value = movieGenres[i].id;
+                newOption.innerHTML = movieGenres[i].name;
                 element.appendChild(newOption);
             }
-        }
-        else{
-            var element=document.getElementById("searchGenre");
-            var child=element.lastChild;
-            while(child){
+        } else {
+            var element = document.getElementById("searchGenre");
+            var child = element.lastChild;
+            while (child) {
                 element.removeChild(child);
-                child=element.lastChild;
+                child = element.lastChild;
             }
-            for(i=0;i<tvGenres.length;i++){
-                var newOption=document.createElement("option");
-                newOption.value=tvGenres[i].id;
-                newOption.innerHTML=tvGenres[i].name;
+            for (i = 0; i < tvGenres.length; i++) {
+                var newOption = document.createElement("option");
+                newOption.value = tvGenres[i].id;
+                newOption.innerHTML = tvGenres[i].name;
                 element.appendChild(newOption);
             }
         }
