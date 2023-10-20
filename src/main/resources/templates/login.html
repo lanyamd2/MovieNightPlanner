@@ -32,6 +32,7 @@
                 <span th:if="${error}" class="error-message" th:text="${error}"></span>
             </div>
         </form>
+        <span th:if="${successMessage}" style="color: green;">[[${successMessage}]]</span>
     </div>
 </div>
 

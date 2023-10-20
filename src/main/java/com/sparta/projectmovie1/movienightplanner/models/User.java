@@ -13,6 +13,8 @@ public class User {
     private String id;
     @JsonProperty("name")
     private String name;
+    @JsonProperty("surname")
+    private String surname;
     @NotEmpty
     @JsonProperty("username")
     private String username;
@@ -37,6 +39,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getUsername() {
@@ -68,6 +78,7 @@ public class User {
         return "User{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

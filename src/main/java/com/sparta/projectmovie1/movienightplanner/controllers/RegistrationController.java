@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RegistrationController {
@@ -30,12 +31,13 @@ public class RegistrationController {
 
 
     @PostMapping("/registration")
-    public String register(@ModelAttribute @Valid User user, BindingResult bindingResult) {
+    public String register(@ModelAttribute @Valid User user, BindingResult bindingResult,  RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "registration";
         }
 
         userRepository.save(user);
+        redirectAttributes.addAttribute("successMessage", "Registration successful!");
         return "redirect:/login";
     }
 }

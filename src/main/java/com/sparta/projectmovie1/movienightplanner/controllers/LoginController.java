@@ -17,19 +17,21 @@ public class LoginController {
     private UserRepository userRepository;
 
     @GetMapping("/login")
-    public String showLoginPage(@RequestParam(required = false) String error, Model model) {
+    public String showLoginPage(@RequestParam(required = false) String error, @RequestParam(required = false) String successMessage, Model model) {
         if (error != null) {
             model.addAttribute("error", "Invalid username or password. Please try again.");
         }
+        model.addAttribute("successMessage", successMessage);
         return "login";
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
+    public String login(@RequestParam String username, @RequestParam String password, HttpSession session, Model model) {
         User user = userRepository.findByUsername(username);
 
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
+            model.addAttribute("username", user.getUsername());
             return "redirect:/index";
         } else {
             return "redirect:/login?error=true";
