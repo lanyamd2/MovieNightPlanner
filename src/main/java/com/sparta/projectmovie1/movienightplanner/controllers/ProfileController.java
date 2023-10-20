@@ -1,6 +1,7 @@
 package com.sparta.projectmovie1.movienightplanner.controllers;
 
 import com.sparta.projectmovie1.movienightplanner.models.Offer;
+import com.sparta.projectmovie1.movienightplanner.models.movies.Crew;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
 import com.sparta.projectmovie1.movienightplanner.services.MovieService;
@@ -14,6 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class ProfileController {
     private final MovieService movieService;
     private final SeriesService seriesService;
@@ -50,6 +52,11 @@ public class ProfileController {
     @RequestMapping("/details/tv/tmdb/{id}")
     public Mono<Series> gettmdbSeriesById(@PathVariable("id") String id){
         return seriesService.fetchTmdbSeriesById(id, "tv");
+    }
+
+    @RequestMapping("/details/movie/directors/{id}")
+    public List<Crew> gettmdbMovieDirectors(@PathVariable("id") String id){
+        return movieService.fetchDirectors(id);
     }
 
 }

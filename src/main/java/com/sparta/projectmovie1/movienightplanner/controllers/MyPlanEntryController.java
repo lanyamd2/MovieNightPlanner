@@ -21,11 +21,6 @@ public class MyPlanEntryController {
     this.myPlanService = myPlanService;
   }
 
-  @GetMapping("/all")
-  public List<MyPlanEntry> getAllEntries() {
-    return myPlanService.getAllEntries();
-  }
-
   @PostMapping("/create")
   public MyPlanEntry create(@RequestBody MyPlanEntry myPlanEntry) {
     return myPlanService.addEntry(myPlanEntry);

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.sparta.projectmovie1.movienightplanner.models.Offer;
 import com.sparta.projectmovie1.movienightplanner.models.Production;
+import com.sparta.projectmovie1.movienightplanner.models.movies.Crew;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.services.exceptions.ProductionNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -47,20 +49,24 @@ public class MovieService {
         tmdbMovie.get().setMedia_type("movie");
 
         String title = tmdbMovie.get().getName().toLowerCase();
+        int releaseYear = setProductionOffers(tmdbMovie.get(), title);
+        tmdbMovie.get().setReleaseYear(releaseYear);
+        List<Crew> directors = fetchDirectors(id);
 
-        setProductionOffers(tmdbMovie.get(), title);
+        tmdbMovie.get().setCrew(directors);
 
         return tmdbMovie.get();
     }
 
-    public void setProductionOffers(Production production, String title) {
+    public int setProductionOffers(Production production, String title) {
+        String releaseYear="";
         if(production.getReleaseDate().isEmpty()){
             production.setOffers(new ArrayList<Offer>());
         }else{
-
-            String releaseYear = getReleaseYearFromReleaseDate(production);
+            releaseYear = getReleaseYearFromReleaseDate(production);
             production.setOffers(fetchJustWatchOffers(title,production.getMedia_type(),releaseYear));
         }
+        return Integer.parseInt(releaseYear);
     }
 
     public Mono<Movie> fetchTmdbMovieById(String id, String type){
@@ -127,6 +133,35 @@ public class MovieService {
                     }
                 })
                .block();
+    }
+
+    public List<Crew> fetchDirectors(String id){
+        String url = "https://api.themoviedb.org/3/movie/"+id+"/credits?api_key="+tmdbApiKey;
+        ObjectMapper mapper = new ObjectMapper();
+        List<Crew> crew = webClient.get()
+                .uri(url)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError,
+                        response -> response.bodyToMono(String.class)
+                                .flatMap(error -> Mono.error(new ProductionNotFoundException("Production credits could not be found: "+error))))
+                .bodyToMono(JsonNode.class)
+                .map(s->s.findValue("crew"))
+                .map(s->{
+                    try{
+                        if(mapper.readValue(s.traverse(), new TypeReference<List<Crew>>() {}) == null){
+                            return new ArrayList<Crew>();
+                        }
+                        return mapper.readValue(s.traverse(), new TypeReference<List<Crew>>() {});
+                    }catch (IOException e){
+                        e.printStackTrace();
+                        return new ArrayList<Crew>();
+                    }
+                }).block();
+        if (crew == null) {
+            return new ArrayList<Crew>();
+        }
+        return crew.stream().filter(s-> s.getJob().equalsIgnoreCase("Director")).collect(Collectors.toList());
     }
 
     public List<Offer> fetchJustWatchOffers(String title, String type,String releaseYear){

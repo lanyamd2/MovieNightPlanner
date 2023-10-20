@@ -7,14 +7,19 @@ import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.models.SpokenLanguage;
 
 public class Movie extends Production {
+
+    @JsonProperty("crew")
+    private List<Crew> crew;
+
     @JsonProperty("imdb_id")
     private String imdbId;
 
     @JsonProperty("runtime")
-    private int runtime;
+    private Integer runtime;
 
     @JsonProperty("spoken_languages")
     private List<SpokenLanguage> spokenLanguages;
+
 
     public void setImdbId(String imdbId) {
         this.imdbId = imdbId;
@@ -24,14 +29,31 @@ public class Movie extends Production {
         return imdbId;
     }
 
-    public void setRuntime(int runtime) {
+    public void setRuntime(Integer runtime) {
         this.runtime = runtime;
     }
 
-    public int getRuntime() {
+    public Integer getRuntime() {
         return runtime;
     }
 
+    @Override
+    public List<SpokenLanguage> getSpokenLanguages() {
+        return spokenLanguages;
+    }
+
+    @Override
+    public void setSpokenLanguages(List<SpokenLanguage> spokenLanguages) {
+        this.spokenLanguages = spokenLanguages;
+    }
+
+    public List<Crew> getCrew() {
+        return crew;
+    }
+
+    public void setCrew(List<Crew> crew) {
+        this.crew = crew;
+    }
 
     @Override
     public String toString() {
@@ -42,6 +64,7 @@ public class Movie extends Production {
                         ",original_title = '" + super.originalTitle + '\'' +
                         ",imdb_id = '" + imdbId + '\'' +
                         ",runtime = '" + runtime + '\'' +
+                        ",crew = '" + crew + '\'' +
                         ",title = '" + super.name + '\'' +
                         ",poster_path = '" + super.posterPath + '\'' +
                         ",spoken_languages = '" + super.spokenLanguages + '\'' +
