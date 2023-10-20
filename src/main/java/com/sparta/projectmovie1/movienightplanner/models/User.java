@@ -1,17 +1,23 @@
 package com.sparta.projectmovie1.movienightplanner.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 public class User {
 
+    @Id
     @JsonProperty("id")
     private String id;
     @JsonProperty("name")
     private String name;
+    @NotEmpty
     @JsonProperty("username")
     private String username;
+    @NotEmpty
+    @Email
     @JsonProperty("email")
     private String email;
     @JsonProperty("password")

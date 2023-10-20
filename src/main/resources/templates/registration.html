@@ -13,9 +13,6 @@
     <link href="../css/loginpagestyles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<!--&lt;!&ndash; NavBar begins here &ndash;&gt;-->
-<!--<div th:insert="navbar :: navbar"></div>-->
-<!--&lt;!&ndash; Navbar ends here &ndash;&gt;-->
 <br>
 <div class="container">
     <div class="registration-container">
@@ -28,10 +25,12 @@
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
+                <span th:if="${#fields.hasErrors('user.username')}" th:errors="*{user.username}"></span>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
+                <span th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}"></span>
             </div>
             <div class="form-group">
                 <label for="password">Password:</label>
