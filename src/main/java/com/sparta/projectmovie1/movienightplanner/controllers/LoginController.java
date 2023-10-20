@@ -22,17 +22,12 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
-        // Retrieve user from the database based on the provided username
         User user = userRepository.findByUsername(username);
 
         if (user != null && user.getPassword().equals(password)) {
-            // Authentication succeeded, store user information in the session
             session.setAttribute("user", user);
-
-            // Redirect to a secured area or home page
             return "redirect:/index";
         } else {
-
             return "redirect:/login?error=true";
         }
     }

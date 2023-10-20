@@ -16,16 +16,14 @@ public class RegistrationController {
 
     @GetMapping("/registration")
     public String showRegistrationPage() {
-        return "registration"; // Assuming your registration form HTML file is named "registration.html"
+        return "registration";
     }
 
     @PostMapping("/registration")
     public String register(@ModelAttribute User user) {
         // Add validation and error handling as needed
 
-        userRepository.save(user); // Save the user to the database
-
-        // Redirect to the login page after successful registration
+        userRepository.save(user);
         return "redirect:/login";
     }
 }
