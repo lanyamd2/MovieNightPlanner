@@ -15,7 +15,7 @@ public class Movie extends Production {
     private String imdbId;
 
     @JsonProperty("runtime")
-    private int runtime;
+    private Integer runtime;
 
     @JsonProperty("spoken_languages")
     private List<SpokenLanguage> spokenLanguages;
@@ -29,11 +29,11 @@ public class Movie extends Production {
         return imdbId;
     }
 
-    public void setRuntime(int runtime) {
+    public void setRuntime(Integer runtime) {
         this.runtime = runtime;
     }
 
-    public int getRuntime() {
+    public Integer getRuntime() {
         return runtime;
     }
 
