@@ -1,6 +1,6 @@
 package com.sparta.projectmovie1.movienightplanner.services;
 
-import com.sparta.projectmovie1.movienightplanner.models.Offer;
+
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
 import com.sparta.projectmovie1.movienightplanner.services.exceptions.ProductionNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
+
 import java.util.Optional;
 
 @Service
@@ -30,7 +30,8 @@ public class SeriesService {
 
         String title = tmdbSeries.get().getName().toLowerCase();
 
-        movieService.setProductionOffers(tmdbSeries.get(), title);
+        int releaseYear = movieService.setProductionOffers(tmdbSeries.get(), title);
+        tmdbSeries.get().setReleaseYear(releaseYear);
 
         return tmdbSeries.get();
     }

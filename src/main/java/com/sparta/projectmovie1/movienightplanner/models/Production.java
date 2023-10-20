@@ -26,6 +26,8 @@ public class Production {
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected String releaseDate;
 
+    protected int releaseYear;
+
     @JsonProperty("original_title")
     @JsonAlias("original_name")
     protected String originalTitle;
@@ -107,6 +109,14 @@ public class Production {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
     }
 
     public String getPosterPath() {

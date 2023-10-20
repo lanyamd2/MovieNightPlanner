@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class ProfileController {
     private final MovieService movieService;
     private final SeriesService seriesService;
