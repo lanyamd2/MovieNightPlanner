@@ -41,6 +41,5 @@ deploy:
         - docker
     script:
         - echo "Maven deploy started"
-        - cd movie-planner
     only:
         - dev
