@@ -1,6 +1,7 @@
 package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
 import com.sparta.projectmovie1.movienightplanner.models.LastSearchCriteria;
+import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
 import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.models.ProductionList;
 import com.sparta.projectmovie1.movienightplanner.services.SearchService;
@@ -40,6 +41,9 @@ public class HomeController {
 
         model.addAttribute("productions",trendingProductions);
         model.addAttribute("selectedTimeWindow",timeWindow.equals("day")?"Today":"This Week");
+
+        MyPlanEntry myPlanEntry=new MyPlanEntry();
+        model.addAttribute("myPlanEntry",myPlanEntry);
 
         return "index.html";
     }

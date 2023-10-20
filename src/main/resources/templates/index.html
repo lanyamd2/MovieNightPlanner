@@ -92,7 +92,7 @@
 
 <div class="displaySection">
 <div class="row">
-    <div class="col-sm-3" th:each="production:${productions}">
+    <div class="col-sm-3" th:each="production,status:${productions}">
     <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
     <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
     <br>
@@ -103,6 +103,45 @@
     <span th:text="${production.getMedia_type()}"></span>
     <br><br>
     </a>
+        <!--<a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black" class="btn btn-dark">More Details</a>-->
+        <button type="button" class="btn btn-dark"
+                data-bs-toggle="modal" th:data-bs-target="|#addToMyPlanForm${status.index}|" th:attr="data-bs-target='#addToMyPlanForm'+${status.index}">Add to My Plan
+        </button>
+        <!-- Modal -->
+
+            <div class="modal fade" th:id="addToMyPlanForm+${status.index}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{'/addtoplan/'+${production.getMedia_type()}+'/'+${production.getId()}}"  method="post">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Choose a date</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="date">Select Date: </label>
+                                </div>
+                                <div class="col-sm-7">
+                                    <input type="date" id="date" name="date" class="form-control"  required>
+                                </div>
+                                <div class="invalid-feedback">Please fill out this field</div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                            </button>
+                            <button type="submit" class="btn btn-primary">Select</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        <!--Modal ends here-->
     </div>
 </div>
 </div>
