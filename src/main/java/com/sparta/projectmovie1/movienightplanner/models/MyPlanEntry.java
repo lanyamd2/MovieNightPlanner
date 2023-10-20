@@ -14,7 +14,7 @@ public class MyPlanEntry {
   private String id;
 
   @JsonProperty("production_id")
-  private String productionId;
+  private Integer productionId;
 
   @JsonProperty("is_movie")
   private boolean isMovie;
@@ -40,11 +40,11 @@ public class MyPlanEntry {
     this.id = id;
   }
 
-  public String getProductionId() {
+  public Integer getProductionId() {
     return productionId;
   }
 
-  public void setProductionId(String productionId) {
+  public void setProductionId(Integer productionId) {
     this.productionId = productionId;
   }
 
@@ -56,7 +56,7 @@ public class MyPlanEntry {
     this.date = date;
   }
 
-  public MyPlanEntry(String id, String productionId, boolean isMovie, Date date) {
+  public MyPlanEntry(String id, Integer productionId, boolean isMovie, Date date) {
     this.id = id;
     this.productionId = productionId;
     this.isMovie = isMovie;

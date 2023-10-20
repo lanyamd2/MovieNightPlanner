@@ -1,6 +1,7 @@
 package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
 import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
+import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
 import com.sparta.projectmovie1.movienightplanner.services.MyPlanService;
 import java.text.ParseException;
@@ -10,10 +11,8 @@ import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class MyPlanEntryWebController {
@@ -48,8 +47,27 @@ public class MyPlanEntryWebController {
   }
 
   @PostMapping("/myplan/create")
-  public String createEntry(@ModelAttribute("entryToCreate") MyPlanEntry myPlanEntry) {
+  public String createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry,
+                            Model model) {
+
+//    myPlanEntry.setProductionId(production.getId());
+//    myPlanEntry.setMovie(production.getMedia_type().equalsIgnoreCase("movie"));
     myPlanEntryRepository.save(myPlanEntry);
+    model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
     return "my-plan";
   }
+
+
+//  @PostMapping("/myplan/create")
+//  public RedirectView createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry) {
+//    myPlanEntryRepository.save(myPlanEntry);
+//
+//    RedirectView redirectView = new RedirectView();
+//    redirectView.setUrl("/myplan");
+//
+//    return redirectView;
+//  }
+
+
+
 }

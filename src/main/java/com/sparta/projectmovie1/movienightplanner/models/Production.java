@@ -3,6 +3,7 @@ package com.sparta.projectmovie1.movienightplanner.models;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
@@ -12,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Production {
-    protected int id;
+    protected Integer id;
 
     @JsonProperty("title")
     @JsonAlias("name")
@@ -26,7 +27,7 @@ public class Production {
 //    @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected String releaseDate;
 
-    protected int releaseYear;
+    protected Integer releaseYear;
 
     @JsonProperty("original_title")
     @JsonAlias("original_name")
@@ -57,7 +58,7 @@ public class Production {
     protected Object voteAverage;
 
     @JsonProperty("vote_count")
-    protected int voteCount;
+    protected Integer voteCount;
 
     @JsonProperty("status")
     protected String status;
@@ -71,11 +72,11 @@ public class Production {
     @JsonProperty("offers")
     protected List<Offer> offers;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -111,11 +112,11 @@ public class Production {
         this.releaseDate = releaseDate;
     }
 
-    public int getReleaseYear() {
+    public Integer getReleaseYear() {
         return releaseYear;
     }
 
-    public void setReleaseYear(int releaseYear) {
+    public void setReleaseYear(Integer releaseYear) {
         this.releaseYear = releaseYear;
     }
 
@@ -183,11 +184,11 @@ public class Production {
         this.voteAverage = voteAverage;
     }
 
-    public int getVoteCount() {
+    public Integer getVoteCount() {
         return voteCount;
     }
 
-    public void setVoteCount(int voteCount) {
+    public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
     }
 
@@ -226,7 +227,7 @@ public class Production {
     public Production() {
     }
 
-    public Production(int id, String name, String overview, String releaseDate, String originalTitle, String posterPath, List<Genre> genres, List<Integer> genre_ids, String media_type, List<SpokenLanguage> spokenLanguages, String originalLanguage, Object popularity, Object voteAverage, int voteCount, String status, String tagline, List<ProductionCountry> productionCountries, List<Offer> offers) {
+    public Production(Integer id, String name, String overview, String releaseDate, String originalTitle, String posterPath, List<Genre> genres, List<Integer> genre_ids, String media_type, List<SpokenLanguage> spokenLanguages, String originalLanguage, Object popularity, Object voteAverage, Integer voteCount, String status, String tagline, List<ProductionCountry> productionCountries, List<Offer> offers) {
         this.id = id;
         this.name = name;
         this.overview = overview;
