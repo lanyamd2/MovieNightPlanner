@@ -2,6 +2,7 @@ package com.sparta.projectmovie1.movienightplanner.services;
 
 import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
 import com.sparta.projectmovie1.movienightplanner.models.Production;
+import com.sparta.projectmovie1.movienightplanner.models.ProductionList;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
@@ -11,6 +12,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestTemplate;
 
 @Service
@@ -63,8 +66,5 @@ public class MyPlanService {
     return myPlanEntryRepository.save(myPlanEntry);
   }
 
-  public List<MyPlanEntry> getAllEntries() {
-    return myPlanEntryRepository.findAll();
-  }
 
 }
