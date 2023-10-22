@@ -15,7 +15,7 @@ build:
         - "mvn compile"
     artifacts:
         paths:
-            - movie-planner/target
+            - target/*.jar
     only:
         - dev
 
@@ -25,7 +25,7 @@ test:
         - docker
     script:
         - echo "Maven test started"
-        - "mvn --batch-mode test"
+        - "mvn verify"
 
 package:
     stage: package
@@ -34,12 +34,19 @@ package:
     script:
         - echo "Maven packaging started"
         - "mvn clean package"
+    only:
+        - dev
 
-deploy:
+deploy staging:
     stage: deploy
+    environment:
+        name: staging
+        url: HTTP://localhost:8080
+    needs: [test]
     tags:
         - docker
     script:
-        - echo "Maven deploy started"
+        - echo "Maven deploy to production started"
+        - java -jar target/MovieNightPlanner.jar
     only:
         - dev
