@@ -12,10 +12,8 @@ build:
         - docker
     script:
         - echo "Maven build started"
-        - "mvn compile"
-    artifacts:
-        paths:
-            - target/*.jar
+        - "mvn clean package"
+        - ls -R
     only:
         - dev
 
@@ -26,16 +24,6 @@ test:
     script:
         - echo "Maven test started"
         - "mvn verify"
-
-package:
-    stage: package
-    tags:
-        - docker
-    script:
-        - echo "Maven packaging started"
-        - "mvn clean package"
-    only:
-        - dev
 
 deploy staging:
     stage: deploy
