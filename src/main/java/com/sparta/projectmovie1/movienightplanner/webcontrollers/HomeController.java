@@ -75,6 +75,9 @@ public class HomeController {
         model.addAttribute("page",productionList.getPage());
         model.addAttribute("totalpages",productionList.getTotal_pages());
 
+        MyPlanEntry myPlanEntry=new MyPlanEntry();
+        model.addAttribute("myPlanEntry",myPlanEntry);
+
         return "results";
     }
 

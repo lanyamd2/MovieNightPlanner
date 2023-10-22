@@ -8,6 +8,8 @@ import com.sparta.projectmovie1.movienightplanner.services.MyPlanService;
 import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +76,8 @@ public class MyPlanEntryWebController {
   @RequestMapping("addtoplan/{productionType}/{productionId}")
   public String addToMyplan(@PathVariable String productionType, @PathVariable Integer productionId, MyPlanEntry myPlanEntry, Model model){
 
-    System.out.println("Inside add to plan");
+    System.out.println("Production Id from path variable ---->"+productionId);
+    System.out.println("Production Id from myPlanEntry object ---->"+myPlanEntry.getProductionId());
     MyPlanEntry thePlanEntry=new MyPlanEntry();
     thePlanEntry.setProductionId(productionId);
     if(productionType.equals("movie")){
@@ -93,4 +96,27 @@ public class MyPlanEntryWebController {
 
 
   }
+
+    @RequestMapping("addtoplan/{productionType}")
+    public String addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry, Model model,@RequestParam String date){
+
+        if(productionType.equals("movie")){
+          myPlanEntry.setMovie(true);
+        }
+        System.out.println("Date---->"+date);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date formattedDate = null;
+        try {
+        formattedDate = formatter.parse(date);
+        } catch (ParseException e) {
+        throw new RuntimeException(e);
+      }
+        myPlanEntry.setDate(formattedDate);
+        myPlanEntryRepository.save(myPlanEntry);
+        model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
+        return "my-plan";
+
+
+    }
 }
