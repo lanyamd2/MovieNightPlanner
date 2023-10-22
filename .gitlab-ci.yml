@@ -23,17 +23,3 @@ test:
     script:
         - echo "Maven test started"
         - "mvn verify"
-
-deploy staging:
-    stage: deploy
-    environment:
-        name: staging
-        url: HTTP://localhost:8080
-    needs: [test]
-    tags:
-        - docker
-    script:
-        - echo "Maven deploy to production started"
-        - java -jar target/MovieNightPlanner-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
-    only:
-        - dev
