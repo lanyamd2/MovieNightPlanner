@@ -13,7 +13,6 @@ build:
     script:
         - echo "Maven build started"
         - "mvn clean package"
-        - ls -R
     only:
         - dev
 
@@ -35,6 +34,6 @@ deploy staging:
         - docker
     script:
         - echo "Maven deploy to production started"
-        - java -jar target/MovieNightPlanner.jar
+        - java -jar target/MovieNightPlanner-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
     only:
         - dev
