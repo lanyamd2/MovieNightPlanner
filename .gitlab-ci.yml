@@ -13,6 +13,9 @@ build:
     script:
         - echo "Maven build started"
         - "mvn clean package"
+    artifacts:
+        paths:
+            - target
     only:
         - dev
 
