@@ -46,7 +46,7 @@ public class MyPlanService {
   public List<Production> getProductions(List<MyPlanEntry> myPlanEntries) {
     List<Production> productions = new ArrayList<>();
     for(MyPlanEntry myPlanEntry : myPlanEntries) {
-      String productionId = myPlanEntry.getProductionId();
+      int productionId = myPlanEntry.getProductionId();
       if(myPlanEntry.isMovie()) {
         Movie movie = restTemplate.getForObject(rootUrl + "movie/" + productionId + "?api_key=" + apiKey, Movie.class);
         assert movie != null;

@@ -6,7 +6,7 @@ import com.sparta.projectmovie1.movienightplanner.models.Production;
 
 public class Series extends Production {
 	@JsonProperty("number_of_episodes")
-	private int numberOfEpisodes;
+	private Integer numberOfEpisodes;
 
 	@JsonProperty("networks")
 	private List<Network> networks;
@@ -15,7 +15,7 @@ public class Series extends Production {
 	private String type;
 
 	@JsonProperty("number_of_seasons")
-	private int numberOfSeasons;
+	private Integer numberOfSeasons;
 
 	@JsonProperty("seasons")
 	private List<Season> seasons;
@@ -48,11 +48,11 @@ public class Series extends Production {
 	private String homepage;
 
 
-	public void setNumberOfEpisodes(int numberOfEpisodes){
+	public void setNumberOfEpisodes(Integer numberOfEpisodes){
 		this.numberOfEpisodes = numberOfEpisodes;
 	}
 
-	public int getNumberOfEpisodes(){
+	public Integer getNumberOfEpisodes(){
 		return numberOfEpisodes;
 	}
 
@@ -72,11 +72,11 @@ public class Series extends Production {
 		return type;
 	}
 
-	public void setNumberOfSeasons(int numberOfSeasons){
+	public void setNumberOfSeasons(Integer numberOfSeasons){
 		this.numberOfSeasons = numberOfSeasons;
 	}
 
-	public int getNumberOfSeasons(){
+	public Integer getNumberOfSeasons(){
 		return numberOfSeasons;
 	}
 

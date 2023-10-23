@@ -23,9 +23,11 @@ public class ProfileWebController {
     @GetMapping("movie/{id}")
     private String getMovieById(Model model, @PathVariable("id") String id){
         Movie movie = profileController.getMovieById(id);
-        model.addAttribute("movie",movie);
+        movie.setMedia_type("movie");
+        model.addAttribute("production",movie);
 
         MyPlanEntry myPlanEntry = new MyPlanEntry();
+        myPlanEntry.setProductionId(movie.getId());
         myPlanEntry.setMovie(true);
         model.addAttribute("myPlanEntry", myPlanEntry);
         return "movie-profile-page";
@@ -34,20 +36,14 @@ public class ProfileWebController {
     @GetMapping("tv/{id}")
     private String getShowById(Model model, @PathVariable("id") String id){
         Series series = profileController.getSeriesById(id);
-        model.addAttribute("show",series);
+        series.setMedia_type("show");
+        model.addAttribute("production",series);
 
         MyPlanEntry myPlanEntry = new MyPlanEntry();
+        myPlanEntry.setProductionId(series.getId());
         myPlanEntry.setMovie(false);
         model.addAttribute("myPlanEntry", myPlanEntry);
         return "tv-profile-page";
     }
-
-//    @PostMapping("/myplan/create")
-//    private String addProductionToMyPlan(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry){
-//
-//        return "my-plan";
-//    }
-
-
 
 }
