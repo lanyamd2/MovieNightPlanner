@@ -53,12 +53,6 @@ public class SeriesService {
         } else {
             return Mono.error(new RuntimeException("Unexpected error"));
         }
-
     }
-
-//    public String getJustWatchSeriesUrl(String url, String userLocale){
-//        Optional<Series> series
-//    }
-
 
 }
