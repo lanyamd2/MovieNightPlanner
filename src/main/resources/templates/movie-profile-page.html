@@ -75,16 +75,16 @@
                                             aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="row">
+                                    <div class="row d-none">
                                         <div class="col-sm-3">
                                             <label for="productionId">Production ID: </label>
                                         </div>
                                         <div class="col-sm-7">
-                                            <input type="text" id="productionId" name="productionId" class="form-control" th:field="*{productionId}"  th:placeholder="${production.id}" required/>
+                                            <input type="text" id="productionId" name="productionId" class="form-control" th:field="*{productionId}"  th:placeholder="${myPlanEntry.productionId}" th:value="${myPlanEntry.productionId}" required/>
                                         </div>
                                         <div class="invalid-feedback">Please fill out this field</div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row d-none">
                                         <div class="col-sm-3">
                                             <label for="mediaType">Is this a movie: </label>
                                         </div>
@@ -229,12 +229,11 @@
     var today = new Date().toISOString().split('T')[0];
     document.getElementById("date").setAttribute("min", today);
 
-    const maxDate = new Date().toISOString().split('T')[0];
+    const maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + 30);
     const [maxDateFormatted] = maxDate.toISOString().split('T');
 
     document.getElementById("date").setAttribute("max", maxDateFormatted);
-
 </script>
 <!--search bar script begins here-->
 <script>
