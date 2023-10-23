@@ -8,8 +8,7 @@ import com.sparta.projectmovie1.movienightplanner.services.MyPlanService;
 import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
+
 import java.util.Date;
 import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +38,13 @@ public class MyPlanEntryWebController {
   @GetMapping("/myplan/date")
   public String getMoviesOnDate(Model model, @RequestParam String date) {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     Date formattedDate = null;
     try {
       formattedDate = formatter.parse(date);
     } catch (ParseException e) {
       throw new RuntimeException(e);
     }
+
     model.addAttribute("productions", myPlanService.getProductionsOnDate(formattedDate));
     return "my-plan-date";
   }
@@ -53,24 +52,10 @@ public class MyPlanEntryWebController {
   @PostMapping("/myplan/create")
   public String createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry,
                             Model model) {
-
-//    myPlanEntry.setProductionId(production.getId());
-//    myPlanEntry.setMovie(production.getMedia_type().equalsIgnoreCase("movie"));
     myPlanEntryRepository.save(myPlanEntry);
     model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
     return "my-plan";
   }
-
-
-//  @PostMapping("/myplan/create")
-//  public RedirectView createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry) {
-//    myPlanEntryRepository.save(myPlanEntry);
-//
-//    RedirectView redirectView = new RedirectView();
-//    redirectView.setUrl("/myplan");
-//
-//    return redirectView;
-//  }
 
 
   @RequestMapping("addtoplan/{productionType}/{productionId}")
@@ -119,4 +104,5 @@ public class MyPlanEntryWebController {
 
 
     }
+
 }

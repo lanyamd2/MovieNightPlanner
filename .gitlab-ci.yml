@@ -12,10 +12,10 @@ build:
         - docker
     script:
         - echo "Maven build started"
-        - "mvn compile"
+        - "mvn clean package"
     artifacts:
         paths:
-            - movie-planner/target
+            - target
     only:
         - dev
 
@@ -25,22 +25,4 @@ test:
         - docker
     script:
         - echo "Maven test started"
-        - "mvn --batch-mode test"
-
-package:
-    stage: package
-    tags:
-        - docker
-    script:
-        - echo "Maven packaging started"
-        - "mvn clean package"
-
-deploy:
-    stage: deploy
-    tags:
-        - docker
-    script:
-        - echo "Maven deploy started"
-        - cd movie-planner
-    only:
-        - dev
+        - "mvn verify"
