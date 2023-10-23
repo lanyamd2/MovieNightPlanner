@@ -25,11 +25,9 @@ public class ProfileWebController {
         Movie movie = profileController.getMovieById(id);
         movie.setMedia_type("movie");
         model.addAttribute("production",movie);
-//        model.addAttribute("isMovie",true);
-//        model.addAttribute("productionId", movie.getId());
 
         MyPlanEntry myPlanEntry = new MyPlanEntry();
-        myPlanEntry.setId(id);
+        myPlanEntry.setProductionId(movie.getId());
         myPlanEntry.setMovie(true);
         model.addAttribute("myPlanEntry", myPlanEntry);
         return "movie-profile-page";
@@ -40,22 +38,12 @@ public class ProfileWebController {
         Series series = profileController.getSeriesById(id);
         series.setMedia_type("show");
         model.addAttribute("production",series);
-//        model.addAttribute("isMovie",false);
-//        model.addAttribute("productionId",series.getId());
 
         MyPlanEntry myPlanEntry = new MyPlanEntry();
-        myPlanEntry.setId(id);
+        myPlanEntry.setProductionId(series.getId());
         myPlanEntry.setMovie(false);
         model.addAttribute("myPlanEntry", myPlanEntry);
         return "tv-profile-page";
     }
-
-//    @PostMapping("/myplan/create")
-//    private String addProductionToMyPlan(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry){
-//
-//        return "my-plan";
-//    }
-
-
 
 }
