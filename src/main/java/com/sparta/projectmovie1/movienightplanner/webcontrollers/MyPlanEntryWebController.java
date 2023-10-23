@@ -4,12 +4,11 @@ import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
 import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
 import com.sparta.projectmovie1.movienightplanner.services.MyPlanService;
+
+import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.Date;
 import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,4 +56,18 @@ public class MyPlanEntryWebController {
     model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
     return "my-plan";
   }
+
+    @RequestMapping("addtoplan/{productionType}")
+    public String addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry, Model model){
+
+        if(productionType.equals("movie")){
+          myPlanEntry.setMovie(true);
+        }
+        myPlanEntryRepository.save(myPlanEntry);
+        model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
+        return "my-plan";
+
+
+    }
+
 }

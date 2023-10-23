@@ -4,17 +4,21 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/index}">MoviePlanner</a>
+        <a class="navbar-brand" th:href="@{/index}">
+            <img th:src="@{/images/spartalogo.jpg}" width="150px" height="75px">&nbsp;<b>MovieNightPlanner</b>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
+            <ul class="navbar-nav ms-auto">
+            <li class="nav-item ">
                 <a class="nav-link active" aria-current="page" th:href="@{/myplan}">MyPlan</a>
-            </div>
-            <div class="navbar-nav ms-auto">
+            </li>
+            <li class="nav-item ">
                 <a class="nav-link " aria-current="page" href="#">Logout</a>
-            </div>
+            </li>
+            </ul>
         </div>
     </div>
 </nav>

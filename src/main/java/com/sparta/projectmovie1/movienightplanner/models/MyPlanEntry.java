@@ -1,6 +1,8 @@
 package com.sparta.projectmovie1.movienightplanner.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.LocalDate;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,7 +25,15 @@ public class MyPlanEntry {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date date;
 
+ /* @JsonProperty("date")
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  private LocalDate date;*/
+
   public boolean isMovie() {
+    return isMovie;
+  }
+
+  public boolean getIsMovie() {
     return isMovie;
   }
 
@@ -56,12 +66,29 @@ public class MyPlanEntry {
     this.date = date;
   }
 
-  public MyPlanEntry(String id, Integer productionId, boolean isMovie, Date date) {
+ /* public LocalDate getDate() {
+    return date;
+  }
+
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }*/
+
+   public MyPlanEntry(String id, Integer productionId, boolean isMovie, Date date) {
     this.id = id;
     this.productionId = productionId;
     this.isMovie = isMovie;
     this.date = date;
   }
+
+
+
+  /*public MyPlanEntry(String id, Integer productionId, boolean isMovie, LocalDate date) {
+    this.id = id;
+    this.productionId = productionId;
+    this.isMovie = isMovie;
+    this.date = date;
+  }*/
 
   public MyPlanEntry() {}
 
