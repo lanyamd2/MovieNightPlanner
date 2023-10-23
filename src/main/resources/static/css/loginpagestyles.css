@@ -44,10 +44,16 @@
 }
 
 .btn-form {
-    width: 49%; /* Set the width to 49% to make both buttons fit side by side */
+    width: 49%;
     padding: 10px;
 
     border-radius: 5px;
     cursor: pointer;
 }
+
+.has-error {
+    border: 1px solid red;
+    background-color: #ffe6e6;
+}
+
 

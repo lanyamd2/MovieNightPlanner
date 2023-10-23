@@ -31,6 +31,7 @@ public class LoginController {
 
         if (user != null && user.getPassword().equals(password)) {
             session.setAttribute("user", user);
+            System.out.println("User set in session: " + user);
             model.addAttribute("username", user.getUsername());
             return "redirect:/index";
         } else {
