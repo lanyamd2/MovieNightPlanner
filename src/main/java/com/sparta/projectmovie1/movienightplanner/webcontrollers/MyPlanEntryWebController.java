@@ -57,47 +57,12 @@ public class MyPlanEntryWebController {
     return "my-plan";
   }
 
-
-  @RequestMapping("addtoplan/{productionType}/{productionId}")
-  public String addToMyplan(@PathVariable String productionType, @PathVariable Integer productionId, MyPlanEntry myPlanEntry, Model model){
-
-    System.out.println("Production Id from path variable ---->"+productionId);
-    System.out.println("Production Id from myPlanEntry object ---->"+myPlanEntry.getProductionId());
-    MyPlanEntry thePlanEntry=new MyPlanEntry();
-    thePlanEntry.setProductionId(productionId);
-    if(productionType.equals("movie")){
-      thePlanEntry.setMovie(true);
-    }
-    else{
-      thePlanEntry.setMovie(false);
-    }
-    thePlanEntry.setDate(myPlanEntry.getDate());
-    System.out.println(thePlanEntry.getProductionId()+"-----"+thePlanEntry.isMovie()+"----"+thePlanEntry.getDate());
-    myPlanEntryRepository.save(thePlanEntry);
-    System.out.println(myPlanEntry.getDate());
-    System.out.println("Before adding the modal attribute");
-    model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
-    return "my-plan";
-
-
-  }
-
     @RequestMapping("addtoplan/{productionType}")
-    public String addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry, Model model,@RequestParam String date){
+    public String addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry, Model model){
 
         if(productionType.equals("movie")){
           myPlanEntry.setMovie(true);
         }
-        System.out.println("Date---->"+date);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Date formattedDate = null;
-        try {
-        formattedDate = formatter.parse(date);
-        } catch (ParseException e) {
-        throw new RuntimeException(e);
-      }
-        myPlanEntry.setDate(formattedDate);
         myPlanEntryRepository.save(myPlanEntry);
         model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
         return "my-plan";
