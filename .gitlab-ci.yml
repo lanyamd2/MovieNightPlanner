@@ -10,7 +10,8 @@ build:
     script:
         - echo "Maven build started"
         - "mvn clean package"
-
+    only:
+        - dev
 test:
     stage: test
     script:
