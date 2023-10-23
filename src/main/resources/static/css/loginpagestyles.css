@@ -51,8 +51,8 @@
     cursor: pointer;
 }
 
-.has-error {
-    border: 1px solid red;
+.error-field {
+    border: 3px solid red;
     background-color: #ffe6e6;
 }
 
