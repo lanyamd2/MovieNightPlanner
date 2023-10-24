@@ -15,6 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class ProfileController {
     private final MovieService movieService;
     private final SeriesService seriesService;
@@ -30,7 +31,7 @@ public class ProfileController {
         return movieService.getMovieById(id);
     }
 
-    @RequestMapping("details/tv/{id}")
+    @RequestMapping("/details/tv/{id}")
     public Series getSeriesById(@PathVariable("id") String id){
         return seriesService.getSeriesById(id);
     }

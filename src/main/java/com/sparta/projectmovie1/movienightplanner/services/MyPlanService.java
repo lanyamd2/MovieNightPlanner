@@ -6,8 +6,12 @@ import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,8 +36,17 @@ public class MyPlanService {
     this.restTemplate = restTemplate;
   }
 
-  public List<Production> getAllProductionsInPlan() {
-    return getProductions(myPlanEntryRepository.findAll());
+  public Map<Date, List<Production>> getAllProductionsWithDatesInPlan() {
+    List<MyPlanEntry> entries = myPlanEntryRepository.findMyPlanEntriesByDateGreaterThanEqual(
+        DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
+    Map<Date, List<Production>> entriesByDate = new TreeMap<>();
+    for(MyPlanEntry entry : entries) {
+      Date date = entry.getDate();
+      Production production = getProduction(entry);
+      entriesByDate.computeIfAbsent(date, k -> new ArrayList<>());
+      entriesByDate.get(date).add(production);
+    }
+    return entriesByDate;
   }
 
   public List<Production> getProductionsOnDate(Date date) {
@@ -43,28 +56,27 @@ public class MyPlanService {
   public List<Production> getProductions(List<MyPlanEntry> myPlanEntries) {
     List<Production> productions = new ArrayList<>();
     for(MyPlanEntry myPlanEntry : myPlanEntries) {
-      String productionId = myPlanEntry.getProductionId();
-      if(myPlanEntry.isMovie()) {
-        Movie movie = restTemplate.getForObject(rootUrl + "movie/" + productionId + "?api_key=" + apiKey, Movie.class);
-        assert movie != null;
-        movie.setMedia_type("movie");
-        productions.add(movie);
-      } else {
-        Series series = restTemplate.getForObject(rootUrl + "tv/" + productionId + "?api_key=" + apiKey, Series.class);
-        assert series != null;
-        series.setMedia_type("tv");
-        productions.add(series);
-      }
+      productions.add(getProduction(myPlanEntry));
     }
     return productions;
+  }
+
+  public Production getProduction(MyPlanEntry entry) {
+    int productionId = entry.getProductionId();
+    if(entry.isMovie()) {
+      Movie movie = restTemplate.getForObject(rootUrl + "movie/" + productionId + "?api_key=" + apiKey, Movie.class);
+      assert movie != null;
+      movie.setMedia_type("movie");
+      return movie;
+    } else {
+      Series series = restTemplate.getForObject(rootUrl + "tv/" + productionId + "?api_key=" + apiKey, Series.class);
+      assert series != null;
+      series.setMedia_type("tv");
+      return series;
+    }
   }
 
   public MyPlanEntry addEntry(MyPlanEntry myPlanEntry) {
     return myPlanEntryRepository.save(myPlanEntry);
   }
-
-  public List<MyPlanEntry> getAllEntries() {
-    return myPlanEntryRepository.findAll();
-  }
-
 }

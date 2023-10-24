@@ -49,7 +49,8 @@ public class MovieService {
         tmdbMovie.get().setMedia_type("movie");
 
         String title = tmdbMovie.get().getName().toLowerCase();
-        setProductionOffers(tmdbMovie.get(), title);
+        int releaseYear = setProductionOffers(tmdbMovie.get(), title);
+        tmdbMovie.get().setReleaseYear(releaseYear);
         List<Crew> directors = fetchDirectors(id);
 
         tmdbMovie.get().setCrew(directors);
@@ -57,14 +58,15 @@ public class MovieService {
         return tmdbMovie.get();
     }
 
-    public void setProductionOffers(Production production, String title) {
+    public int setProductionOffers(Production production, String title) {
+        String releaseYear="";
         if(production.getReleaseDate().isEmpty()){
             production.setOffers(new ArrayList<Offer>());
         }else{
-
-            String releaseYear = getReleaseYearFromReleaseDate(production);
+            releaseYear = getReleaseYearFromReleaseDate(production);
             production.setOffers(fetchJustWatchOffers(title,production.getMedia_type(),releaseYear));
         }
+        return Integer.parseInt(releaseYear);
     }
 
     public Mono<Movie> fetchTmdbMovieById(String id, String type){
