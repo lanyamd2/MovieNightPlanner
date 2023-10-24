@@ -39,7 +39,18 @@ public class SearchService {
             /*if(production.getMedia_type().equals("movie")){
                 production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
             }*/
-            production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
+            //production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
+            if(production.getMedia_type().equals("movie")){
+                production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
+            }
+            else{
+
+                production.setMedia_type("show");
+                production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
+                production.setMedia_type("tv");
+
+            }
+
         }
         return trending;
     }
