@@ -11,4 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface MyPlanEntryRepository extends MongoRepository<MyPlanEntry, String> {
   @Query
   List<MyPlanEntry> findMyPlanEntriesByDate(Date date);
+
+  @Query
+  List<MyPlanEntry> findMyPlanEntriesByDateGreaterThanEqual(Date date);
 }
