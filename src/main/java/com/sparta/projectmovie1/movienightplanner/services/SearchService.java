@@ -22,18 +22,26 @@ public class SearchService {
     private String justwatchApiKey;
 
     private RestTemplate restTemplate;
+    private MovieService movieService;
 
     @Autowired
-    public SearchService(RestTemplate restTemplate) {
+    public SearchService(RestTemplate restTemplate,MovieService movieService) {
         this.restTemplate = restTemplate;
+        this.movieService=movieService;
     }
 
 
 
     public List<Production> getTrendingproductionsNew(String timeWindow){
         ProductionList productionList=restTemplate.getForObject("https://api.themoviedb.org/3/trending/all/"+timeWindow+"?language=en-US&api_key="+tmdbApiKey, ProductionList.class);
-        return productionList.getResults();
-
+        List<Production> trending=productionList.getResults();
+        for(Production production:trending){
+            /*if(production.getMedia_type().equals("movie")){
+                production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
+            }*/
+            production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
+        }
+        return trending;
     }
 
     public List<Production> sortResultByPopularityNew(List<Production> results){
@@ -92,6 +100,7 @@ public class SearchService {
 
             finalProductionList = productionList.getResults();
             finalProductionList.forEach(p->p.setMedia_type(productionType));
+            finalProductionList.forEach(p->p.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(p))));
             productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
 
         }

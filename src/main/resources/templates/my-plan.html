@@ -3,38 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+  <style>
+    p {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 <div th:insert="(~{navbar :: navbar})"></div>
-<br>
 <div class="container">
-  <div class="row">
-    <div class="col-sm-4">
-      <form th:action="@{/myplan/date}" method="get">
-        <div class="row">
-          <div class="col-sm-3">
-            <label for="date">Select Date: </label>
-          </div>
-          <div class="col-sm-7">
-            <input type="date" id="date" name="date" class="form-control" th:value="${date}">
-          </div>
-          <div class="col-sm-2">
-            <input type="submit" value="Select" class="btn btn-primary"/>
-          </div>
-        </div>
-      </form>
+  <form th:action="@{/myplan/date}" action="get">
+    <div class="row">
+      <div class="col-sm">
+        <label for="date">Select Date: </label>
+      </div>
+      <div class="col-sm">
+        <input type="date" id="date" name="date" class="form-control" th:value="${date}">
+      </div>
+      <div class="col-sm">
+        <input type="submit" value="Select" class="btn btn-primary"/>
+      </div>
     </div>
-    <div class="col-sm-4" th:each="production:${productions}">
-      <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
-      <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
-      <br>
-      <span th:text="${production.getName()}"></span>
-      <br><br>
-      </a>
+  </form>
+  <div class="date-entry-container" th:if="${!entriesWithDates.isEmpty()}" th:each="entry:${entriesWithDates}">
+    <div class="row">
+      <p class="text-left font-weight-bold" th:text="${#dates.format(entry.getKey(), 'EEEE dd MMMM yyyy')}"></p>
     </div>
+    <div class="row justify-content-start">
+      <div class="col-xs" th:each="production:${entry.getValue()}">
+        <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
+           style="text-decoration:none;color:black">
+          <img
+              th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
+        </a>
+        <p class="font-weight-normal" th:text="${production.getName()}"></p>
+        <p class="font-italic">
+          <span th:if="${production.getMedia_type().equals('movie')}" th:text="${production.getRuntime()} + ' minutes'"></span>
+          <span th:if="${production.getMedia_type().equals('tv') and !production.getEpisodeRunTime().isEmpty()}" th:text="${production.episodeRunTime[0]} + ' minutes'"></span>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-start" th:unless="${!entriesWithDates.isEmpty()}">
+    <p>You have no upcoming movies or TV shows planned.</p>
   </div>
 </div>
 </body>
 </html>
-

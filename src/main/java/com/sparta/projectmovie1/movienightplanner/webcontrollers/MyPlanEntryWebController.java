@@ -1,21 +1,17 @@
 package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
 import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
-import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
 import com.sparta.projectmovie1.movienightplanner.services.MyPlanService;
 
-import java.net.http.HttpResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
-import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class MyPlanEntryWebController {
@@ -31,7 +27,7 @@ public class MyPlanEntryWebController {
 
   @GetMapping("/myplan")
   public String getAllProductionsInPlan(Model model) {
-    model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
+    model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan());
     return "my-plan";
   }
 
@@ -46,6 +42,7 @@ public class MyPlanEntryWebController {
     }
 
     model.addAttribute("productions", myPlanService.getProductionsOnDate(formattedDate));
+    model.addAttribute("date", formattedDate);
     return "my-plan-date";
   }
 
@@ -53,7 +50,7 @@ public class MyPlanEntryWebController {
   public String createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry,
                             Model model) {
     myPlanEntryRepository.save(myPlanEntry);
-    model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
+    model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan());
     return "my-plan";
   }
 
@@ -64,7 +61,7 @@ public class MyPlanEntryWebController {
           myPlanEntry.setMovie(true);
         }
         myPlanEntryRepository.save(myPlanEntry);
-        model.addAttribute("productions", myPlanService.getAllProductionsInPlan());
+        model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan());
         return "my-plan";
 
 

@@ -27,7 +27,8 @@ public class SearchServiceTests {
     @Autowired
     SearchService searchService;
 
-    //SearchService spySearchService = Mockito.spy(searchService);
+    @MockBean
+    MovieService movieService;
 
     @Value("${tmdb.api.key}")
     private String tmdbApiKey;
@@ -46,7 +47,7 @@ public class SearchServiceTests {
         productionList.setResults(productions);
 
         Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/trending/all/"+timeWindow+"?language=en-US&api_key="+tmdbApiKey, ProductionList.class)).thenReturn(productionList);
-
+        Mockito.when(movieService.getReleaseYearFromReleaseDate(Mockito.any(Production.class))).thenReturn("2023");
         Assertions.assertEquals(2,searchService.getTrendingproductionsNew("day").size());
     }
 
@@ -290,7 +291,7 @@ public class SearchServiceTests {
 
         Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + genreName + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
         Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/genre/" + productionType + "/list" + "?&api_key=" + tmdbApiKey, GenreList.class)).thenReturn(genreList);
-
+        Mockito.when(movieService.getReleaseYearFromReleaseDate(Mockito.any(Production.class))).thenReturn("2023");
         Assertions.assertEquals(1,searchService.getAllSearchResults(null,productionType,searchGenre,page).getResults().size());
 
     }
