@@ -5,12 +5,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" th:fragment="navbar">
     <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/index}">
-            <img th:src="@{/images/spartalogo.jpg}" width="150px" height="75px">&nbsp;<b>MovieNightPlanner</b>
+            <img th:src="@{/images/spartalogo.jpg}" width="150px" height="75px">&nbsp;
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item " style="color:white"><h3><b>MovieNightPlanner</b></h3></li>
+            </ul>
             <ul class="navbar-nav ms-auto">
             <li class="nav-item ">
                 <a class="nav-link active" aria-current="page" th:href="@{/myplan}">MyPlan</a>
