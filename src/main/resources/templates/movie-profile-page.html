@@ -58,7 +58,7 @@
         </div>
         <div id="content" class="container-fluid">
             <div class="w-25 float-end col border border-1 rounded ">
-                <div class="mt-3 mx-3 text-center">
+                <div th:if="${!production.offers.isEmpty()}" class="mt-3 mx-3 text-center">
                     <button type="button" class="btn btn-primary"
                             data-bs-toggle="modal" data-bs-target="#addToMyPlanForm">Add to My Plan
                     </button>
@@ -142,10 +142,10 @@
                             th:with="h=${production.runtime}/60,m=${production.runtime}%60">
                             <th>Runtime</th>
                             <td class="border-start"
-                                th:if="${h>0}" th:text="${#numbers.formatInteger(h - (h%1),0)}+'h '+${m}+'m'"
+                                th:if="${production.runtime>60}" th:text="${#numbers.formatInteger(h - (h%1),0)}+'h '+${m}+'m'"
                             ></td>
                             <td class="border-start"
-                                th:if="${h<0}" th:text="${m}+'m'"
+                                th:if="${production.runtime<60}" th:text="${m}+'m'"
                             ></td>
                         </tr>
 
@@ -163,7 +163,7 @@
                             <th>Directors</th>
                             <td class="border-start">
                                 <ul class="list-unstyled" th:each="crew:${production.crew}">
-                                    <li th:if="${crew.job=='Director'}" th:text="${production.name}">Name</li>
+                                    <li th:if="${crew.job=='Director'}" th:text="${crew.name}">Name</li>
                                 </ul>
                             </td>
                         </tr>
@@ -206,7 +206,7 @@
                     <div data-jw-widget
                          data-api-key="ABCdef12"
                          th:attr="data-object-type=${production.media_type},
-                     data-title=${production.name},
+                     data-title=${production.name.toLowerCase()},
                      data-year=${production.releaseYear},
                      data-theme='light'"
                     ></div>
