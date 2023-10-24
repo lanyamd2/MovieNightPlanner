@@ -39,8 +39,8 @@ public class SearchService {
             /*if(production.getMedia_type().equals("movie")){
                 production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
             }*/
-            //production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
-            if(production.getMedia_type().equals("movie")){
+            production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
+          /*  if(production.getMedia_type().equals("movie")){
                 production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
             }
             else{
@@ -49,7 +49,7 @@ public class SearchService {
                 production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
                 production.setMedia_type("tv");
 
-            }
+            }*/
 
         }
         return trending;
@@ -111,7 +111,23 @@ public class SearchService {
 
             finalProductionList = productionList.getResults();
             finalProductionList.forEach(p->p.setMedia_type(productionType));
-            finalProductionList.forEach(p->p.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(p))));
+            //finalProductionList.forEach(p->p.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(p))));
+
+            for(Production production:finalProductionList){
+
+            if(production.getMedia_type().equals("movie")){
+                production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
+            }
+            else{
+
+                production.setMedia_type("show");
+                production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
+                production.setMedia_type("tv");
+
+            }
+
+            }
+
             productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
 
         }
