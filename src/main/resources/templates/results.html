@@ -161,6 +161,25 @@
                                         <div class="invalid-feedback">Please fill out this field</div>
                                     </div>
                                 </div>
+                                <!--where to watch starts-->
+                                <div class="row">
+                                    <div data-jw-widget
+                                         data-api-key="ABCdef12"
+                                         th:attr="data-object-type=${production.getMedia_type() eq 'movie'?'movie':'show'},
+                     data-title=${#strings.toLowerCase(production.getName())},
+                     data-year=${production.getReleaseYear()},
+                     data-theme='light'"
+                                    ></div>
+                                    <div style="">
+                                        <a style="display:flex; font-size: 11px; font-family: sans-serif; color: black; text-decoration: none; align-items:center;"
+                                           target="_blank" data-original="https://www.justwatch.com" href="https://www.justwatch.com">
+                                            <img alt="JustWatch" height="11px"
+                                                 src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg">
+                                        </a>
+                                    </div>
+                                    <script async src="https://widget.justwatch.com/justwatch_widget.js"></script>
+                                </div>
+                                <!--where to watch ends-->
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
                                     </button>
