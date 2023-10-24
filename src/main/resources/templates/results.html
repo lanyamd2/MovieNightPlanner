@@ -88,6 +88,7 @@
 
     <br>
     <h2>Search Results..</h2>
+    <span id="theNum" th:text="${productions.size()}" class="d-none"></span>
     <br>
     <!--Next and Back Button Section starts-->
     <div class="row">
@@ -141,17 +142,6 @@
                                         </div>
                                         <div class="invalid-feedback">Please fill out this field</div>
                                     </div>
-                                    <div class="row d-none">
-                                        <div class="col-sm-3">
-                                            <label for="isMovie">Is this a movie: </label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <!--<input type="checkbox" id="isMovie" name="isMovie" class="form-check-input"  th:checked="${production.getMedia_type().equals('movie')}?true:false" th:field="${myPlanEntry.isMovie}"/>-->
-                                            <input type="checkbox" id="isMovie" name="isMovie" class="form-check-input"  th:checked="${production.getMedia_type()} eq 'movie'?true:false"/>
-                                            <!--<input th:if="${production.getMedia_type().equals('movie')}" type="text" id="isMovie" name="isMovie" class="form-control"  th:value="true" placeholder="true" required/>-->
-                                        </div>
-                                        <div class="invalid-feedback">Please fill out this field</div>
-                                    </div>
 
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -187,13 +177,19 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 <script>
     var today = new Date().toISOString().split('T')[0];
-    document.getElementById("date").setAttribute("min", today);
 
-    const maxDate = new Date().toISOString().split('T')[0];
+    const maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + 30);
     const [maxDateFormatted] = maxDate.toISOString().split('T');
 
-    document.getElementById("date").setAttribute("max", maxDateFormatted);
+    console.log(document.getElementById("theNum"))
+    var l=document.getElementById("theNum").innerHTML
+    console.log(l)
+    for(let i=0;i<l;i++){
+    var theId="addToMyPlanForm"+i;
+    document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].childNodes[1].setAttribute("min",today)
+    document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].childNodes[1].setAttribute("max",maxDateFormatted)
+    }
 
 </script>
 <script>

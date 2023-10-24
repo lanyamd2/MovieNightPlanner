@@ -88,7 +88,7 @@
     <!--Sorting Section ends here-->
 
 <h2>Trending <span th:text="${selectedTimeWindow}"></span>..</h2>
-    <span id="theNum" th:text="${productions.size()}"></span>
+    <span id="theNum" th:text="${productions.size()}" class="d-none"></span>
 <br>
 <!--Trending movies/tv display section starts here-->
 
@@ -118,7 +118,7 @@
                  aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form th:action="@{'/addtoplan/'+${production.getMedia_type()}}"  method="post" onsubmit="return validateForm()" name="myForm" >
+                        <form th:action="@{'/addtoplan/'+${production.getMedia_type()}}"  method="post">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Choose a date</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -166,17 +166,15 @@
 </div>
 <script>
     var today = new Date().toISOString().split('T')[0];
-    document.getElementById("date").setAttribute("min", today);
+
     const maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + 30);
     const [maxDateFormatted] = maxDate.toISOString().split('T');
-    document.getElementById("date").setAttribute("max", maxDateFormatted);
-
 
     console.log(document.getElementById("theNum"))
     var l=document.getElementById("theNum").innerHTML
     console.log(l)
-    for(let i=1;i<l;i++){
+    for(let i=0;i<l;i++){
     var theId="addToMyPlanForm"+i;
     document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].childNodes[1].setAttribute("min",today)
     document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].childNodes[1].setAttribute("max",maxDateFormatted)
