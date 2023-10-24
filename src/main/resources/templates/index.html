@@ -11,6 +11,13 @@
 
     <!--Adding external style sheet-->
     <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
+    <style>
+        .searchsection{
+        margin:auto;
+        padding:2%;
+        background-color:pink;
+}
+    </style>
 
 </head>
 <body onload="changeOptions()">
@@ -22,7 +29,7 @@
 <div class="container">
 
 <!--Search Section starts here-->
-<div class="searchsection" style="margin:auto">
+<div class="searchsection" style="margin:auto;">
 <!--<form th:action="@{/search-results}" method="post">-->
 <form th:action="@{/search-results-new}" method="post">
 <div class="container">
