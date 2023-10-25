@@ -58,7 +58,7 @@
 <br>
 <!--Trending movies/tv display section starts here-->
 
-<div class="displaySection">
+<div class="displaySection d-flex justify-content-center align-items-center">
 <div class="row">
     <div class="col-sm-3" th:each="production,status:${productions}">
     <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
