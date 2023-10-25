@@ -24,12 +24,13 @@
         }
     </style>
 </head>
-<body onload="changeOptions()">
+<body onload="changeOptions()" style="color: #411F50;">
 <!--Nav bar and search bar begin here-->
 <div th:insert="navbar :: navbar"></div>
 <div th:insert="(~{searchbar.html})"></div>
 <!--nav bar and search bar end here-->
 <!--Profile Page begins here-->
+<div class="container">
 <div>
     <main lang="en-GB">
         <div id="header" class="mx-2" style="margin-top: 20px;">
@@ -170,10 +171,14 @@
                 </div>
                 <div class="mx-3">
                     <h4 class="border-bottom">Content</h4>
-                    <ol class="list-unstyled mx-3">
-                        <li><a href="#Overview" th:if="${production.overview!=null}">Overview</a></li>
-                        <li><a href="#Offers" th:if="${production.offers!=null}">Where to Watch</a></li>
-                    </ol>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col">
+                            <ol class="list-unstyled mx-3">
+                                <li class="d-inline-block"><a href="#Overview" th:if="${production.overview!=null}" class="btn btn-dark">Overview</a></li>
+                                <li class="d-inline-block"><a href="#Offers" th:if="${production.offers!=null}" class="btn btn-dark">Where to Watch</a></li>
+                            </ol>
+                        </div>
+                    </div>
                 </div>
                 <div th:if="${production.overview!=null}" class="mx-3">
                     <h4 id="Overview" class="border-bottom">Overview</h4>
@@ -203,6 +208,7 @@
 
         </div>
     </main>
+</div>
 </div>
 <script>
     var today = new Date().toISOString().split('T')[0];
