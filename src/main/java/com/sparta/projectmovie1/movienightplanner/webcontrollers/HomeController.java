@@ -25,7 +25,7 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = {"/index","/home","/"},method = RequestMethod.GET)
+    @RequestMapping(value = {"/index","/home","/"})
     public String showIndexPage(@RequestParam(required = false) String timeWindow,
                                @RequestParam(required = false) String sortBy,
                                Model model){

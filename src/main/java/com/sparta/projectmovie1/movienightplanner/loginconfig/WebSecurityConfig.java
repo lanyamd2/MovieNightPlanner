@@ -29,7 +29,7 @@ public class WebSecurityConfig {
                                         "/home",
                                         "/index",
                                         "/registration",
-                                        "/search-results-new",
+                                        "/search-results-new/**",
                                         "/details/**",
                                         "/api/**",
                                         "/css/**",
