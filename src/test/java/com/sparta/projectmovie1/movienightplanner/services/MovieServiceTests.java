@@ -100,8 +100,8 @@ public class MovieServiceTests {
     }
     private static Stream<Arguments> justWatchUrlTestCases(){
         return Stream.of(
-                Arguments.arguments("movie","en_GB","the breakfast club","1985","https://apis.justwatch.com/contentpartner/v2/content/offers/object_type/movie/locale/en_GB?title=the breakfast club&release_year=1985&token=ABCdef12"),
-                Arguments.arguments("show","en_GB", "wonder woman","1976","https://apis.justwatch.com/contentpartner/v2/content/offers/object_type/show/locale/en_GB?title=wonder woman&release_year=1976&token=ABCdef12")
+                Arguments.arguments("movie","en_GB","the breakfast club","1985","https://apis.justwatch.com/contentpartner/v2/content/offers/object_type/movie/locale/en_GB?title=the breakfast club &release_year=1985&token=ABCdef12"),
+                Arguments.arguments("show","en_GB", "wonder woman","1976","https://apis.justwatch.com/contentpartner/v2/content/offers/object_type/show/locale/en_GB?title=wonder woman &release_year=1976&token=ABCdef12")
         );
     }
 

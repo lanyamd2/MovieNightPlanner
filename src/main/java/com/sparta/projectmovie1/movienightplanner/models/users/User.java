@@ -1,4 +1,4 @@
-package com.sparta.projectmovie1.movienightplanner.models;
+package com.sparta.projectmovie1.movienightplanner.models.users;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -24,6 +24,8 @@ public class User {
     private String email;
     @JsonProperty("password")
     private String password;
+
+    private String roles;
 
     public String getId() {
         return id;
@@ -73,6 +75,14 @@ public class User {
         this.password = password;
     }
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -82,6 +92,7 @@ public class User {
                 ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", roles='" + roles + '\'' +
                 '}';
     }
 }

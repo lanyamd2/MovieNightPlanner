@@ -17,7 +17,8 @@
 <div class="container-fluid">
     <div class="login-container">
         <h2 class="text-center">Login</h2>
-        <form th:action="@{/login}" method="POST">
+        <div th:if="${param.logout}">You have been logged out.</div>
+        <form th:action="@{/login}" method="post">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required aria-label="Username" />
