@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class HomeController {
     }
 
 
-    @RequestMapping("/index")
+    @RequestMapping(value = {"/index","/home","/"},method = RequestMethod.GET)
     public String showIndexPage(@RequestParam(required = false) String timeWindow,
                                @RequestParam(required = false) String sortBy,
                                Model model){
@@ -45,7 +46,7 @@ public class HomeController {
         MyPlanEntry myPlanEntry=new MyPlanEntry();
         model.addAttribute("myPlanEntry",myPlanEntry);
 
-        return "index.html";
+        return "index";
     }
     
     @RequestMapping("/search-results-new")
