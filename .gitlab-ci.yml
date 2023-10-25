@@ -12,14 +12,25 @@ build:
     script:
         - echo "Maven build started"
         - "mvn clean package"
-    artifacts:
-        paths:
-            - target/
+        - pwd
+        - ls
     only:
         - dev
+
 test:
     stage: test
     script:
         - echo "Maven test started"
         - "mvn verify"
-        - pwd
+
+deploy staging:
+    stage: deploy
+    environment:
+        name: staging
+    script:
+        - echo "Maven deploy to staging started"
+        - cd /builds/movie-night-planner-2/mnp1/target
+        - scp -i "$SSH_PRIVATE_KEY" MovieNightPlanner-0.0.1-SNAPSHOT.jar ec2-user@54.67.32.245:/home/ec2-user
+        - ssh -i "$SSH_PRIVATE_KEY" ec2-user@ec2-54-67-32-245.us-west-1.compute.amazonaws.com "java -jar /home/ec2-user/MovieNightPlanner-0.0.1-SNAPSHOT.jar"
+    only:
+        - dev
