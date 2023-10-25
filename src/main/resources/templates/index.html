@@ -11,14 +11,6 @@
 
     <!--Adding external style sheet-->
     <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
-    <style>
-        .searchsection{
-        margin:auto;
-        padding:2%;
-        background-color:pink;
-}
-    </style>
-
 </head>
 <body onload="changeOptions()">
 <!--NavBar begins here-->
@@ -36,9 +28,9 @@
     <div class="row">
             <div class="col-sm-3">
                 <div class="row">
-                    <div class="col-sm-2"><label for="searchQuery" class="form-label">Search</label></div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="searchQuery" name="searchQuery">
+<!--                    <div class="col-sm-2"><label for="searchQuery" class="form-label">Search</label></div>-->
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" id="searchQuery" name="searchQuery" placeholder="Search">
                     </div>
                 </div>
             </div>
@@ -72,14 +64,14 @@
         <form th:action="@{/index}" method="post">
         <div class="row">
             <div class="col-sm-4">
-                <select class="form-select form-select-sm" name="timeWindow" id="timeWindow">
+                <select class="form-select form-select-sm" name="timeWindow" id="timeWindow" style="border-color: #411F50;">
                     <option value="" disabled selected>Choose Trending Time Window</option>
                     <option value="day">Trending Today</option>
                     <option value="week">Trending This Week</option>
                 </select>
             </div>
             <div class="col-sm-4">
-                <select class="form-select form-select-sm" name="sortBy" id="sortBy">
+                <select class="form-select form-select-sm" name="sortBy" id="sortBy" style="border-color: #411F50;">
                     <option value="" disabled selected>SortBy</option>
                     <option value="popularity">Popularity</option>
                 </select>
