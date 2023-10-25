@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +26,14 @@ public class MyPlanEntryWebController {
     this.myPlanEntryRepository = myPlanEntryRepository;
   }
 
+//  @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("/myplan")
   public String getAllProductionsInPlan(Model model) {
     model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan());
     return "my-plan";
   }
 
+//  @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("/myplan/date")
   public String getMoviesOnDate(Model model, @RequestParam String date) {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -46,6 +49,7 @@ public class MyPlanEntryWebController {
     return "my-plan-date";
   }
 
+//  @PreAuthorize("hasRole('ROLE_USER')")
   @PostMapping("/myplan/create")
   public String createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry,
                             Model model) {
@@ -54,6 +58,8 @@ public class MyPlanEntryWebController {
     return "my-plan";
   }
 
+
+//  @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping("addtoplan/{productionType}")
     public String addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry, Model model){
 
