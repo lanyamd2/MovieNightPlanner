@@ -22,4 +22,4 @@ test:
     script:
         - echo "Maven test started"
         - "mvn verify"
-        - ls -R
+        - pwd
