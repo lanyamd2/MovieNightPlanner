@@ -31,6 +31,7 @@ public class WebSecurityConfig {
                                         "/registration",
                                         "/search-results-new",
                                         "/details/**",
+                                        "/api/**",
                                         "/css/**",
                                         "/images/**",
                                         "/fonts/**",
