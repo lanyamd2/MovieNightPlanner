@@ -41,11 +41,9 @@ public class SearchService {
         ProductionList productionList=restTemplate.getForObject("https://api.themoviedb.org/3/trending/all/"+timeWindow+"?language=en-US&api_key="+tmdbApiKey, ProductionList.class);
         List<Production> trending=productionList.getResults();
         for(Production production:trending){
-            /*if(production.getMedia_type().equals("movie")){
-                production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
-            }*/
-            production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
-          /*  if(production.getMedia_type().equals("movie")){
+
+            //production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
+            if(production.getMedia_type().equals("movie")){
                 production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
             }
             else{
@@ -54,7 +52,7 @@ public class SearchService {
                 production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
                 production.setMedia_type("tv");
 
-            }*/
+            }
 
         }
         return trending;
@@ -89,6 +87,21 @@ public class SearchService {
             finalProductionList = finalList.stream().filter(p -> p.getGenre_ids().contains(searchGenre)).collect(Collectors.toList());
             //finalProductionList.forEach(p->p.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(p))));
             /*------------Set production offers here----------------*/
+            for(Production production:finalProductionList){
+
+                if(production.getMedia_type().equals("movie")){
+                    production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
+                }
+                else{
+
+                    production.setMedia_type("show");
+                    production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
+                    production.setMedia_type("tv");
+
+                }
+
+            }
+
             productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
 
         }
@@ -121,7 +134,7 @@ public class SearchService {
             //finalProductionList.forEach(p->p.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(p))));
 
             /*---------------1st approch------------------*/
-            /*for(Production production:finalProductionList){
+            for(Production production:finalProductionList){
 
             if(production.getMedia_type().equals("movie")){
                 production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
@@ -134,10 +147,10 @@ public class SearchService {
 
             }
 
-            }*/
+            }
 
             /*-----------2nd approch--------------*/
-            List<Production> movies=new ArrayList<>();
+         /*   List<Production> movies=new ArrayList<>();
             List<Production> series=new ArrayList<>();
             for(Production production:finalProductionList){
                 if(production.getMedia_type().equals("movie")){
@@ -152,7 +165,7 @@ public class SearchService {
             }
 
             finalProductionList=movies;
-            finalProductionList.addAll(series);
+            finalProductionList.addAll(series);*/
             /*-----------------------------------------------------*/
 
             productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());

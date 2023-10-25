@@ -156,7 +156,7 @@
                                             <label for="date">Select Date: </label>
                                         </div>
                                         <div class="col-sm-7">
-                                            <input type="date" id="date" name="date" class="form-control my-date"  required>
+                                            <input type="date" id="date" name="date" class="form-control "  th:disabled="${production.offers.isEmpty()}" required>
                                         </div>
                                         <div class="invalid-feedback">Please fill out this field</div>
                                     </div>
@@ -194,7 +194,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
                                     </button>
-                                    <button type="submit" class="btn btn-primary">Select</button>
+                                    <button type="submit" class="btn btn-primary" th:if="${!production.offers.isEmpty()}">Select</button>
                                 </div>
                             </form>
                         </div>
