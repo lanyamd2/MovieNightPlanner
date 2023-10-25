@@ -28,17 +28,18 @@
         <input type="date" id="date" name="date" class="form-control" required th:value="${date}">
       </div>
       <div class="col-sm">
-        <input type="submit" value="Select" class="btn btn-primary"/>
+        <input type="submit" value="Select" class="btn btn-dark"/>
       </div>
     </div>
   </form>
   </div>
   <div class="date-entry-container" style="margin-top: 20px;">
     <div class="row">
-      <div class="col-md-3">
-        <p class="text-left font-weight-bold" th:text="${#dates.format(date, 'EEEE dd MMMM yyyy')}"></p>
+      <div class="col-md-2 text-left">
+        <p class="day-name" th:text="${#dates.format(date, 'EEEE')}"></p>
+        <p class="full-date" th:text="${#dates.format(date, 'dd MMMM yyyy')}"></p>
       </div>
-      <div class="col-md-9">
+      <div class="col-md-10">
         <div class="row justify-content-start">
           <div class="col-xs" th:if="${!productions.isEmpty()}" th:each="production:${productions}">
             <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
