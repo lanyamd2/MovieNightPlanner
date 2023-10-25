@@ -39,7 +39,11 @@ public class SearchServiceTests {
 
         String timeWindow="day";
         Production p1=new Production();
+        p1.setName("abc");
+        p1.setMedia_type("movie");
         Production p2=new Production();
+        p2.setName("xyz");
+        p2.setMedia_type("movie");
         List<Production> productions=new ArrayList<>();
         productions.add(p1);
         productions.add(p2);
@@ -47,7 +51,8 @@ public class SearchServiceTests {
         productionList.setResults(productions);
 
         Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/trending/all/"+timeWindow+"?language=en-US&api_key="+tmdbApiKey, ProductionList.class)).thenReturn(productionList);
-        Mockito.when(movieService.getReleaseYearFromReleaseDate(Mockito.any(Production.class))).thenReturn("2023");
+        //Mockito.when(movieService.getReleaseYearFromReleaseDate(Mockito.any(Production.class))).thenReturn("2023");
+        Mockito.when(movieService.setProductionOffers(Mockito.any(Production.class),Mockito.any(String.class))).thenReturn(2023);
         Assertions.assertEquals(2,searchService.getTrendingproductionsNew("day").size());
     }
 

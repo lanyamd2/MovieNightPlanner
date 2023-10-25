@@ -11,58 +11,16 @@
 
     <!--Adding external style sheet-->
     <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
-    <style>
-        .searchsection{
-        margin:auto;
-        padding:2%;
-        background-color:pink;
-}
-    </style>
 
 </head>
 <body onload="changeOptions()">
 <!--NavBar begins here-->
 <div th:insert="navbar :: navbar">  </div>
-<!--<div th:insert="(~{navbar :: navbar})"></div>-->
 <!--Navbar ends here-->
-<br>
-<div class="container">
-
 <!--Search Section starts here-->
-<div class="searchsection" style="margin:auto;">
-<!--<form th:action="@{/search-results}" method="post">-->
-<form th:action="@{/search-results-new}" method="post">
-<div class="container">
-    <div class="row">
-            <div class="col-sm-3">
-                <div class="row">
-                    <div class="col-sm-2"><label for="searchQuery" class="form-label">Search</label></div>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="searchQuery" name="searchQuery">
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-3">
-                <select class="form-select" name="productionType" id="productionType" onchange="changeOptions()">
-                    <option value="movie">Movie</option>
-                    <option value="tv">Tv</option>
-                </select>
-            </div>
-            <div class="col-sm-3">
-                <select class="form-select" name="searchGenre" id="searchGenre">
-                </select>
-            </div>
-            <div class="col-sm-3">
-                <input type="submit" class="btn btn-dark" value="Search">
-            </div>
-
-
-    </div>
-</div>
-</form>
-</div>
+<div th:insert="(~{searchbar.html})"></div>
 <!--Search Section ends here-->
+<div class="container">
 <br>
     <!--Sorting Section starts here-->
 <div class="sortSection">
