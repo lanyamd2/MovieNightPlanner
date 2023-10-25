@@ -43,7 +43,7 @@ public class HomeControllerTests {
                 .andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 
         ModelAndView mav=mvcResult.getModelAndView();
-        ModelAndViewAssert.assertViewName(mav,"index.html");
+        ModelAndViewAssert.assertViewName(mav,"index");
         ModelAndViewAssert.assertModelAttributeAvailable(mav,"productions");
         ModelAndViewAssert.assertModelAttributeAvailable(mav,"selectedTimeWindow");
 
