@@ -56,7 +56,9 @@
     <!--Sort section ends here-->
 
     <br>
-    <h2>Search Results..</h2>
+    <h2>Search Results for - <span th:text="${#strings.capitalize(lastSearchCriteria.getProductionType())}"></span>,
+                            <span th:text="${lastSearchGenreName}"></span>
+    </h2>
     <span id="theNum" th:text="${productions.size()}" class="d-none"></span>
     <br>
     <!--Next and Back Button Section starts-->
@@ -126,7 +128,7 @@
                                 <div class="row">
                                     <div class="col-sm-1"></div>
                                     <div class="col-sm-10">
-                                        <h4>Where to watch</h4>
+                                        <h5><b>Streaming Offers</b></h5>
                                     </div>
                                     <div class="col-sm-1"></div>
                                 </div>
