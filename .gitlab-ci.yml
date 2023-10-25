@@ -3,26 +3,30 @@ image: maven:3.8.3-openjdk-17
 stages:
     - build
     - test
-    - package
     - deploy
 
 build:
     stage: build
-    tags:
-        - docker
+    tags: docker
     script:
         - echo "Maven build started"
         - "mvn clean package"
-    artifacts:
-        paths:
-            - target
     only:
         - dev
-
 test:
     stage: test
-    tags:
-        - docker
     script:
         - echo "Maven test started"
         - "mvn verify"
+
+deploy staging:
+    stage: deploy
+    environment:
+        name: staging
+        url: HTTP://localhost:8080
+    needs: [test]
+    script:
+        - echo "Maven deploy to staging started"
+        - java -jar target/MovieNightPlanner-0.0.1-SNAPSHOT.jar --spring.profiles.active=staging
+    only:
+        - dev

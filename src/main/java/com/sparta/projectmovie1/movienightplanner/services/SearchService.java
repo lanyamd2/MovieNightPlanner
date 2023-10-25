@@ -1,13 +1,15 @@
 package com.sparta.projectmovie1.movienightplanner.services;
 
 import com.sparta.projectmovie1.movienightplanner.models.*;
-import com.sparta.projectmovie1.movienightplanner.services.exceptions.InvalidPageException;
+import com.sparta.projectmovie1.movienightplanner.services.exceptions.InvalidGenreIdException;
+import com.sparta.projectmovie1.movienightplanner.services.exceptions.TmDbApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,18 +22,27 @@ public class SearchService {
     private String justwatchApiKey;
 
     private RestTemplate restTemplate;
+    private MovieService movieService;
 
     @Autowired
-    public SearchService(RestTemplate restTemplate) {
+    public SearchService(RestTemplate restTemplate,MovieService movieService) {
         this.restTemplate = restTemplate;
+        this.movieService=movieService;
     }
+
+
 
     public List<Production> getTrendingproductionsNew(String timeWindow){
         ProductionList productionList=restTemplate.getForObject("https://api.themoviedb.org/3/trending/all/"+timeWindow+"?language=en-US&api_key="+tmdbApiKey, ProductionList.class);
-        return productionList.getResults();
-
+        List<Production> trending=productionList.getResults();
+        for(Production production:trending){
+            /*if(production.getMedia_type().equals("movie")){
+                production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
+            }*/
+            production.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(production)));
+        }
+        return trending;
     }
-
 
     public List<Production> sortResultByPopularityNew(List<Production> results){
 
@@ -57,7 +68,7 @@ public class SearchService {
                 finalList.forEach(p->p.setMedia_type(productionType));
 
             }catch (Exception exception){
-                throw new InvalidPageException(exception.getMessage());
+                throw new TmDbApiException(exception.getMessage());
             }
             finalProductionList = finalList.stream().filter(p -> p.getGenre_ids().contains(searchGenre)).collect(Collectors.toList());
             productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
@@ -66,15 +77,30 @@ public class SearchService {
         else{
 
             GenreList genreList = getGenreList(productionType);
-            String genreName = getGenreName(genreList.getGenres(),searchGenre);
+
+            String genreName=null;
+            try{
+                genreName= getGenreName(genreList.getGenres(),searchGenre);
+            }catch (InvalidGenreIdException exception){
+                throw exception;
+            }
+
 
             System.out.println(productionType+"-----------------"+genreName);
+            ProductionList productionList=null;
 
+            try{
+                 productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + genreName + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
 
-            ProductionList productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + genreName + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+            }catch(Exception exception){
+
+                throw new TmDbApiException(exception.getMessage());
+            }
+
 
             finalProductionList = productionList.getResults();
             finalProductionList.forEach(p->p.setMedia_type(productionType));
+            finalProductionList.forEach(p->p.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(p))));
             productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
 
         }
@@ -87,7 +113,15 @@ public class SearchService {
     }
 
     public String getGenreName(List<Genre> genres,Integer searchGenre){
-        return genres.stream().filter(g -> g.getId() == searchGenre).findFirst().get().getName();
+        String genreName=null;
+        try{
+             genreName=genres.stream().filter(g -> g.getId() == searchGenre).findFirst().get().getName();
+
+        }catch(NoSuchElementException exception){
+            throw new InvalidGenreIdException("Invalid searchGenre - searchGenre does not exist");
+        }
+
+        return genreName;
     }
 
 
