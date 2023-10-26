@@ -12,6 +12,7 @@
     <!--Adding external style sheet-->
     <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
 
+
 </head>
 <body onload="changeOptions()">
 <!--NavBar begins here-->
@@ -60,7 +61,7 @@
 
 <div class="displaySection d-flex justify-content-center align-items-center">
 <div class="row">
-    <div class="col-sm-3" th:each="production,status:${productions}">
+    <div class="col-sm-3 displayTile" th:each="production,status:${productions}">
     <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
     <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
     <br>
