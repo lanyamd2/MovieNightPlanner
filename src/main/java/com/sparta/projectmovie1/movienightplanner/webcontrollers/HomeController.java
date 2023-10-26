@@ -1,9 +1,6 @@
 package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
-import com.sparta.projectmovie1.movienightplanner.models.LastSearchCriteria;
-import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
-import com.sparta.projectmovie1.movienightplanner.models.Production;
-import com.sparta.projectmovie1.movienightplanner.models.ProductionList;
+import com.sparta.projectmovie1.movienightplanner.models.*;
 import com.sparta.projectmovie1.movienightplanner.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +22,7 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = {"/index","/home","/"},method = RequestMethod.GET)
+    @RequestMapping(value = {"/index","/home","/"})
     public String showIndexPage(@RequestParam(required = false) String timeWindow,
                                @RequestParam(required = false) String sortBy,
                                Model model){
@@ -63,6 +60,8 @@ public class HomeController {
         }
         LastSearchCriteria lastSearchCriteria=new LastSearchCriteria(searchQuery,productionType,searchGenre);
         model.addAttribute("lastSearchCriteria",lastSearchCriteria);
+        List<Genre> genres=searchService.getGenreList(productionType).getGenres();
+        model.addAttribute("lastSearchGenreName",searchService.getGenreName(genres,searchGenre));
 
         //List<Production> productions=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
         ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);

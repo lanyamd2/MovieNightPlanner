@@ -13,5 +13,11 @@ public interface MyPlanEntryRepository extends MongoRepository<MyPlanEntry, Stri
   List<MyPlanEntry> findMyPlanEntriesByDate(Date date);
 
   @Query
+  List<MyPlanEntry> findMyPlanEntriesByUserIdAndDate(String userId, Date date);
+
+  @Query
   List<MyPlanEntry> findMyPlanEntriesByDateGreaterThanEqual(Date date);
+
+  @Query
+  List<MyPlanEntry> findMyPlanEntriesByUserIdAndDateGreaterThanEqual(String userId, Date date);
 }

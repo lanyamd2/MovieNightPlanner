@@ -24,6 +24,14 @@ public class SecurityUser implements UserDetails {
                 .toList();
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();
