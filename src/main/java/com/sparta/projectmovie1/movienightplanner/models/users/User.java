@@ -3,6 +3,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
@@ -16,10 +17,13 @@ public class User {
     @JsonProperty("surname")
     private String surname;
     @NotEmpty
+    @Indexed(unique = true)
+
     @JsonProperty("username")
     private String username;
     @NotEmpty
     @Email
+    @Indexed(unique = true)
     @JsonProperty("email")
     private String email;
     @JsonProperty("password")

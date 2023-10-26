@@ -35,10 +35,11 @@ public class RegistrationController {
             return "registration";
         }
 
+        //service methods to validate username and email address
         user.setRoles("ROLE_USER");
 
         userRepository.save(user);
-        redirectAttributes.addAttribute("successMessage", "Registration successful!");
+        //redirectAttributes.addAttribute("successMessage", "Registration successful!");
         return "redirect:/login";
     }
 }
