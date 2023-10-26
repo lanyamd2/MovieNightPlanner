@@ -38,7 +38,7 @@ public class RegistrationController {
         user.setRoles("ROLE_USER");
 
         userRepository.save(user);
-        redirectAttributes.addAttribute("successMessage", "Registration successful!");
+        //redirectAttributes.addAttribute("successMessage", "Registration successful!");
         return "redirect:/login";
     }
 }
