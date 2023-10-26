@@ -64,7 +64,11 @@ public class MovieService {
             production.setOffers(new ArrayList<Offer>());
         }else{
             releaseYear = getReleaseYearFromReleaseDate(production);
-            production.setOffers(fetchJustWatchOffers(title,production.getMedia_type(),releaseYear));
+            try {
+                production.setOffers(fetchJustWatchOffers(title, production.getMedia_type(), releaseYear));
+            }catch (ProductionNotFoundException e){
+                production.setOffers(new ArrayList<Offer>());
+            }
         }
         return Integer.parseInt(releaseYear);
     }
@@ -92,7 +96,7 @@ public class MovieService {
     }
 
     public String getJustWatchUrl(String title, String type, String releaseYear, String userLocale){
-        return "https://apis.justwatch.com/contentpartner/v2/content/offers/object_type/"+type+"/locale/"+userLocale+"?title="+title+"&release_year="+releaseYear+"&token="+ justWatchApiKey;
+        return "https://apis.justwatch.com/contentpartner/v2/content/offers/object_type/"+type+"/locale/"+userLocale+"?title="+title+" &release_year="+releaseYear+"&token="+ justWatchApiKey;
     }
 
     public String getReleaseYearFromReleaseDate(Production production) {

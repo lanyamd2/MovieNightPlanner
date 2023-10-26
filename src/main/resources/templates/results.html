@@ -12,56 +12,17 @@
     <!--Adding external style sheet-->
     <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
 
-    <style>
-        .searchsection{
-        margin:auto;
-        padding:2%;
-        background-color:pink;
-}
-    </style>
-
 </head>
 <body onload="changeOptions()">
 <!--NavBar begins here-->
-<div th:insert="navbar :: navbar">  </div>
+<!--<div th:insert="navbar :: navbar">  </div>-->
+<div th:insert="(~{navbar.html})"></div>
 <!--Navbar ends here-->
+<!--Search Section starts here-->
+<div th:insert="(~{searchbar.html})"></div>
+<!--Search Section ends here-->
 <br>
 <div class="container">
-
-    <!--Search Section starts here-->
-    <div class="searchsection" style="margin:auto">
-        <form th:action="@{/search-results-new}" method="post">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="row">
-                            <div class="col-sm-2"><label for="searchQuery" class="form-label">Search</label></div>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="searchQuery" name="searchQuery">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <select class="form-select" name="productionType" id="productionType" onchange="changeOptions()">
-                            <option value="movie">Movie</option>
-                            <option value="tv">Tv</option>
-                        </select>
-                    </div>
-                    <div class="col-sm-3">
-                        <select class="form-select" name="searchGenre" id="searchGenre"></select>
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="submit" class="btn btn-dark" value="Search">
-                    </div>
-
-
-                </div>
-            </div>
-        </form>
-    </div>
-    <!--Search Section ends here-->
-
 <br>
     <!--Sorting Section starts here-->
     <div class="sortSection">
@@ -95,7 +56,9 @@
     <!--Sort section ends here-->
 
     <br>
-    <h2>Search Results..</h2>
+    <h2>Search Results for - <span th:text="${#strings.capitalize(lastSearchCriteria.getProductionType())}"></span>,
+                            <span th:text="${lastSearchGenreName}"></span>
+    </h2>
     <span id="theNum" th:text="${productions.size()}" class="d-none"></span>
     <br>
     <!--Next and Back Button Section starts-->
@@ -156,7 +119,7 @@
                                             <label for="date">Select Date: </label>
                                         </div>
                                         <div class="col-sm-7">
-                                            <input type="date" id="date" name="date" class="form-control my-date"  required>
+                                            <input type="date" id="date" name="date" class="form-control "  th:disabled="${#lists.isEmpty(production.offers)}" required>
                                         </div>
                                         <div class="invalid-feedback">Please fill out this field</div>
                                     </div>
@@ -165,7 +128,7 @@
                                 <div class="row">
                                     <div class="col-sm-1"></div>
                                     <div class="col-sm-10">
-                                        <h4>Where to watch</h4>
+                                        <h5><b>Streaming Offers</b></h5>
                                     </div>
                                     <div class="col-sm-1"></div>
                                 </div>
@@ -194,7 +157,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
                                     </button>
-                                    <button type="submit" class="btn btn-primary">Select</button>
+                                    <button type="submit" class="btn btn-danger" th:if="${not #lists.isEmpty(production.offers)}">Select</button>
                                 </div>
                             </form>
                         </div>
@@ -225,8 +188,8 @@
     console.log(l)
     for(let i=0;i<l;i++){
     var theId="addToMyPlanForm"+i;
-    document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].childNodes[1].setAttribute("min",today)
-    document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[3].childNodes[3].childNodes[3].childNodes[1].setAttribute("max",maxDateFormatted)
+    document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[4].childNodes[3].childNodes[3].childNodes[1].setAttribute("min",today)
+    document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[4].childNodes[3].childNodes[3].childNodes[1].setAttribute("max",maxDateFormatted)
     }
 
 </script>

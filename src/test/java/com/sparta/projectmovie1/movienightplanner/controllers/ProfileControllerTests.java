@@ -9,6 +9,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -71,14 +72,17 @@ public class ProfileControllerTests {
     }
 
     @Test
-    public void shouldReturnNotFoundStatusIfMovieNotFoundOnJustWatch(){
+    public void shouldReturnOKStatusIfMovieNotFoundOnJustWatch(){
         this.webTestClient
                 .get()
                 .uri("/api/details/justwatch/no movie/movie/2008")
                 .header(CONTENT_TYPE,APPLICATION_JSON_VALUE)
                 .exchange()
                 .expectStatus()
-                .isEqualTo(NOT_FOUND);
+                .isEqualTo(OK)
+                .expectBody()
+                .jsonPath("$").isEmpty();
+
     }
 
     @Test
