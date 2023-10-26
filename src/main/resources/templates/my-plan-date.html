@@ -7,48 +7,54 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
-  <style>
-    p {
-      text-align: center;
-    }
-  </style>
+  <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div th:insert="(~{navbar :: navbar})"></div>
+<div th:insert="(~{navbar.html})"></div>
+<div th:insert="(~{searchbar.html})"></div>
+<br>
 <div class="container">
+  <div class="searchsection">
   <form th:action="@{/myplan/date}" action="get">
     <div class="row">
-      <div class="col-sm">
+      <div class="col-sm" style="text-align: right">
         <label for="date">Select Date: </label>
       </div>
       <div class="col-sm">
         <input type="date" id="date" name="date" class="form-control" required th:value="${date}">
       </div>
       <div class="col-sm">
-        <input type="submit" value="Select" class="btn btn-primary"/>
+        <input type="submit" value="Select" class="btn btn-dark"/>
       </div>
     </div>
   </form>
-  <div class="date-entry-container">
+  </div>
+  <div class="date-entry-container" style="margin-top: 20px;">
     <div class="row">
-      <p class="text-left font-weight-bold" th:text="${#dates.format(date, 'EEEE dd MMMM yyyy')}"></p>
-    </div>
-    <div class="row justify-content-start">
-      <div class="col-xs" th:if="${!productions.isEmpty()}" th:each="production:${productions}">
-        <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
-           style="text-decoration:none;color:black">
-          <img
-              th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
-        </a>
-        <p class="font-weight-normal" th:text="${production.getName()}"></p>
-        <p class="font-italic">
-          <span th:if="${production.getMedia_type().equals('movie')}" th:text="${production.getRuntime()} + ' minutes'"></span>
-          <span th:if="${production.getMedia_type().equals('tv') and !production.getEpisodeRunTime().isEmpty()}" th:text="${production.episodeRunTime[0]} + ' minutes'"></span>
-        </p>
+      <div class="col-md-2 text-left">
+        <p class="day-name" th:text="${#dates.format(date, 'EEEE')}"></p>
+        <p class="full-date" th:text="${#dates.format(date, 'dd MMMM yyyy')}"></p>
       </div>
-      <p th:unless="${!productions.isEmpty()}">No movies or TV shows have been assigned to this day.</p>
+      <div class="col-md-10">
+        <div class="row justify-content-start">
+          <div class="col-xs" th:if="${!productions.isEmpty()}" th:each="production:${productions}">
+            <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
+               style="text-decoration:none;color:black">
+              <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}"
+                   style="margin-right: 20px; margin-bottom: 10px;">
+            </a>
+            <p class="font-weight-bold" th:text="${production.getName()}" style="color: #411F50; margin-bottom: 20px;"></p>
+            <p class="font-italic">
+              <span th:if="${production.getMedia_type().equals('movie')}" th:text="${production.getRuntime()} + ' minutes'"></span>
+              <span th:if="${production.getMedia_type().equals('tv') and !production.getEpisodeRunTime().isEmpty()}" th:text="${production.episodeRunTime[0]} + ' minutes'"></span>
+            </p>
+          </div>
+          <p th:unless="${!productions.isEmpty()}">No movies or TV shows have been assigned to this day.</p>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>
 </body>
 </html>

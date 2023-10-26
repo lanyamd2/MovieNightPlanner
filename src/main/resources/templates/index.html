@@ -31,14 +31,14 @@
         <form th:action="@{/index}" method="post">
         <div class="row">
             <div class="col-sm-4">
-                <select class="form-select form-select-sm" name="timeWindow" id="timeWindow">
+                <select class="form-select form-select-sm" name="timeWindow" id="timeWindow" style="border-color: #411F50;">
                     <option value="" disabled selected>Choose Trending Time Window</option>
                     <option value="day">Trending Today</option>
                     <option value="week">Trending This Week</option>
                 </select>
             </div>
             <div class="col-sm-4">
-                <select class="form-select form-select-sm" name="sortBy" id="sortBy">
+                <select class="form-select form-select-sm" name="sortBy" id="sortBy" style="border-color: #411F50;">
                     <option value="" disabled selected>SortBy</option>
                     <option value="popularity">Popularity</option>
                 </select>
@@ -58,7 +58,7 @@
 <br>
 <!--Trending movies/tv display section starts here-->
 
-<div class="displaySection">
+<div class="displaySection d-flex justify-content-center align-items-center">
 <div class="row">
     <div class="col-sm-3" th:each="production,status:${productions}">
     <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
