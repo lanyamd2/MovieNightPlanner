@@ -25,7 +25,17 @@ public class MyPlanEntry {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date date;
 
- /* @JsonProperty("date")
+  @JsonProperty("user_id")
+  private String userId;
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+/* @JsonProperty("date")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate date;*/
 
