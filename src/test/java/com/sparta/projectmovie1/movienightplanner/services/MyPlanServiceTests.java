@@ -74,7 +74,7 @@ public class MyPlanServiceTests {
   @Test
   public void MyPlanService_GetProductionsOnDate_ReturnsProductions() {
     Mockito.when(myPlanEntryRepository.findMyPlanEntriesByDate(Mockito.any(java.util.Date.class))).thenReturn(new ArrayList<>());
-    List<Production> productions = myPlanService.getProductionsOnDate(Date.valueOf("2023-10-27"));
+    List<Production> productions = myPlanService.getProductionsOnDate("userID123",Date.valueOf("2023-10-27"));
     Assertions.assertThat(productions).isNotNull();
   }
 }

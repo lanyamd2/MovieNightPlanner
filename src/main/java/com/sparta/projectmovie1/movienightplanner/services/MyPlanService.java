@@ -36,8 +36,8 @@ public class MyPlanService {
     this.restTemplate = restTemplate;
   }
 
-  public Map<Date, List<Production>> getAllProductionsWithDatesInPlan() {
-    List<MyPlanEntry> entries = myPlanEntryRepository.findMyPlanEntriesByDateGreaterThanEqual(
+  public Map<Date, List<Production>> getAllProductionsWithDatesInPlan(String userId) {
+    List<MyPlanEntry> entries = myPlanEntryRepository.findMyPlanEntriesByUserIdAndDateGreaterThanEqual(userId,
         DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
     Map<Date, List<Production>> entriesByDate = new TreeMap<>();
     for(MyPlanEntry entry : entries) {
@@ -49,8 +49,8 @@ public class MyPlanService {
     return entriesByDate;
   }
 
-  public List<Production> getProductionsOnDate(Date date) {
-    return getProductions(myPlanEntryRepository.findMyPlanEntriesByDate(date));
+  public List<Production> getProductionsOnDate(String userId, Date date) {
+    return getProductions(myPlanEntryRepository.findMyPlanEntriesByUserIdAndDate(userId, date));
   }
 
   public List<Production> getProductions(List<MyPlanEntry> myPlanEntries) {
