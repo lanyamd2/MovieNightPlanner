@@ -134,7 +134,7 @@ public class SearchService {
             //finalProductionList.forEach(p->p.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(p))));
 
             /*---------------1st approch------------------*/
-            for(Production production:finalProductionList){
+            /*for(Production production:finalProductionList){
 
             if(production.getMedia_type().equals("movie")){
                 production.setReleaseYear(movieService.setProductionOffers(production,production.getName().toLowerCase()));
@@ -148,9 +148,9 @@ public class SearchService {
             }
 
             }
-
+*/
             /*-----------2nd approch--------------*/
-         /*   List<Production> movies=new ArrayList<>();
+            List<Production> movies=new ArrayList<>();
             List<Production> series=new ArrayList<>();
             for(Production production:finalProductionList){
                 if(production.getMedia_type().equals("movie")){
@@ -165,7 +165,7 @@ public class SearchService {
             }
 
             finalProductionList=movies;
-            finalProductionList.addAll(series);*/
+            finalProductionList.addAll(series);
             /*-----------------------------------------------------*/
 
             productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
