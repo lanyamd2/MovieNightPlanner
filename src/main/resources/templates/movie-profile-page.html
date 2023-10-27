@@ -123,11 +123,11 @@
                                 </ul>
                             </td>
                         </tr>
-                        <tr>
+                        <tr th:if="${!production.releaseDate.isEmpty()}">
                             <th>Release Date</th>
                             <td class="border-start" th:text="${production.releaseDate}"></td>
                         </tr>
-                        <tr th:if="${production.runtime!=null}"
+                        <tr th:if="${production.runtime!=0}"
                             th:with="h=${production.runtime}/60,m=${production.runtime}%60">
                             <th>Runtime</th>
                             <td class="border-start"
@@ -149,7 +149,7 @@
                             <th>Status</th>
                             <td class="border-start" th:text="${production.status}"></td>
                         </tr>
-                        <tr th:if="${production.crew!=null}">
+                        <tr th:if="${!production.crew.isEmpty()}">
                             <th>Directors</th>
                             <td class="border-start">
                                 <ul class="list-unstyled" th:each="crew:${production.crew}">
@@ -165,7 +165,7 @@
                                 </ul>
                             </td>
                         </tr>
-                        <tr th:if="${production.productionCountries!=null}">
+                        <tr th:if="${!production.productionCountries.isEmpty()}">
                             <th>Countries</th>
                             <td class="border-start">
                                 <ul class="list-unstyled" th:each="country:${production.productionCountries}">

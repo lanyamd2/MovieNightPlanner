@@ -121,7 +121,7 @@ public class SearchService {
             ProductionList productionList=null;
 
             try{
-                 productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + genreName + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+                 productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + String.valueOf(searchGenre) + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
 
             }catch(Exception exception){
 
@@ -148,7 +148,6 @@ public class SearchService {
             }
 
             }
-
             /*-----------2nd approch--------------*/
          /*   List<Production> movies=new ArrayList<>();
             List<Production> series=new ArrayList<>();

@@ -48,7 +48,9 @@ public class MovieService {
         if(tmdbMovie.isEmpty()) throw new ProductionNotFoundException("Movie not found");
         tmdbMovie.get().setMedia_type("movie");
 
+        //check if title has one or multiple words
         String title = tmdbMovie.get().getName().toLowerCase();
+
         int releaseYear = setProductionOffers(tmdbMovie.get(), title);
         tmdbMovie.get().setReleaseYear(releaseYear);
         List<Crew> directors = fetchDirectors(id);
@@ -60,7 +62,7 @@ public class MovieService {
 
     public int setProductionOffers(Production production, String title) {
         String releaseYear="";
-        if(production.getReleaseDate().isEmpty()){
+        if(production.getReleaseDate()==null || production.getReleaseDate().isEmpty()){
             production.setOffers(new ArrayList<Offer>());
         }else{
             releaseYear = getReleaseYearFromReleaseDate(production);
@@ -70,7 +72,14 @@ public class MovieService {
                 production.setOffers(new ArrayList<Offer>());
             }
         }
-        return Integer.parseInt(releaseYear);
+
+        if(releaseYear.equals("")){
+            return 0;
+        }
+        else{
+            return Integer.parseInt(releaseYear);
+        }
+
     }
 
     public Mono<Movie> fetchTmdbMovieById(String id, String type){
@@ -96,7 +105,13 @@ public class MovieService {
     }
 
     public String getJustWatchUrl(String title, String type, String releaseYear, String userLocale){
-        return "https://apis.justwatch.com/contentpartner/v2/content/offers/object_type/"+type+"/locale/"+userLocale+"?title="+title+" &release_year="+releaseYear+"&token="+ justWatchApiKey;
+        StringTokenizer stringTokenizer = new StringTokenizer(title);
+
+        if(stringTokenizer.countTokens()==1){
+            title+=" ";
+        }
+
+        return "https://apis.justwatch.com/contentpartner/v2/content/offers/object_type/"+type+"/locale/"+userLocale+"?title="+title+"&release_year="+releaseYear+"&token="+ justWatchApiKey;
     }
 
     public String getReleaseYearFromReleaseDate(Production production) {

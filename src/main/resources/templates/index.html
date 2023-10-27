@@ -12,6 +12,7 @@
     <!--Adding external style sheet-->
     <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
 
+
 </head>
 <body onload="changeOptions()">
 <!--NavBar begins here-->
@@ -60,14 +61,14 @@
 
 <div class="displaySection d-flex justify-content-center align-items-center">
 <div class="row">
-    <div class="col-sm-3" th:each="production,status:${productions}">
+    <div class="col-sm-3 displayTile" th:each="production,status:${productions}">
     <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
     <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
     <br>
     <b><span th:text="${production.getName()}"></span></b>
         <span th:if="${production.getMedia_type()} eq 'movie'">(Movie)</span>
         <span th:unless="${production.getMedia_type()} eq 'movie'">(Tv)</span>
-        <span th:text="${status.index}" id="myId"></span>
+        <!--<span th:text="${status.index}" id="myId"></span>-->
 
     <!--<span th:text="${production.getPopularity()}"></span>-->
     <!--<span th:text="${production.getMedia_type()}"></span>-->
@@ -113,21 +114,32 @@
                         </div>
                             <!--where to watch starts-->
                             <div class="row">
-                                <div data-jw-widget
-                                     data-api-key="ABCdef12"
-                                     th:attr="data-object-type=${production.getMedia_type() eq 'movie'?'movie':'show'},
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-10">
+                                    <h5><b>Streaming Offers</b></h5>
+                                </div>
+                                <div class="col-sm-1"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-10">
+                                    <div data-jw-widget
+                                         data-api-key="ABCdef12"
+                                         th:attr="data-object-type=${production.getMedia_type() eq 'movie'?'movie':'show'},
                      data-title=${#strings.toLowerCase(production.getName())},
                      data-year=${production.getReleaseYear()},
                      data-theme='light'"
-                                ></div>
-                                <div style="">
-                                    <a style="display:flex; font-size: 11px; font-family: sans-serif; color: black; text-decoration: none; align-items:center;"
-                                       target="_blank" data-original="https://www.justwatch.com" href="https://www.justwatch.com">
-                                        <img alt="JustWatch" height="11px"
-                                             src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg">
-                                    </a>
+                                    ></div>
+                                    <div style="">
+                                        <a style="display:flex; font-size: 11px; font-family: sans-serif; color: black; text-decoration: none; align-items:center;"
+                                           target="_blank" data-original="https://www.justwatch.com" href="https://www.justwatch.com">
+                                            <img alt="JustWatch" height="11px"
+                                                 src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg">
+                                        </a>
+                                    </div>
+                                    <script async src="https://widget.justwatch.com/justwatch_widget.js"></script>
                                 </div>
-                                <script async src="https://widget.justwatch.com/justwatch_widget.js"></script>
+                                <div class="col-sm-1"></div>
                             </div>
                             <!--where to watch ends-->
                         <div class="modal-footer">

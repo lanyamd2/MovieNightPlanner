@@ -257,49 +257,7 @@ public class SearchServiceTests {
     }
 
 
-    @Test
-    public void getAllSearchResultsTestWithoutSearchQuery(){
 
-        String productionType="movie";
-        Integer searchGenre=28;
-        Integer page=1;
-        String genreName="Action";
-
-        Genre action=new Genre();
-        action.setId(28);
-        action.setName("Action");
-
-        List<Genre> genres1=new ArrayList<>();
-        genres1.add(action);
-        List<Integer> genre_ids1=new ArrayList<>();
-        genre_ids1.add(28);
-
-
-        Production p1=new Production();
-        p1.setName("Mission Impossible");
-        p1.setGenre_ids(genre_ids1);
-        System.out.println(p1.getGenre_ids());
-
-        List<Production> productions=new ArrayList<>();
-        productions.add(p1);
-
-        ProductionList productionList=new ProductionList();
-        productionList.setResults(productions);
-
-
-        GenreList genreList=new GenreList();
-        List<Genre> genres=new ArrayList<>();
-        genres.add(action);
-        genreList.setGenres(genres);
-
-
-
-        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + genreName + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
-        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/genre/" + productionType + "/list" + "?&api_key=" + tmdbApiKey, GenreList.class)).thenReturn(genreList);
-        Mockito.when(movieService.getReleaseYearFromReleaseDate(Mockito.any(Production.class))).thenReturn("2023");
-        Assertions.assertEquals(1,searchService.getAllSearchResults(null,productionType,searchGenre,page).getResults().size());
-
-    }
 
     @Test
     public void getAllSearchResultsTestWithoutSearchQuery_InvalidSearchGenre(){

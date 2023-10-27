@@ -56,7 +56,9 @@
     <!--Sort section ends here-->
 
     <br>
-    <h2>Search Results..</h2>
+    <h2>Search Results for - <span th:text="${#strings.capitalize(lastSearchCriteria.getProductionType())}"></span>,
+                            <span th:text="${lastSearchGenreName}"></span>
+    </h2>
     <span id="theNum" th:text="${productions.size()}" class="d-none"></span>
     <br>
     <!--Next and Back Button Section starts-->
@@ -77,7 +79,12 @@
         <div class="row">
             <div class="col-sm-3" th:each="production,status:${productions}">
                 <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
-                <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}">
+                <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}" th:if="${production.posterPath!=null}">
+                    <img alt="Poster"
+                         class="img-thumbnail"
+                         style="width:220px"
+                         src="https://i0.wp.com/moviemarker.co.uk/wp-content/uploads/NoPosterAvailable.jpg"
+                          th:unless="${production.posterPath!=null}">
                 <br>
                 <b><span th:text="${production.getName()}"></span></b>
                     <span th:if="${production.getMedia_type()} eq 'movie'">(Movie)</span>
@@ -126,7 +133,7 @@
                                 <div class="row">
                                     <div class="col-sm-1"></div>
                                     <div class="col-sm-10">
-                                        <h4>Where to watch</h4>
+                                        <h5><b>Streaming Offers</b></h5>
                                     </div>
                                     <div class="col-sm-1"></div>
                                 </div>

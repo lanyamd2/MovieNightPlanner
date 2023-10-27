@@ -1,4 +1,4 @@
-package com.sparta.projectmovie1.movienightplanner.controllers;
+package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
 import com.sparta.projectmovie1.movienightplanner.models.users.User;
 import com.sparta.projectmovie1.movienightplanner.repositories.UserRepository;
