@@ -72,16 +72,14 @@ public class ProfileControllerTests {
     }
 
     @Test
-    public void shouldReturnOKStatusIfMovieNotFoundOnJustWatch(){
+    public void shouldReturnNotFoundStatusIfMovieNotFoundOnJustWatch(){
         this.webTestClient
                 .get()
                 .uri("/api/details/justwatch/no movie/movie/2008")
                 .header(CONTENT_TYPE,APPLICATION_JSON_VALUE)
                 .exchange()
                 .expectStatus()
-                .isEqualTo(OK)
-                .expectBody()
-                .jsonPath("$").isEmpty();
+                .isEqualTo(NOT_FOUND);
 
     }
 

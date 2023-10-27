@@ -19,7 +19,7 @@ public class UserServiceTests {
 
 
     @ParameterizedTest
-    @ValueSource(strings = {"lowercase","has space", "stop12H!","test"})
+    @ValueSource(strings = {"lowercase","has space", "stop12!","test"})
     void shouldReturnFalseForInvalidPasswords(String password){
         Assertions.assertFalse(userService.isValidPassword(password));
     }
