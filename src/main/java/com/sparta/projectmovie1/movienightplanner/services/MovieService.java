@@ -61,7 +61,7 @@ public class MovieService {
     public int setProductionOffers(Production production, String title) {
         System.out.println("Inside set production offers");
         String releaseYear="";
-        if(production.getReleaseDate().isEmpty()){
+        if(production.getReleaseDate()==null || production.getReleaseDate().isEmpty()){
             production.setOffers(new ArrayList<Offer>());
         }else{
             releaseYear = getReleaseYearFromReleaseDate(production);
@@ -71,7 +71,14 @@ public class MovieService {
                 production.setOffers(new ArrayList<Offer>());
             }
         }
-        return Integer.parseInt(releaseYear);
+
+        if(releaseYear.equals("")){
+            return 0;
+        }
+        else{
+            return Integer.parseInt(releaseYear);
+        }
+
     }
 
     public Mono<Movie> fetchTmdbMovieById(String id, String type){
