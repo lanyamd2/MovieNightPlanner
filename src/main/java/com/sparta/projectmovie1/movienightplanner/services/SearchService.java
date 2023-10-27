@@ -148,7 +148,6 @@ public class SearchService {
             }
 
             }
-
             /*-----------2nd approch--------------*/
          /*   List<Production> movies=new ArrayList<>();
             List<Production> series=new ArrayList<>();
