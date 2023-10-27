@@ -127,7 +127,7 @@
                             <th>Release Date</th>
                             <td class="border-start" th:text="${production.releaseDate}"></td>
                         </tr>
-                        <tr th:if="${production.runtime!=null}"
+                        <tr th:if="${production.runtime!=0}"
                             th:with="h=${production.runtime}/60,m=${production.runtime}%60">
                             <th>Runtime</th>
                             <td class="border-start"

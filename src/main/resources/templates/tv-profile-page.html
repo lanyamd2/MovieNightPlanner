@@ -117,7 +117,7 @@
                             <th>Release Date</th>
                             <td class="border-start" th:text="${production.releaseDate}"></td>
                         </tr>
-                        <tr th:if="${production.episodeRunTime!=null}">
+                        <tr th:if="${!production.episodeRunTime.isEmpty()}">
                             <th>Runtime</th>
                             <td class="border-start">
                                 <ul class="list-unstyled" th:each="runtime:${production.episodeRunTime}">

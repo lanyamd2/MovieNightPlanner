@@ -61,7 +61,6 @@ public class MovieService {
     }
 
     public int setProductionOffers(Production production, String title) {
-        System.out.println("Inside set production offers");
         String releaseYear="";
         if(production.getReleaseDate()==null || production.getReleaseDate().isEmpty()){
             production.setOffers(new ArrayList<Offer>());
