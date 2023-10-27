@@ -51,6 +51,10 @@ public class RegistrationController {
             bindingResult.addError(new FieldError("user","email","There's already an account for this email"));
         }
 
+        if(!userService.isValidPassword(user.getPassword())){
+            bindingResult.addError(new FieldError("user", "password", "Password must be 8 - 20 characters, contain at least one digit, one upper and lower case character, one special character e.g., !@#$%&*()-+=^ and cannot contain spaces!"));
+        }
+
         if (bindingResult.hasErrors()) {
 
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userBindingResult", bindingResult);
