@@ -12,6 +12,6 @@ Purpose:
 ## Contributors
 - Backend Developers: Chamara Silva, Mary George and Lanya Murphy-Delgado
 - Frontend Developer: Marta Joanna Piaszczynska
-- Tester: Aaron Lewis
+- Testers: Aaron Lewis and Cristian Bitca
 - DevOps Consultant: Janete Neto
 - Scrum Master: Daniel Al-Okbi
