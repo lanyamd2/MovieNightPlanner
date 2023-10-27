@@ -14,19 +14,19 @@
 <div th:insert="(~{searchbar.html})"></div>
 <div class="container" style="margin-top: 20px;">
   <div class="searchsection">
-  <form th:action="@{/myplan/date}" action="get">
-    <div class="row">
-      <div class="col-sm" style="text-align: right">
-        <label for="date">Select Date: </label>
+    <form th:action="@{/myplan/date}" action="get">
+      <div class="row">
+        <div class="col-sm" style="text-align: right">
+          <label for="date">Select Date: </label>
+        </div>
+        <div class="col-sm">
+          <input type="date" id="date" name="date" class="form-control" required th:value="${date}">
+        </
+        <div class="col-sm">
+          <input type="submit" value="Select" class="btn btn-dark"/>
+        </div>
       </div>
-      <div class="col-sm">
-        <input type="date" id="date" name="date" class="form-control" required th:value="${date}">
-      </div>
-      <div class="col-sm">
-        <input type="submit" value="Select" class="btn btn-dark"/>
-      </div>
-    </div>
-  </form>
+    </form>
   </div>
   <div class="date-entry-container" th:if="${!entriesWithDates.isEmpty()}" th:each="entry:${entriesWithDates}" style="margin-top: 20px">
     <div class="row">
