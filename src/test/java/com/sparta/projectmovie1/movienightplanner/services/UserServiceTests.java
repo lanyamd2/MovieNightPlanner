@@ -25,7 +25,7 @@ public class UserServiceTests {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"vaLid12@Pass", "newP7%password"})
+    @ValueSource(strings = {"vaLid12#Pass&", "newP7%pas*", "Lemon1234!", "leMon1234()", "Lemo$752", "lime-Lem+^12", "f=Green23"})
     void shouldReturnTrueForValidPasswords(String password){
         Assertions.assertTrue(userService.isValidPassword(password));
     }
