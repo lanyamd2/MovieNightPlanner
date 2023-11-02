@@ -12,8 +12,6 @@ build:
     script:
         - echo "Maven build started"
         - "mvn clean package"
-        - pwd
-        - ls
     only:
         - dev
 
@@ -25,11 +23,12 @@ test:
 
 deploy staging:
     stage: deploy
-    environment:
-        name: staging
+    needs: [build]
     script:
         - echo "Maven deploy to staging started"
-        - scp -i "$SSH_PRIVATE_KEY" /builds/movie-night-planner-2/mnp1/target/MovieNightPlanner-0.0.1-SNAPSHOT.jar ec2-user@54.67.32.245:/home/ec2-user
-        - ssh -i "$SSH_PRIVATE_KEY" ec2-user@ec2-54-67-32-245.us-west-1.compute.amazonaws.com "java -jar /home/ec2-user/MovieNightPlanner-0.0.1-SNAPSHOT.jar"
+        - echo "$SSH_PRIVATE_KEY" > deploy.pem
+        - chmod 600 deploy.pem
+        - scp -i deploy.pem /builds/movie-night-planner-2/mnp1/target/MovieNightPlanner-0.0.1-SNAPSHOT.jar ec2-user@13.52.203.195:/home/ec2-user
+        - ssh -i deploy.pem ec2-user@13.52.203.195 "java -jar /home/ec2-user/MovieNightPlanner-0.0.1-SNAPSHOT.jar"
     only:
         - dev
