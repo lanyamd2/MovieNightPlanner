@@ -26,9 +26,9 @@ deploy staging:
     needs: [build]
     script:
         - echo "Maven deploy to staging started"
-        - echo "$SSH_PRIVATE_KEY" > deploy.pem
-        - chmod 600 deploy.pem
-        - scp -i deploy.pem -o StrictHostKeyChecking=no /builds/movie-night-planner-2/mnp1/target/MovieNightPlanner-0.0.1-SNAPSHOT.jar ec2-user@13.52.203.195:/home/ec2-user
-        - ssh -i deploy.pem -o StrictHostKeyChecking=no ec2-user@13.52.203.195 "java -jar /home/ec2-user/MovieNightPlanner-0.0.1-SNAPSHOT.jar"
+        - chmod 600 $SSH_PRIVATE_KEY
+        - scp -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no /builds/movie-night-planner-2/mnp1/target/MovieNightPlanner-0.0.1-SNAPSHOT.jar ec2-user@13.52.203.195:/home/ec2-user
+        - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no ec2-user@13.52.203.195 "java -jar /home/ec2-user/MovieNightPlanner-0.0.1-SNAPSHOT.jar"
+        
     only:
         - dev
