@@ -4,6 +4,8 @@ stages:
     - build
     - test
     - deploy
+include:
+- template: Security/SAST.gitlab-ci.yml
 
 build:
     stage: build
