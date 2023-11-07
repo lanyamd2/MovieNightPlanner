@@ -1,0 +1,104 @@
+
+.searchsection{
+    margin:auto;
+    background-color:#e33661;
+    padding:2%;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+.btn {
+    background-color: #411F50;
+    border-color: #411F50;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.navbar {
+    background-color: #411F50;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.navbar-brand {
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.nav-link {
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.day-name {
+    color: #411F50;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.full-date {
+    color: #411F50;
+    font-weight: bold;
+}
+
+.login-container {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 100px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+     transform: translateZ(0);
+}
+
+.registration-container {
+    margin: 0 auto;
+    margin-top: 100px;
+    max-width: 400px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transform: translateZ(0);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-btn,
+.registration-btn {
+    width: 100%;
+    padding: 10px;
+
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-form {
+    width: 49%;
+    padding: 10px;
+
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.error-field {
+    border: 3px solid red;
+    background-color: #ffe6e6;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border-color: #411F50;
+    color: #411F50;
+}
+
