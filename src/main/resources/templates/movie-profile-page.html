@@ -23,14 +23,15 @@
         .searchsection {
           margin:auto;
           padding:2%;
-          background-color:#e33661;
+          /*background-color:#e33661;*/
+            background-image: linear-gradient( #e33661,#ba294d);
           box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
 <body onload="changeOptions()" style="color: #411F50;">
 <!--Nav bar and search bar begin here-->
-<div th:insert="navbar :: navbar"></div>
+<div th:insert="(~{navbar.html})"></div>
 <div th:insert="(~{searchbar.html})"></div>
 <!--nav bar and search bar end here-->
 <!--Profile Page begins here-->
@@ -38,71 +39,10 @@
 <div>
     <main lang="en-GB">
         <div class="mx-2" id="header" style="margin-top: 20px;">
-            <h1 th:text="${production.name}">Movie Title</h1>
+            <h1 th:text="${production.name}" class="border-bottom">Movie Title</h1>
         </div>
         <div class="container-fluid" id="content">
             <div class="w-25 float-end col border border-1 rounded ">
-                <div th:if="${!production.offers.isEmpty()}" class="mt-3 mx-3 text-center">
-                    <button type="button" class="btn btn-dark"
-                            data-bs-toggle="modal" data-bs-target="#addToMyPlanForm">Add to My Plan
-                    </button>
-                </div>
-                <!-- Modal -->
-                <form method="post" th:action="@{/myplan/create}" th:object="${myPlanEntry}">
-                    <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="addToMyPlanForm"
-                         tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Choose a date</h5>
-                                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
-                                            type="button"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row d-none">
-                                        <div class="col-sm-3">
-                                            <label for="productionId">Production ID: </label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input class="form-control" id="productionId" name="productionId" required
-                                                   th:field="*{productionId}"
-                                                   th:placeholder="${myPlanEntry.productionId}"
-                                                   th:value="${myPlanEntry.productionId}" type="text"/>
-                                        </div>
-                                        <div class="invalid-feedback">Please fill out this field</div>
-                                    </div>
-                                    <div class="row d-none">
-                                        <div class="col-sm-3">
-                                            <label for="mediaType">Is this a movie: </label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input class="form-control" id="mediaType" name="mediaType"
-                                                   placeholder="true" required th:field="*{movie}" type="text"/>
-                                        </div>
-                                        <div class="invalid-feedback">Please fill out this field</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <label for="date">Select Date: </label>
-                                        </div>
-                                        <div class="col-sm-7">
-                                            <input class="form-control" id="date" name="date" required
-                                                   th:field="*{date}" type="date">
-                                        </div>
-                                        <div class="invalid-feedback">Please fill out this field</div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close
-                                    </button>
-
-                                    <button type="submit" class="btn btn-danger">Select</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
                 <div class="mt-3 mx-3 text-center"><h2 th:text="${production.name}">Movie Title</h2></div>
                 <div class="mx-3 text-center text-capitalize"><h3 th:text="'('+${production.media_type}+')'">(Type)</h3>
                 </div>
@@ -141,8 +81,6 @@
                                 th:if="${production.runtime<60}" th:text="${m}+'m'"
                             ></td>
                         </tr>
-
-
                         <tr>
                             <th>User Score</th>
                             <td class="border-start"
@@ -183,13 +121,138 @@
                 <div class="mx-3">
                     <p th:text="${production.tagline}">Lorem ipsum dolor sit amet.</p>
                 </div>
-                <div class="mx-3">
-                    <h4 class="border-bottom">Content</h4>
+                <div class="mr-3">
+<!--                    <h4 class="border-bottom">Content</h4>-->
                     <div class="row" style="margin-top: 20px;">
                         <div class="col">
                             <ol class="list-unstyled mx-3">
                                 <li class="d-inline-block"><a href="#Overview" th:if="${production.overview!=null}" class="btn btn-dark">Overview</a></li>
                                 <li class="d-inline-block"><a href="#Offers" th:if="${production.offers!=null}" class="btn btn-dark">Where to Watch</a></li>
+                                <li class="d-inline-block" th:if="${!production.offers.isEmpty()}">
+                                    <button type="button" class="btn btn-dark"
+                                            data-bs-toggle="modal" data-bs-target="#addToWatchHistoryForm">Already Watched?
+                                    </button>
+                                    <!-- Add to Watch History Modal starts here -->
+                                    <form method="post" th:action="@{/history/create}" th:object="${historyEntry}">
+                                        <div aria-hidden="true" aria-labelledby="historyModalLabel" class="modal fade" id="addToWatchHistoryForm"
+                                             tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="historyModalLabel">When did you watch this?</h5>
+                                                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                                type="button"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row d-none">
+                                                            <div class="col-sm-3">
+                                                                <label for="history-productionId">Production ID: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="history-productionId" name="productionId" required
+                                                                       th:field="*{productionId}"
+                                                                       th:placeholder="${historyEntry.productionId}"
+                                                                       th:value="${historyEntry.productionId}" type="text"/>
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+<!--                                                        <div class="row d-none">-->
+<!--                                                            <div class="col-sm-3">-->
+<!--                                                                <label for="history-mediaType">Is this a movie: </label>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="col-sm-7">-->
+<!--                                                                <input class="form-control" id="history-mediaType" name="mediaType"-->
+<!--                                                                       placeholder="true" required th:field="*{movie}" type="text"/>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="invalid-feedback">Please fill out this field</div>-->
+<!--                                                        </div>-->
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                <label for="history-date">Select Date: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="history-date" name="date" required
+                                                                       th:field="*{date}" type="date">
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close
+                                                        </button>
+
+                                                        <button type="submit" class="btn btn-danger">Select</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- Add to Watch History Modal ends here-->
+
+                                </li>
+                                <li class="d-inline-block" th:if="${!production.offers.isEmpty()}">
+                                    <button type="button" class="btn btn-dark"
+                                            data-bs-toggle="modal" data-bs-target="#addToMyPlanForm">Add to My Plan
+                                    </button>
+                                    <!-- Add to My Plan Modal starts here -->
+                                    <form method="post" th:action="@{/myplan/create}" th:object="${myPlanEntry}">
+                                        <div aria-hidden="true" aria-labelledby="myPlanModalLabel" class="modal fade" id="addToMyPlanForm"
+                                             tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="myPlanModalLabel">Choose a date</h5>
+                                                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                                type="button"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row d-none">
+                                                            <div class="col-sm-3">
+                                                                <label for="myplan-productionId">Production ID: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="myplan-productionId" name="productionId" required
+                                                                       th:field="*{productionId}"
+                                                                       th:placeholder="${myPlanEntry.productionId}"
+                                                                       th:value="${myPlanEntry.productionId}" type="text"/>
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+                                                        <div class="row d-none">
+                                                            <div class="col-sm-3">
+                                                                <label for="myplan-mediaType">Is this a movie: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="myplan-mediaType" name="mediaType"
+                                                                       placeholder="true" required th:field="*{movie}" type="text"/>
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                <label for="myplan-date">Select Date: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="myplan-date" name="date" required
+                                                                       th:field="*{date}" type="date">
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close
+                                                        </button>
+
+                                                        <button type="submit" class="btn btn-danger">Select</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- Add to My Plan Modal ends here-->
+
+                                </li>
+
                             </ol>
                         </div>
                     </div>
@@ -227,13 +290,13 @@
 </div>
 <script>
     var today = new Date().toISOString().split('T')[0];
-    document.getElementById("date").setAttribute("min", today);
+    document.getElementById("myplan-date").setAttribute("min", today);
 
     const maxDate = new Date();
     maxDate.setDate(maxDate.getDate() + 30);
     const [maxDateFormatted] = maxDate.toISOString().split('T');
 
-    document.getElementById("date").setAttribute("max", maxDateFormatted);
+    document.getElementById("myplan-date").setAttribute("max", maxDateFormatted);
 </script>
 </body>
 </html>

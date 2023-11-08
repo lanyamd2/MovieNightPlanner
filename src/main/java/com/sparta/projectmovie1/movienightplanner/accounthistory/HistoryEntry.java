@@ -23,6 +23,9 @@ public class HistoryEntry {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
+    public HistoryEntry() {
+    }
+
     public HistoryEntry(String userId, Integer productionId, Date date) {
         this.userId = userId;
         this.productionId = productionId;

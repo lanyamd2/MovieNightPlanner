@@ -1,5 +1,6 @@
 package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
+import com.sparta.projectmovie1.movienightplanner.accounthistory.HistoryEntry;
 import com.sparta.projectmovie1.movienightplanner.controllers.ProfileController;
 import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
@@ -30,6 +31,11 @@ public class ProfileWebController {
         myPlanEntry.setProductionId(movie.getId());
         myPlanEntry.setMovie(true);
         model.addAttribute("myPlanEntry", myPlanEntry);
+
+        HistoryEntry historyEntry = new HistoryEntry();
+        historyEntry.setProductionId(movie.getId());
+        model.addAttribute("historyEntry", historyEntry);
+
         return "movie-profile-page";
     }
 
@@ -43,6 +49,12 @@ public class ProfileWebController {
         myPlanEntry.setProductionId(series.getId());
         myPlanEntry.setMovie(false);
         model.addAttribute("myPlanEntry", myPlanEntry);
+
+
+        HistoryEntry historyEntry = new HistoryEntry();
+        historyEntry.setProductionId(series.getId());
+        model.addAttribute("historyEntry", historyEntry);
+
         return "tv-profile-page";
     }
 

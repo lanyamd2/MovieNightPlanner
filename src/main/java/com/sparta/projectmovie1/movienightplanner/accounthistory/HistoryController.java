@@ -1,14 +1,17 @@
 package com.sparta.projectmovie1.movienightplanner.accounthistory;
 
+import com.sparta.projectmovie1.movienightplanner.loginconfig.SecurityUser;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api")
+@Controller
 public class HistoryController {
     HistoryRepository historyRepository;
     HistoryService historyService;
@@ -20,13 +23,21 @@ public class HistoryController {
     }
 
     //Create
-    @PostMapping("/history")
-    public HistoryEntry createEntry(@Valid @RequestBody HistoryEntry entry){
+    @PostMapping("/history/create")
+    public String createHistoryEntry(@ModelAttribute("historyEntry") HistoryEntry historyEntry, @AuthenticationPrincipal SecurityUser securityUser, Model model){
+        String userId = securityUser.getUser().getId();
+        historyEntry.setUserId(userId);
+
         //check if movie is already in history
-        if(historyService.isExistingHistoryEntry(entry)) {
-            throw new HistoryEntryAlreadyExistsException("Already added to your watch history");
+        if(historyService.isExistingHistoryEntry(historyEntry)) {
+            throw new HistoryEntryAlreadyExistsException("Already added to your watch history");//change to a flashattribute that appears on form as error message
         }
-        return historyService.createEntry(entry);
+        historyRepository.save(historyEntry);
+        //delete from myplanentry
+
+        //get all history entries for user method in chronological order MOST RECENT first
+        //add these history entries to the model
+        return "redirect:/index";//CHANGE TO HISTORY PAGE WHEN CREATED
     }
 
     //Read - use hateoas link to each production
