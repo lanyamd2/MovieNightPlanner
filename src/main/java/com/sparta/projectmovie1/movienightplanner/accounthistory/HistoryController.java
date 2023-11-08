@@ -33,6 +33,7 @@ public class HistoryController {
             throw new HistoryEntryAlreadyExistsException("Already added to your watch history");//change to a flashattribute that appears on form as error message
         }
         historyRepository.save(historyEntry);
+        //make watch history date between release date and today
         //delete from myplanentry
 
         //get all history entries for user method in chronological order MOST RECENT first
