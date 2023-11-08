@@ -148,6 +148,27 @@ public class HistoryRepositoryTests {
 
     @Test
     @Order(11)
+    @DisplayName("Testing findHistoryEntryByUserIdAndProductionIdAndDate method")
+    void shouldReturnHistoryEntryWithMatchingUserIdProductionIdAndDate(){
+        HistoryEntry entry = getHistoryEntry();
+        historyRepository.save(entry);
+        Date date = entry.getDate();
+        Optional<HistoryEntry> savedEntry = historyRepository.findHistoryEntryByUserIdAndProductionIdAndDate("userId", 1234, date);
+        Assertions.assertTrue(savedEntry.isPresent());
+        System.out.println(savedEntry.get());
+    }
+    @Test
+    @Order(12)
+    @DisplayName("Testing findHistoryEntryByUserIdAndProductionIdAndDate method")
+    void shouldReturnEmptyWithMatchingUserIdProductionIdAndDate(){
+        HistoryEntry entry = getHistoryEntry();
+        Optional<HistoryEntry> savedEntry = historyRepository.findHistoryEntryByUserIdAndProductionIdAndDate(entry.getUserId(), 983, entry.getDate());
+        Assertions.assertTrue(savedEntry.isEmpty());
+    }
+
+
+    @Test
+    @Order(13)
     @DisplayName("Testing deleteByUserIdAndProductionId method")
     void shouldDeleteHistoryEntryWithMatchingUserIdAndProductionId(){
         historyRepository.deleteByUserIdAndProductionId("differentUserId",1234);
@@ -156,7 +177,7 @@ public class HistoryRepositoryTests {
     }
 
     @Test
-    @Order(12)
+    @Order(14)
     @DisplayName("Testing deleteByUserId method")
     void shouldDeleteHistoryEntriesWithMatchingUserId(){
         historyRepository.deleteByUserId("userId");

@@ -23,6 +23,9 @@ public interface HistoryRepository extends MongoRepository<HistoryEntry,String> 
     List<HistoryEntry> findHistoryEntriesByUserIdAndDateLessThanEqual(String userId, Date endDate);
 
     @Query
+    Optional<HistoryEntry> findHistoryEntryByUserIdAndProductionIdAndDate(String userId, Integer productionId, Date date);
+
+    @Query
     void deleteByUserIdAndProductionId(String userId, Integer productionId);
 
     @Query

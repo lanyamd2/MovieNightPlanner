@@ -4,6 +4,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api")
 public class HistoryController {
@@ -18,14 +21,18 @@ public class HistoryController {
 
     //Create
     @PostMapping("/history")
-    public HistoryEntry create(@Valid @RequestBody HistoryEntry historyEntry){
+    public HistoryEntry createEntry(@Valid @RequestBody HistoryEntry entry){
         //check if movie is already in history
-        return historyService.createEntry(historyEntry);
+        if(historyService.isExistingHistoryEntry(entry)) {
+            throw new HistoryEntryAlreadyExistsException("Already added to your watch history");
+        }
+        return historyService.createEntry(entry);
     }
 
-    //Read
+    //Read - use hateoas link to each production
 
     //Update
+
     //Delete
 
 }
