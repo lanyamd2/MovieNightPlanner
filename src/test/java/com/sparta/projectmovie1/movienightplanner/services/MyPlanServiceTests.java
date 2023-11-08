@@ -49,13 +49,13 @@ public class MyPlanServiceTests {
 
   Check that a map of all dates with productions can be returned - may need integration testing
    */
-
-  @Test
-  public void MyPlanService_AddEntry_SuccessfullySaves() {
-    Mockito.when(myPlanEntryRepository.save(Mockito.any(MyPlanEntry.class))).thenReturn(filmEntry);
-    MyPlanEntry savedEntry = myPlanService.addEntry(filmEntry);
-    Assertions.assertThat(savedEntry).isNotNull().isEqualTo(filmEntry);
-  }
+//
+//  @Test
+//  public void MyPlanService_AddEntry_SuccessfullySaves() {
+//    Mockito.when(myPlanEntryRepository.save(Mockito.any(MyPlanEntry.class))).thenReturn(filmEntry);
+//    MyPlanEntry savedEntry = myPlanService.addEntry(filmEntry);
+//    Assertions.assertThat(savedEntry).isNotNull().isEqualTo(filmEntry);
+//  }
 
   @Test
   public void MyPlanService_GetProduction_ReturnsFilmProduction() {

@@ -5,6 +5,7 @@ import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -76,7 +77,7 @@ public class MyPlanService {
     }
   }
 
-  public MyPlanEntry addEntry(MyPlanEntry myPlanEntry) {
-    return myPlanEntryRepository.save(myPlanEntry);
+  public void deleteEntry(String userId, Integer productionId, Date date) {
+    myPlanEntryRepository.deleteMyPlanEntryByUserIdAndProductionIdAndDate(userId, productionId, date);
   }
 }

@@ -62,6 +62,14 @@ public class MyPlanEntryWebController {
     return "my-plan";
   }
 
+  @DeleteMapping("/myplan/delete")
+  public String deleteEntry(@RequestParam Integer productionId, @RequestParam Date date, @AuthenticationPrincipal SecurityUser securityUser, Model model) {
+    String userId = securityUser.getUser().getId();
+    myPlanService.deleteEntry(userId, productionId, date);
+    model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(userId));
+    return "my-plan";
+  }
+
 
 //  @PreAuthorize("hasRole('ROLE_USER')")
     @RequestMapping("addtoplan/{productionType}")
