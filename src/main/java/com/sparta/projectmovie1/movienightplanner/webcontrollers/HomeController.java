@@ -58,10 +58,13 @@ public class HomeController {
         if(page==null || page==0){
             page=1;
         }
+
+
         LastSearchCriteria lastSearchCriteria=new LastSearchCriteria(searchQuery,productionType,searchGenre);
         model.addAttribute("lastSearchCriteria",lastSearchCriteria);
+
         List<Genre> genres=searchService.getGenreList(productionType).getGenres();
-        model.addAttribute("lastSearchGenreName",searchService.getGenreName(genres,searchGenre));
+        model.addAttribute("lastSearchGenreName",searchGenre!=0?searchService.getGenreName(genres,searchGenre):null);
 
         //List<Production> productions=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
         ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
