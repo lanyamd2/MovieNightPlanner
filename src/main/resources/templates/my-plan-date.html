@@ -14,55 +14,74 @@
 <div th:insert="(~{searchbar.html})"></div>
 <br>
 <div class="container">
-  <div class="searchsection">
-    <form th:action="@{/myplan/date}" action="get">
-      <div class="row">
-        <div class="col-sm" style="text-align: right">
-          <label for="date">Select Date: </label>
-        </div>
-        <div class="col-sm">
-          <input type="date" id="date" name="date" class="form-control" required th:value="${date}">
-        </div>
-        <div class="col-sm">
-          <input type="submit" value="Select" class="btn btn-dark"/>
-        </div>
-      </div>
-    </form>
+  <div th:insert="(~{my-plan.html :: planDateSelector})">
   </div>
-  <div class="date-entry-container" style="margin-top: 20px;">
-    <div class="row">
-      <div class="col-md-2 text-left">
-        <p class="day-name" th:text="${#dates.format(date, 'EEEE')}"></p>
-        <p class="full-date" th:text="${#dates.format(date, 'dd MMMM yyyy')}"></p>
-      </div>
-      <div class="col-md-10">
-        <div class="row justify-content-start">
-          <div class="col-xs" th:if="${!entries.isEmpty()}" th:each="entry:${entries}">
-            <div th:with="production=${entry.getValue()}">
-              <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
-                 style="text-decoration:none;color:black">
-                <img
-                    th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}"
-                    style="margin-right: 20px; margin-bottom: 10px;">
-              </a>
-              <p class="font-weight-bold" th:text="${production.getName()}"
-                 style="color: #411F50; margin-bottom: 20px;"></p>
-              <p class="font-italic">
+  <div th:if="${!entries.isEmpty()}">
+    <div th:insert="(~{my-plan.html :: editButton})">
+    </div>
+    <div class="date-entry-container" style="margin-top: 20px;">
+      <div class="row">
+        <div class="col-md-2 text-left">
+          <p class="day-name" th:text="${#dates.format(date, 'EEEE')}"></p>
+          <p class="full-date" th:text="${#dates.format(date, 'dd MMMM yyyy')}"></p>
+        </div>
+        <div class="col-md-10">
+          <div class="row justify-content-start">
+            <div class="col-xs" th:if="${!entries.isEmpty()}" th:each="entry:${entries}">
+              <div th:with="production=${entry.getValue()}">
+                <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
+                   style="text-decoration:none;color:black">
+                  <img
+                      th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}"
+                      style="margin-right: 20px; margin-bottom: 10px;">
+                </a>
+                <p class="font-weight-bold" th:text="${production.getName()}"
+                   style="color: #411F50; margin-bottom: 20px;"></p>
+                <p class="font-italic">
                 <span th:if="${production.getMedia_type().equals('movie')}"
                       th:text="${production.getRuntime()} + ' minutes'"></span>
-                <span
-                    th:if="${production.getMedia_type().equals('tv') and !production.getEpisodeRunTime().isEmpty()}"
-                    th:text="${production.episodeRunTime[0]} + ' minutes'"></span>
-              </p>
+                  <span
+                      th:if="${production.getMedia_type().equals('tv') and !production.getEpisodeRunTime().isEmpty()}"
+                      th:text="${production.episodeRunTime[0]} + ' minutes'"></span>
+                </p>
+                <div th:insert="(~{my-plan.html :: editButtons})"></div>
+                <form th:action="@{/myplan/delete}" th:method="delete">
+                  <div class="modal fade"
+                       th:id="'deleteConfirmationModal' + ${entry.getKey()}"
+                       tabindex="-1" role="dialog"
+                       aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="deleteConfirmationModalLabel">Delete
+                            Confirmation</h5>
+                        </div>
+                        <div class="modal-body">
+                          <p th:text="${production.getName()} + ' scheduled for ' + ${#dates.format(date, 'E, dd MMM yyyy')}"></p>
+                          <input type="hidden" id="entryId" name="entryId"
+                                 th:value="${entry.getKey()}">
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">
+                            Cancel
+                          </button>
+                          <button class="btn btn-primary" type="submit">Confirm</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                <div th:insert="(~{my-plan.html :: updateDateModal})"></div>
+              </div>
             </div>
+            <p th:unless="${!entries.isEmpty()}">No movies or TV shows have been assigned to this
+              day.</p>
           </div>
-          <p th:unless="${!entries.isEmpty()}">No movies or TV shows have been assigned to this
-            day.</p>
         </div>
       </div>
     </div>
   </div>
-
 </div>
+<div th:insert="(~{my-plan.html :: dateModalScript})"></div>
 </body>
 </html>
