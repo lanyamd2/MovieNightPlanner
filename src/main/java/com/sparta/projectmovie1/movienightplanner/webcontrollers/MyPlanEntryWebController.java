@@ -24,21 +24,26 @@ public class MyPlanEntryWebController {
   MyPlanEntryRepository myPlanEntryRepository;
 
   @Autowired
-  public MyPlanEntryWebController(MyPlanService myPlanService, MyPlanEntryRepository myPlanEntryRepository) {
+  public MyPlanEntryWebController(MyPlanService myPlanService,
+      MyPlanEntryRepository myPlanEntryRepository) {
     this.myPlanService = myPlanService;
     this.myPlanEntryRepository = myPlanEntryRepository;
   }
 
-//  @PreAuthorize("hasRole('ROLE_USER')")
+  //  @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("/myplan")
-  public String getAllProductionsInPlan(Model model, @AuthenticationPrincipal SecurityUser securityUser) {
-    model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(securityUser.getUser().getId()));
+  public String getAllProductionsInPlan(Model model,
+      @AuthenticationPrincipal SecurityUser securityUser) {
+    //model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(securityUser.getUser().getId()));
+    model.addAttribute("entriesWithDates",
+        myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
     return "my-plan";
   }
 
-//  @PreAuthorize("hasRole('ROLE_USER')")
+  //  @PreAuthorize("hasRole('ROLE_USER')")
   @GetMapping("/myplan/date")
-  public String getMoviesOnDate(Model model, @RequestParam String date, @AuthenticationPrincipal SecurityUser securityUser) {
+  public String getMoviesOnDate(Model model, @RequestParam String date,
+      @AuthenticationPrincipal SecurityUser securityUser) {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date formattedDate = null;
     try {
@@ -46,45 +51,65 @@ public class MyPlanEntryWebController {
     } catch (ParseException e) {
       throw new RuntimeException(e);
     }
-    model.addAttribute("productions", myPlanService.getProductionsOnDate(securityUser.getUser().getId(), formattedDate));
+    model.addAttribute("entries",
+        myPlanService.getEntriesOnDate(securityUser.getUser().getId(), formattedDate));
     model.addAttribute("date", formattedDate);
     return "my-plan-date";
   }
 
-//  @PreAuthorize("hasRole('ROLE_USER')")
+  //  @PreAuthorize("hasRole('ROLE_USER')")
   @PostMapping("/myplan/create")
-  public String createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry, @AuthenticationPrincipal SecurityUser securityUser,
-                            Model model) {
+  public String createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry,
+      @AuthenticationPrincipal SecurityUser securityUser,
+      Model model) {
     String userId = securityUser.getUser().getId();
     myPlanEntry.setUserId(userId);
     myPlanEntryRepository.save(myPlanEntry);
-    model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(userId));
+    //model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(userId));
+    model.addAttribute("entriesWithDates",
+        myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
     return "my-plan";
   }
 
   @DeleteMapping("/myplan/delete")
-  public String deleteEntry(@RequestParam Integer productionId, @RequestParam Date date, @AuthenticationPrincipal SecurityUser securityUser, Model model) {
-    String userId = securityUser.getUser().getId();
-    myPlanService.deleteEntry(userId, productionId, date);
-    model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(userId));
+  public String deleteEntry(@RequestParam String entryId, @AuthenticationPrincipal SecurityUser securityUser, Model model) {
+    myPlanService.deleteEntry(entryId);
+    model.addAttribute("entriesWithDates",
+        myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
+    return "my-plan";
+  }
+
+  @PatchMapping("/myplan/update")
+  public String updateEntryDate(@RequestParam String entryId, @RequestParam String date, @AuthenticationPrincipal SecurityUser securityUser, Model model) {
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    Date formattedDate = null;
+    try {
+      formattedDate = formatter.parse(date);
+    } catch (ParseException e) {
+      throw new RuntimeException(e);
+    }
+    myPlanService.updateEntryDate(entryId, formattedDate);
+    model.addAttribute("entriesWithDates",
+        myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
     return "my-plan";
   }
 
 
-//  @PreAuthorize("hasRole('ROLE_USER')")
-    @RequestMapping("addtoplan/{productionType}")
-    public String addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry, Model model, @AuthenticationPrincipal SecurityUser securityUser){
+  //  @PreAuthorize("hasRole('ROLE_USER')")
+  @RequestMapping("addtoplan/{productionType}")
+  public String addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry,
+      Model model, @AuthenticationPrincipal SecurityUser securityUser) {
 
-        if(productionType.equals("movie")){
-          myPlanEntry.setMovie(true);
-        }
-        String userId = securityUser.getUser().getId();
-        myPlanEntry.setUserId(userId);
-        myPlanEntryRepository.save(myPlanEntry);
-        model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(userId));
-        return "my-plan";
-
-
+    if (productionType.equals("movie")) {
+      myPlanEntry.setMovie(true);
     }
+    String userId = securityUser.getUser().getId();
+    myPlanEntry.setUserId(userId);
+    myPlanEntryRepository.save(myPlanEntry);
+    //model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(userId));
+    model.addAttribute("entriesWithDates",
+        myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
+    return "my-plan";
+  }
 
 }

@@ -37,19 +37,27 @@
       </div>
       <div class="col-md-10">
         <div class="row justify-content-start">
-          <div class="col-xs" th:if="${!productions.isEmpty()}" th:each="production:${productions}">
-            <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
-               style="text-decoration:none;color:black">
-              <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}"
-                   style="margin-right: 20px; margin-bottom: 10px;">
-            </a>
-            <p class="font-weight-bold" th:text="${production.getName()}" style="color: #411F50; margin-bottom: 20px;"></p>
-            <p class="font-italic">
-              <span th:if="${production.getMedia_type().equals('movie')}" th:text="${production.getRuntime()} + ' minutes'"></span>
-              <span th:if="${production.getMedia_type().equals('tv') and !production.getEpisodeRunTime().isEmpty()}" th:text="${production.episodeRunTime[0]} + ' minutes'"></span>
-            </p>
+          <div class="col-xs" th:if="${!entries.isEmpty()}" th:each="entry:${entries}">
+            <div th:with="production=${entry.getValue()}">
+              <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
+                 style="text-decoration:none;color:black">
+                <img
+                    th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}"
+                    style="margin-right: 20px; margin-bottom: 10px;">
+              </a>
+              <p class="font-weight-bold" th:text="${production.getName()}"
+                 style="color: #411F50; margin-bottom: 20px;"></p>
+              <p class="font-italic">
+                <span th:if="${production.getMedia_type().equals('movie')}"
+                      th:text="${production.getRuntime()} + ' minutes'"></span>
+                <span
+                    th:if="${production.getMedia_type().equals('tv') and !production.getEpisodeRunTime().isEmpty()}"
+                    th:text="${production.episodeRunTime[0]} + ' minutes'"></span>
+              </p>
+            </div>
           </div>
-          <p th:unless="${!productions.isEmpty()}">No movies or TV shows have been assigned to this day.</p>
+          <p th:unless="${!entries.isEmpty()}">No movies or TV shows have been assigned to this
+            day.</p>
         </div>
       </div>
     </div>

@@ -20,7 +20,9 @@ public interface MyPlanEntryRepository extends MongoRepository<MyPlanEntry, Stri
   @Query
   List<MyPlanEntry> findMyPlanEntriesByUserIdAndDateGreaterThanEqual(String userId, Date date);
 
-  @DeleteQuery
-  void deleteMyPlanEntryByUserIdAndProductionIdAndDate(String userId, Integer productionId, Date date);
+  @Query
+  MyPlanEntry getMyPlanEntryById(String id);
 
+  @DeleteQuery
+  MyPlanEntry deleteMyPlanEntryById(String id);
 }
