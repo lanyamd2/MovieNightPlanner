@@ -6,7 +6,6 @@ import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,19 +37,6 @@ public class MyPlanService {
     this.restTemplate = restTemplate;
   }
 
-//  public Map<Date, List<Production>> getAllProductionsWithDatesInPlan(String userId) {
-//    List<MyPlanEntry> entries = myPlanEntryRepository.findMyPlanEntriesByUserIdAndDateGreaterThanEqual(userId,
-//        DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
-//    Map<Date, List<Production>> entriesByDate = new TreeMap<>();
-//    for(MyPlanEntry entry : entries) {
-//      Date date = entry.getDate();
-//      Production production = getProduction(entry);
-//      entriesByDate.computeIfAbsent(date, k -> new ArrayList<>());
-//      entriesByDate.get(date).add(production);
-//    }
-//    return entriesByDate;
-//  }
-
   public Map<Date, Map<String, Production>> getAllEntriesWithDates(String userId) {
     List<MyPlanEntry> entries = myPlanEntryRepository.findMyPlanEntriesByUserIdAndDateGreaterThanEqual(userId,
         DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
@@ -68,18 +54,6 @@ public class MyPlanService {
   public Map<String, Production> getEntriesOnDate(String userId, Date date) {
     return getEntriesWithIds(myPlanEntryRepository.findMyPlanEntriesByUserIdAndDate(userId, date));
   }
-
-//  public List<Production> getProductionsOnDate(String userId, Date date) {
-//    return getProductions(myPlanEntryRepository.findMyPlanEntriesByUserIdAndDate(userId, date));
-//  }
-//
-//  public List<Production> getProductions(List<MyPlanEntry> myPlanEntries) {
-//    List<Production> productions = new ArrayList<>();
-//    for(MyPlanEntry myPlanEntry : myPlanEntries) {
-//      productions.add(getProduction(myPlanEntry));
-//    }
-//    return productions;
-//  }
 
   public Map<String, Production> getEntriesWithIds(List<MyPlanEntry> myPlanEntries) {
     Map<String, Production> entriesWithIds = new HashMap<>();
@@ -104,13 +78,17 @@ public class MyPlanService {
     }
   }
 
-  public void updateEntryDate(String id, Date date) {
+  public MyPlanEntry addEntry(MyPlanEntry myPlanEntry) {
+    return myPlanEntryRepository.save(myPlanEntry);
+  }
+
+  public MyPlanEntry updateEntryDate(String id, Date date) {
     MyPlanEntry entry = myPlanEntryRepository.getMyPlanEntryById(id);
     entry.setDate(date);
-    myPlanEntryRepository.save(entry);
+    return myPlanEntryRepository.save(entry);
   }
 
   public void deleteEntry(String id) {
-    myPlanEntryRepository.deleteById(id);
+    myPlanEntryRepository.deleteMyPlanEntryById(id);
   }
 }
