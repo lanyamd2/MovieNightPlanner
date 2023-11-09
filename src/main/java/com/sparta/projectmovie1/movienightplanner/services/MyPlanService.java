@@ -69,17 +69,17 @@ public class MyPlanService {
     return getEntriesWithIds(myPlanEntryRepository.findMyPlanEntriesByUserIdAndDate(userId, date));
   }
 
-  public List<Production> getProductionsOnDate(String userId, Date date) {
-    return getProductions(myPlanEntryRepository.findMyPlanEntriesByUserIdAndDate(userId, date));
-  }
-
-  public List<Production> getProductions(List<MyPlanEntry> myPlanEntries) {
-    List<Production> productions = new ArrayList<>();
-    for(MyPlanEntry myPlanEntry : myPlanEntries) {
-      productions.add(getProduction(myPlanEntry));
-    }
-    return productions;
-  }
+//  public List<Production> getProductionsOnDate(String userId, Date date) {
+//    return getProductions(myPlanEntryRepository.findMyPlanEntriesByUserIdAndDate(userId, date));
+//  }
+//
+//  public List<Production> getProductions(List<MyPlanEntry> myPlanEntries) {
+//    List<Production> productions = new ArrayList<>();
+//    for(MyPlanEntry myPlanEntry : myPlanEntries) {
+//      productions.add(getProduction(myPlanEntry));
+//    }
+//    return productions;
+//  }
 
   public Map<String, Production> getEntriesWithIds(List<MyPlanEntry> myPlanEntries) {
     Map<String, Production> entriesWithIds = new HashMap<>();
