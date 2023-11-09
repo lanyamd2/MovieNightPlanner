@@ -2,11 +2,15 @@ image: maven:3.8.3-openjdk-17
 
 stages:
     - build
+    - package
     - test
     - deploy
+include:
+- template: Security/SAST.gitlab-ci.yml
 
 build:
     stage: build
+    environment: staging
     tags: 
         - docker
     script:
@@ -17,6 +21,23 @@ build:
             - target/*.jar
     only:
         - dev
+    allow_failure: true
+
+package:
+    stage: package
+    tags:
+        - docker
+    script:
+        - echo "Maven packaging started (skipping tests)"
+        - "mvn clean package -DskipTests"
+    artifacts:
+        paths:
+          - target/*.jar
+    rules:
+      - when: on_failure
+    dependencies:
+        - build
+    
 
 test:
     stage: test

@@ -74,6 +74,7 @@ public class MyPlanEntryWebController {
     return "redirect:" + request.getHeader("Referer");
   }
 
+//  @PreAuthorize("hasRole('ROLE_USER')")
   @PatchMapping("/myplan/update")
   public String updateEntryDate(@RequestParam String entryId, @RequestParam String date,
       HttpServletRequest request) {
@@ -87,7 +88,6 @@ public class MyPlanEntryWebController {
     myPlanService.updateEntryDate(entryId, formattedDate);
     return "redirect:" + request.getHeader("Referer");
   }
-
 
   //  @PreAuthorize("hasRole('ROLE_USER')")
   @RequestMapping("addtoplan/{productionType}")

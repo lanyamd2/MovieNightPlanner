@@ -38,6 +38,7 @@ public class SearchService {
 
 
     public List<Production> getTrendingproductionsNew(String timeWindow){
+
         ProductionList productionList=restTemplate.getForObject("https://api.themoviedb.org/3/trending/all/"+timeWindow+"?language=en-US&api_key="+tmdbApiKey, ProductionList.class);
         List<Production> trending=productionList.getResults();
         for(Production production:trending){
@@ -84,7 +85,14 @@ public class SearchService {
             }catch (Exception exception){
                 throw new TmDbApiException(exception.getMessage());
             }
-            finalProductionList = finalList.stream().filter(p -> p.getGenre_ids().contains(searchGenre)).collect(Collectors.toList());
+
+            if(searchGenre!=0){
+                finalProductionList = finalList.stream().filter(p -> p.getGenre_ids().contains(searchGenre)).collect(Collectors.toList());
+            }
+            else{
+                finalProductionList=finalList;
+            }
+
             //finalProductionList.forEach(p->p.setReleaseYear(Integer.parseInt(movieService.getReleaseYearFromReleaseDate(p))));
             /*------------Set production offers here----------------*/
             for(Production production:finalProductionList){
@@ -107,21 +115,27 @@ public class SearchService {
         }
         else{
 
-            GenreList genreList = getGenreList(productionType);
+           /* GenreList genreList = getGenreList(productionType);
 
             String genreName=null;
             try{
                 genreName= getGenreName(genreList.getGenres(),searchGenre);
             }catch (InvalidGenreIdException exception){
                 throw exception;
-            }
+            }*/
 
 
-            System.out.println(productionType+"-----------------"+genreName);
+            //System.out.println(productionType+"-----------------"+genreName);
             ProductionList productionList=null;
 
             try{
-                 productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + String.valueOf(searchGenre) + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+                if(searchGenre!=0){
+                    productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + String.valueOf(searchGenre) + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+                }
+                else{
+                    productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+                }
+
 
             }catch(Exception exception){
 
