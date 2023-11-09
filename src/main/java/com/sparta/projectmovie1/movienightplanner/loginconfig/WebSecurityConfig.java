@@ -20,7 +20,6 @@ public class WebSecurityConfig {
         this.jpaUserDetailsService = jpaUserDetailsService;
     }
 
-
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -30,14 +29,15 @@ public class WebSecurityConfig {
                                         "/index",
                                         "/registration",
                                         "/search-results-new/**",
-                                        "/details/**",
-                                        "/api/**",
                                         "/css/**",
                                         "/images/**",
                                         "/fonts/**",
-                                        "/scripts/**"
-                                )
-                                .permitAll().anyRequest().authenticated()
+                                        "/scripts/**",
+                                        "/details/**",
+                                        "/api/**"
+                                ).permitAll()
+                                .requestMatchers("/resources/**","/error").permitAll()
+                                .anyRequest().authenticated()
                 )
                 .userDetailsService(jpaUserDetailsService)
                 .formLogin((form)-> form.loginPage("/login")

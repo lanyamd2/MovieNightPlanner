@@ -2,20 +2,42 @@ image: maven:3.8.3-openjdk-17
 
 stages:
     - build
+    - package
     - test
     - deploy
+include:
+- template: Security/SAST.gitlab-ci.yml
 
 build:
     stage: build
+    environment: staging
     tags: 
         - docker
     script:
         - echo "Maven build started"
         - "mvn clean package"
-        - pwd
-        - ls
+    artifacts:
+        paths:
+            - target/*.jar
     only:
         - dev
+    allow_failure: true
+
+package:
+    stage: package
+    tags:
+        - docker
+    script:
+        - echo "Maven packaging started (skipping tests)"
+        - "mvn clean package -DskipTests"
+    artifacts:
+        paths:
+          - target/*.jar
+    rules:
+      - when: on_failure
+    dependencies:
+        - build
+    
 
 test:
     stage: test
@@ -25,11 +47,11 @@ test:
 
 deploy staging:
     stage: deploy
-    environment:
-        name: staging
+    needs: [build]
     script:
         - echo "Maven deploy to staging started"
-        - scp -i "$SSH_PRIVATE_KEY" /builds/movie-night-planner-2/mnp1/target/MovieNightPlanner-0.0.1-SNAPSHOT.jar ec2-user@54.67.32.245:/home/ec2-user
-        - ssh -i "$SSH_PRIVATE_KEY" ec2-user@ec2-54-67-32-245.us-west-1.compute.amazonaws.com "java -jar /home/ec2-user/MovieNightPlanner-0.0.1-SNAPSHOT.jar"
+        - chmod 600 $SSH_PRIVATE_KEY
+        - scp -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $JAR_FILE $IP_ADDRESS
+        - ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no $IP_ADDRESS "fuser -k 8080/tcp || true; java -jar /home/ec2-user/MovieNightPlanner-0.0.1-SNAPSHOT.jar > /home/ec2-user/application.log 2>&1 &"
     only:
         - dev

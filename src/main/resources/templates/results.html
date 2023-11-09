@@ -79,7 +79,7 @@
         <div class="row">
             <div class="col-sm-3" th:each="production,status:${productions}">
                 <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
-                <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}" th:if="${production.posterPath!=null}">
+                <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}" th:if="${production.posterPath!=null}" class="img-thumbnail">
                     <img alt="Poster"
                          class="img-thumbnail"
                          style="width:220px"
