@@ -5,6 +5,7 @@ import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
 import com.sparta.projectmovie1.movienightplanner.services.MyPlanService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MyPlanEntryWebController {
@@ -34,7 +36,6 @@ public class MyPlanEntryWebController {
   @GetMapping("/myplan")
   public String getAllProductionsInPlan(Model model,
       @AuthenticationPrincipal SecurityUser securityUser) {
-    //model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(securityUser.getUser().getId()));
     model.addAttribute("entriesWithDates",
         myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
     return "my-plan";
@@ -59,28 +60,23 @@ public class MyPlanEntryWebController {
 
   //  @PreAuthorize("hasRole('ROLE_USER')")
   @PostMapping("/myplan/create")
-  public String createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry,
-      @AuthenticationPrincipal SecurityUser securityUser,
-      Model model) {
+  public ModelAndView createEntry(@ModelAttribute("myPlanEntry") MyPlanEntry myPlanEntry,
+      @AuthenticationPrincipal SecurityUser securityUser) {
     String userId = securityUser.getUser().getId();
     myPlanEntry.setUserId(userId);
     myPlanEntryRepository.save(myPlanEntry);
-    //model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(userId));
-    model.addAttribute("entriesWithDates",
-        myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
-    return "my-plan";
+    return new ModelAndView("redirect:/myplan");
   }
 
   @DeleteMapping("/myplan/delete")
-  public String deleteEntry(@RequestParam String entryId, @AuthenticationPrincipal SecurityUser securityUser, Model model) {
+  public String deleteEntry(@RequestParam String entryId, HttpServletRequest request) {
     myPlanService.deleteEntry(entryId);
-    model.addAttribute("entriesWithDates",
-        myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
-    return "my-plan";
+    return "redirect:" + request.getHeader("Referer");
   }
 
   @PatchMapping("/myplan/update")
-  public String updateEntryDate(@RequestParam String entryId, @RequestParam String date, @AuthenticationPrincipal SecurityUser securityUser, Model model) {
+  public String updateEntryDate(@RequestParam String entryId, @RequestParam String date,
+      HttpServletRequest request) {
     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     Date formattedDate = null;
     try {
@@ -89,16 +85,13 @@ public class MyPlanEntryWebController {
       throw new RuntimeException(e);
     }
     myPlanService.updateEntryDate(entryId, formattedDate);
-    model.addAttribute("entriesWithDates",
-        myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
-    return "my-plan";
+    return "redirect:" + request.getHeader("Referer");
   }
 
 
   //  @PreAuthorize("hasRole('ROLE_USER')")
   @RequestMapping("addtoplan/{productionType}")
-  public String addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry,
-      Model model, @AuthenticationPrincipal SecurityUser securityUser) {
+  public ModelAndView addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry, @AuthenticationPrincipal SecurityUser securityUser) {
 
     if (productionType.equals("movie")) {
       myPlanEntry.setMovie(true);
@@ -106,10 +99,6 @@ public class MyPlanEntryWebController {
     String userId = securityUser.getUser().getId();
     myPlanEntry.setUserId(userId);
     myPlanEntryRepository.save(myPlanEntry);
-    //model.addAttribute("entriesWithDates", myPlanService.getAllProductionsWithDatesInPlan(userId));
-    model.addAttribute("entriesWithDates",
-        myPlanService.getAllEntriesWithDates(securityUser.getUser().getId()));
-    return "my-plan";
+    return new ModelAndView("redirect:/myplan");
   }
-
 }

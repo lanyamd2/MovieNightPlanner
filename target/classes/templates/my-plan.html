@@ -51,31 +51,33 @@
           <div class="row">
             <div class="col-xs" th:each="entry:${entriesOnDate.getValue()}">
               <div th:with="production=${entry.getValue()}">
-                <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
-                   style="text-decoration:none;color:black">
-                  <img class="img-thumbnail"
-                       th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}"
-                       style="margin-right: 20px; margin-bottom: 20px;">
-                </a>
-                <div>
-                  <p class="font-weight-bold" th:text="${production.getName()}"></p>
+                <div th:fragment="productionDisplay">
+                  <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
+                     style="text-decoration:none;color:black">
+                    <img class="img-thumbnail"
+                         th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}"
+                         style="margin-right: 20px; margin-bottom: 20px;">
+                  </a>
+
+                  <p class="font-weight-bold" th:text="${production.getName()}"
+                     style="color: #411F50; margin-bottom: 20px;"></p>
                   <p class="font-italic">
-                <span th:if="${production.getMedia_type().equals('movie')}"
-                      th:text="${production.getRuntime()} + ' minutes'"></span>
+                    <span th:if="${production.getMedia_type().equals('movie')}"
+                          th:text="${production.getRuntime()} + ' minutes'"></span>
                     <span
                         th:if="${production.getMedia_type().equals('tv') and !production.getEpisodeRunTime().isEmpty()}"
                         th:text="${production.episodeRunTime[0]} + ' minutes'"></span>
                   </p>
-                  <div th:fragment="editButtons">
-                    <div class="collapse editButtons" id="editButtons" style="margin-bottom: 20px;">
-                      <button class="btn btn-dark" type="button" data-bs-toggle="modal"
-                              th:data-bs-target="'#changeDateModal' + ${entry.getKey()}">Change Date
-                      </button>
-                      <button class="btn btn-danger" type="button" data-bs-toggle="modal"
-                              th:data-bs-target="'#deleteConfirmationModal' + ${entry.getKey()}">
-                        Delete
-                      </button>
-                    </div>
+                </div>
+                <div th:fragment="editButtons">
+                  <div class="collapse editButtons" id="editButtons" style="margin-bottom: 20px;">
+                    <button class="btn btn-dark" type="button" data-bs-toggle="modal"
+                            th:data-bs-target="'#changeDateModal' + ${entry.getKey()}">Change Date
+                    </button>
+                    <button class="btn btn-danger" type="button" data-bs-toggle="modal"
+                            th:data-bs-target="'#deleteConfirmationModal' + ${entry.getKey()}">
+                      Delete
+                    </button>
                   </div>
                 </div>
                 <form th:action="@{/myplan/delete}" th:method="delete">
@@ -141,9 +143,9 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row justify-content-start" th:unless="${!entriesWithDates.isEmpty()}">
-  <p>You have no upcoming movies or TV shows planned.</p>
+  <div class="row justify-content-center" th:unless="${!entriesWithDates.isEmpty()}">
+    <p>You have no upcoming movies or TV shows planned.</p>
+  </div>
 </div>
 <div th:fragment="dateModalScript">
   <script>
