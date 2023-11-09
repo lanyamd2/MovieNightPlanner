@@ -64,6 +64,7 @@ public class MyPlanEntryWebController {
 
 
 //  @PreAuthorize("hasRole('ROLE_USER')")
+
     @RequestMapping("addtoplan/{productionType}")
     public String addToMyplan(@PathVariable String productionType, MyPlanEntry myPlanEntry, Model model, @AuthenticationPrincipal SecurityUser securityUser){
 
