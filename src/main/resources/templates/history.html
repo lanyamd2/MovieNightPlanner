@@ -66,7 +66,7 @@
 <!--                            </tr>-->
 <!--                            </thead>-->
                             <tbody>
-                            <tr th:each="hashTableEntry:${treeMapEntry.getValue()}">
+                            <tr th:each="hashTableEntry:${treeMapEntry.getValue()}" th:with="historyEntryId=${hashTableEntry.getKey().getId()}">
                                 <th scope="row" class="col-md-1">
                                     <a th:href="@{'/details/'+${hashTableEntry.getValue().getMedia_type()}+'/'+${hashTableEntry.getValue().getId()}}"
                                            style="text-decoration:none;color:black">
@@ -91,29 +91,28 @@
                                     <ol class="list-unstyled mx-3">
                                         <li class="d-inline-block">
                                             <button type="button" class="btn btn-success btn-sm py-1"
-                                                    data-bs-toggle="modal" data-bs-target="#addToWatchHistoryForm">Edit
+                                                    data-bs-toggle="modal" th:data-bs-target="'#editHistoryModal'+${hashTableEntry.getKey().id}">Edit
                                             </button>
                                             <!-- Edit Watch History Modal starts here -->
                                             <form th:method="patch" th:action="@{/history/edit}" th:object="${historyEntryEdit}">
-                                                <div aria-hidden="true" aria-labelledby="historyModalLabel" class="modal fade" id="addToWatchHistoryForm"
-                                                     tabindex="-1">
-                                                    <div class="modal-dialog">
+                                                <div aria-hidden="true" aria-labelledby="editHistoryModalLabel" class="modal fade" th:id="'editHistoryModal'+${hashTableEntry.getKey().id}"
+                                                     tabindex="-1" role="dialog">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="historyModalLabel">When did you watch this?</h5>
+                                                                <h5 class="modal-title" id="editHistoryModalLabel">When did you watch this?</h5>
                                                                 <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
                                                                         type="button"></button>
                                                             </div>
                                                             <div class="modal-body">
-
-                                                                <div class="row">
+                                                                <div class="row d-none">
                                                                     <div class="col-sm-3">
-                                                                        <label for="history-entryId">History Entry ID: </label>
+                                                                        <label for="historyEntryIdToChange">History Entry ID: </label>
                                                                     </div>
                                                                     <div class="col-sm-7">
-                                                                        <input class="form-control" id="history-entryId" name="id" required
-                                                                               th:placeholder="${hashTableEntry.getKey().id}"
-                                                                               th:value="${hashTableEntry.getKey().id}"
+                                                                        <input class="form-control" id="historyEntryIdToChange" name="id" required
+                                                                               th:placeholder="${historyEntryId}"
+                                                                               th:value="${historyEntryId}"
                                                                                type="text"/>
                                                                     </div>
                                                                     <div class="invalid-feedback">Please fill out this field</div>
@@ -121,10 +120,10 @@
 
                                                                 <div class="row">
                                                                     <div class="col-sm-3">
-                                                                        <label for="history-date">Select Date: </label>
+                                                                        <label th:for="'#dateToChange'+${historyEntryId}">Select Date: </label>
                                                                     </div>
                                                                     <div class="col-sm-7">
-                                                                        <input class="form-control" id="history-date" name="date" required
+                                                                        <input class="form-control" th:id="'dateToChange'+${historyEntryId}" name="date" required
                                                                                th:field="*{date}" type="date">
                                                                     </div>
                                                                     <div class="invalid-feedback">Please fill out this field</div>
@@ -163,7 +162,14 @@
 </div>
 <script>
     var today = new Date().toISOString().split('T')[0];
-    document.getElementById("history-date").setAttribute("max",today);
+    let entryIds="[[${historyIds}]]";
+    entryIds = entryIds.substring(1,entryIds.length-1);
+    let entryIdArray = entryIds.split(", ");
+    let idLength = entryIdArray.length;
+    for(let i = 0 ; i < idLength; i++){
+        var dateId = "dateToChange"+entryIdArray[i];
+        document.getElementById(dateId).setAttribute("max",today);
+    }
 </script>
 </body>
 </html>

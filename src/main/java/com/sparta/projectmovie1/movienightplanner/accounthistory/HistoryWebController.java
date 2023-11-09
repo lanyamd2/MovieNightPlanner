@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/history")
@@ -53,6 +55,9 @@ public class HistoryWebController {
             model.addAttribute("existingEntryNotFoundError","This history entry could not be edited.");
         }
 
+        List<String> historyIds = historyService.getAllHistoryEntriesByUserId(securityUser.getUser().getId()).stream().map(HistoryEntry::getId).toList();
+        model.addAttribute("historyIds", historyIds);
+
         model.addAttribute("historyEntryEdit", new HistoryEntry());
         model.addAttribute("historyEntries", historyService.getAllUserHistoryByDate(securityUser.getUser().getId()));
         return "history";
@@ -61,22 +66,17 @@ public class HistoryWebController {
     //Update
     @PatchMapping("/edit")
     public String editHistoryEntry(@ModelAttribute("historyEntryEdit")HistoryEntry historyEntryEdit){
-        System.out.println("form entry: "+ historyEntryEdit);
         Optional<HistoryEntry> existingEntry = historyRepository.findHistoryEntryById(historyEntryEdit.getId());
-
 
         if(existingEntry.isEmpty()){
             return "redirect:/history/all?existingEntryNotFoundError=true";
         }
-        System.out.println("existing entry: "+existingEntry.get());
 
         existingEntry.get().setDate(historyEntryEdit.getDate());
 
-        System.out.println("existing entry after set date: "+existingEntry.get());
         if(historyService.isExistingHistoryEntry(existingEntry.get())){
             return "redirect:/history/all?editWatchHistoryError=true";
         }
-
 
         historyRepository.save(existingEntry.get());
         return "redirect:/history/all";
