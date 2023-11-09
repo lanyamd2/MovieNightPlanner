@@ -104,6 +104,9 @@
             <div id="maincontent" class="w-75 col pe-3">
                 <div class="mx-3">
                     <p th:text="${production.tagline}">Lorem ipsum dolor sit amet.</p>
+                    <div class="error-message" th:if="${addToWatchHistoryError}" style="color: #e33661; text-align:center; font-weight: bold;">
+                        <span th:text="${addToWatchHistoryError}"></span>
+                    </div>
                 </div>
                 <div class="mr-3">
 <!--                    <h4 class="border-bottom">Content</h4>-->
@@ -116,6 +119,65 @@
                                     <button type="button" class="btn btn-dark"
                                             data-bs-toggle="modal" data-bs-target="#addToWatchHistoryForm">Already Watched?
                                     </button>
+                                    <!-- Add to Watch History Modal starts here -->
+                                    <form method="post" th:action="@{/history/create}" th:object="${historyEntry}">
+                                        <div aria-hidden="true" aria-labelledby="historyModalLabel" class="modal fade" id="addToWatchHistoryForm"
+                                             tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="historyModalLabel">When did you watch this?</h5>
+                                                        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                                                type="button"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row d-none">
+                                                            <div class="col-sm-3">
+                                                                <label for="history-productionId">Production ID: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="history-productionId" name="productionId" required
+                                                                       th:field="*{productionId}"
+                                                                       th:placeholder="${historyEntry.productionId}"
+                                                                       th:value="${historyEntry.productionId}" type="text"/>
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+                                                        <div class="row d-none">
+                                                            <div class="col-sm-3">
+                                                                <label for="history-mediaType">Is this a movie: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="history-mediaType" name="mediaType"
+                                                                       th:field="*{mediaType}"
+                                                                       th:placeholder="${historyEntry.mediaType}"
+                                                                       th:value="${historyEntry.mediaType}" type="text"/>
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                <label for="history-date">Select Date: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="history-date" name="date" required
+                                                                       th:field="*{date}" type="date" th:classappend="${addToWatchHistoryError} ? 'error-field' : ''">
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close
+                                                        </button>
+
+                                                        <button type="submit" class="btn btn-danger">Select</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- Add to Watch History Modal ends here-->
+
                                 </li>
                                 <li class="d-inline-block" th:if="${!production.offers.isEmpty()}">
                                     <button type="button" class="btn btn-dark"

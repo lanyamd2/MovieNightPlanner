@@ -23,6 +23,10 @@ public class HistoryEntry {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
+
+    @JsonProperty("media_Type")
+    private String mediaType;
+
     public HistoryEntry() {
     }
 
@@ -64,6 +68,14 @@ public class HistoryEntry {
         this.date = date;
     }
 
+    public String getMediaType() {
+        return mediaType;
+    }
+
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
+    }
+
     @Override
     public String toString() {
         return "HistoryEntry{" +
@@ -71,6 +83,7 @@ public class HistoryEntry {
                 ", userId='" + userId + '\'' +
                 ", productionId=" + productionId +
                 ", date=" + date +
+                ", mediaType=" + mediaType +
                 '}';
     }
 }

@@ -105,6 +105,10 @@
             <div class="w-75 col pe-3" id="maincontent">
                 <div class="mx-3">
                     <p th:text="${production.tagline}">Lorem ipsum dolor sit amet.</p>
+                    <div class="error-message" th:if="${addToWatchHistoryError}" style="color: #e33661; text-align:center; font-weight: bold;">
+                        <span th:text="${addToWatchHistoryError}"></span>
+                    </div>
+
                 </div>
                 <div class="mr-3">
 <!--                    <h4 class="border-bottom">Content</h4>-->
@@ -141,23 +145,26 @@
                                                             </div>
                                                             <div class="invalid-feedback">Please fill out this field</div>
                                                         </div>
-<!--                                                        <div class="row d-none">-->
-<!--                                                            <div class="col-sm-3">-->
-<!--                                                                <label for="history-mediaType">Is this a movie: </label>-->
-<!--                                                            </div>-->
-<!--                                                            <div class="col-sm-7">-->
-<!--                                                                <input class="form-control" id="history-mediaType" name="mediaType"-->
-<!--                                                                       placeholder="true" required th:field="*{movie}" type="text"/>-->
-<!--                                                            </div>-->
-<!--                                                            <div class="invalid-feedback">Please fill out this field</div>-->
-<!--                                                        </div>-->
+                                                        <div class="row d-none">
+                                                            <div class="col-sm-3">
+                                                                <label for="history-mediaType">Is this a movie: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="history-mediaType" name="mediaType"
+                                                                       th:field="*{mediaType}"
+                                                                       th:placeholder="${historyEntry.mediaType}"
+                                                                       th:value="${historyEntry.mediaType}" type="text"/>
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
                                                         <div class="row">
                                                             <div class="col-sm-3">
                                                                 <label for="history-date">Select Date: </label>
                                                             </div>
                                                             <div class="col-sm-7">
                                                                 <input class="form-control" id="history-date" name="date" required
-                                                                       th:field="*{date}" type="date">
+                                                                       th:field="*{date}" type="date" th:classappend="${addToWatchHistoryError} ? 'error-field' : ''">
+
                                                             </div>
                                                             <div class="invalid-feedback">Please fill out this field</div>
                                                         </div>

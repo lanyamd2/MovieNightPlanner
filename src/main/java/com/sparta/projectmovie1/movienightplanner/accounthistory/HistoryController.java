@@ -1,50 +1,53 @@
 package com.sparta.projectmovie1.movienightplanner.accounthistory;
 
-import com.sparta.projectmovie1.movienightplanner.loginconfig.SecurityUser;
-import jakarta.validation.Valid;
+import com.sparta.projectmovie1.movienightplanner.models.Production;
+import com.sparta.projectmovie1.movienightplanner.models.users.User;
+import com.sparta.projectmovie1.movienightplanner.services.MovieService;
+import com.sparta.projectmovie1.movienightplanner.services.SeriesService;
+import com.sparta.projectmovie1.movienightplanner.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-@Controller
+@RestController
+@RequestMapping("/api")
 public class HistoryController {
+
     HistoryRepository historyRepository;
     HistoryService historyService;
+    UserService userService;
+    MovieService movieService;
+    SeriesService seriesService;
 
     @Autowired
-    public HistoryController(HistoryRepository historyRepository, HistoryService historyService) {
+    public HistoryController(HistoryRepository historyRepository, HistoryService historyService, UserService userService, MovieService movieService, SeriesService seriesService) {
         this.historyRepository = historyRepository;
         this.historyService = historyService;
+        this.userService = userService;
+        this.movieService = movieService;
+        this.seriesService = seriesService;
     }
 
-    //Create
-    @PostMapping("/history/create")
-    public String createHistoryEntry(@ModelAttribute("historyEntry") HistoryEntry historyEntry, @AuthenticationPrincipal SecurityUser securityUser, Model model){
-        String userId = securityUser.getUser().getId();
-        historyEntry.setUserId(userId);
-
-        //check if movie is already in history
-        if(historyService.isExistingHistoryEntry(historyEntry)) {
-            throw new HistoryEntryAlreadyExistsException("Already added to your watch history");//change to a flashattribute that appears on form as error message
+    @GetMapping("/history/all/{username}")
+    public List<HistoryEntry> getAllUserHistory(@PathVariable("username") String username){
+        Optional<User> user = userService.findByUsername(username);
+        if(user.isEmpty()){
+            throw new NoSuchUserException("There is no user with the username : "+username);
         }
-        historyRepository.save(historyEntry);
-        //make watch history date between release date and today
-        //delete from myplanentry
-
-        //get all history entries for user method in chronological order MOST RECENT first
-        //add these history entries to the model
-        return "redirect:/index";//CHANGE TO HISTORY PAGE WHEN CREATED
+        return historyService.getAllHistoryEntriesByUserId(user.get().getId());
     }
 
-    //Read - use hateoas link to each production
-
-    //Update
-
-    //Delete
+    @GetMapping("/history/all/bydate/{username}")
+    public Map<Date,Map<HistoryEntry, Production>> getAllUserHistoryByUsernameOrderedByDate(@PathVariable("username") String username){
+        Optional<User> user = userService.findByUsername(username);
+        if(user.isEmpty()){
+            throw new NoSuchUserException("There is no user with the username : "+username);
+        }
+        return historyService.getAllUserHistoryByDate(user.get().getId());
+    }
 
 }

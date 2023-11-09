@@ -15,4 +15,13 @@ public class HistoryEntryAlreadyExistsControllerAdvice {
         return e.getMessage();
     }
 
+    @ResponseBody
+    @ExceptionHandler(NoSuchUserException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String noSuchUserHandler(NoSuchUserException e){
+        return e.getMessage();
+    }
+
+
+
 }
