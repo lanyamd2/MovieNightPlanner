@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -38,26 +35,67 @@ public class HistoryWebController {
         }
 
         historyRepository.save(historyEntry);
-        //make watch history date calendar between release date and today
         
         //delete from myplanentry if they want
-
-
-        //REMOVE ACCESS TO API HISTORY!!!!!!
-
         return "redirect:/history/all";
     }
 
     //Read
     @GetMapping("/all")
-    public String getAllUserHistory(Model model, @AuthenticationPrincipal SecurityUser securityUser){
+    public String getAllUserHistory(@RequestParam(required = false) String historyEntryDeleteError,@RequestParam(required = false) String editWatchHistoryError,@RequestParam(required = false) String existingEntryNotFoundError, Model model, @AuthenticationPrincipal SecurityUser securityUser){
+        if(historyEntryDeleteError!=null){
+            model.addAttribute("historyEntryDeleteError","This history entry could not be deleted.");
+        }
+        if(editWatchHistoryError!=null){//if edi
+            model.addAttribute("editWatchHistoryError","You have already added this production to your history on that date.");
+        }
+        if(existingEntryNotFoundError!=null){//if edi
+            model.addAttribute("existingEntryNotFoundError","This history entry could not be edited.");
+        }
+
+        model.addAttribute("historyEntryEdit", new HistoryEntry());
         model.addAttribute("historyEntries", historyService.getAllUserHistoryByDate(securityUser.getUser().getId()));
         return "history";
     }
 
     //Update
+    @PatchMapping("/edit")
+    public String editHistoryEntry(@ModelAttribute("historyEntryEdit")HistoryEntry historyEntryEdit){
+        System.out.println("form entry: "+ historyEntryEdit);
+        Optional<HistoryEntry> existingEntry = historyRepository.findHistoryEntryById(historyEntryEdit.getId());
+
+
+        if(existingEntry.isEmpty()){
+            return "redirect:/history/all?existingEntryNotFoundError=true";
+        }
+        System.out.println("existing entry: "+existingEntry.get());
+
+        existingEntry.get().setDate(historyEntryEdit.getDate());
+
+        System.out.println("existing entry after set date: "+existingEntry.get());
+        if(historyService.isExistingHistoryEntry(existingEntry.get())){
+            return "redirect:/history/all?editWatchHistoryError=true";
+        }
+
+
+        historyRepository.save(existingEntry.get());
+        return "redirect:/history/all";
+    }
+
 
     //Delete
+    @GetMapping("/delete/{historyEntryId}")
+    String deleteHistoryEntryByHistoryEntryId(@PathVariable("historyEntryId")String id, HttpServletRequest request){
+        Optional<HistoryEntry> historyEntryOptional = historyRepository.findHistoryEntryById(id);
+        if(historyEntryOptional.isPresent()){
+            historyRepository.deleteById(id); //successful delete
+            return"redirect:/history/all";
+        }
+
+        //redirects to user's full history page with error
+        return "redirect:/history/all?historyEntryError=true";
+
+    }
 
 
 

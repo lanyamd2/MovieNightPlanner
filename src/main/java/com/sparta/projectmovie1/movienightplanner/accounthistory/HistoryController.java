@@ -6,15 +6,12 @@ import com.sparta.projectmovie1.movienightplanner.services.MovieService;
 import com.sparta.projectmovie1.movienightplanner.services.SeriesService;
 import com.sparta.projectmovie1.movienightplanner.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/securedapi")
 public class HistoryController {
 
     HistoryRepository historyRepository;
@@ -48,6 +45,16 @@ public class HistoryController {
             throw new NoSuchUserException("There is no user with the username : "+username);
         }
         return historyService.getAllUserHistoryByDate(user.get().getId());
+    }
+
+    @GetMapping("/history/delete/{historyEntryId}")
+    public void deleteHistoryEntryById(@PathVariable("historyEntryId") String entryId){
+        Optional<HistoryEntry> historyEntryOptional = historyRepository.findHistoryEntryById(entryId);
+        if(historyEntryOptional.isEmpty()){
+            throw new NoSuchHistoryEntryException("There is no history entry with the id : "+entryId);
+        }
+
+        historyRepository.deleteById(entryId);
     }
 
 }

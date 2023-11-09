@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class HistoryEntryAlreadyExistsControllerAdvice {
+public class HistoryEntryControllerAdvice {
     @ResponseBody
     @ExceptionHandler(HistoryEntryAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.ALREADY_REPORTED)
@@ -22,6 +22,10 @@ public class HistoryEntryAlreadyExistsControllerAdvice {
         return e.getMessage();
     }
 
-
-
+    @ResponseBody
+    @ExceptionHandler(NoSuchHistoryEntryException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String noSuchUserHandler(NoSuchHistoryEntryException e){
+        return e.getMessage();
+    }
 }
