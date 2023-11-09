@@ -38,11 +38,10 @@ public class HistoryWebController {
         }
 
         historyRepository.save(historyEntry);
-        //make watch history date between release date and today
-        //delete from myplanentry
+        //make watch history date calendar between release date and today
+        
+        //delete from myplanentry if they want
 
-        //get all history entries for user method in chronological order MOST RECENT first
-        //add these history entries to the model
 
         //REMOVE ACCESS TO API HISTORY!!!!!!
 
