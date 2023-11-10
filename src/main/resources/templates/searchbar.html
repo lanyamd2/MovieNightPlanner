@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
+<link href="/css/homepagestyles.css" rel="stylesheet" type="text/css">
 <body onload="changeOptions()">
 <!--Search Section starts here-->
 <div class="searchsection p-3 mb-2 text-white" style="margin:auto;">
   <!--<form th:action="@{/search-results}" method="post">-->
-  <form th:action="@{/search-results-new}" method="post">
+  <form th:action="@{/search-results-new}" method="get">
     <div class="row g-0 justify-content-center">
       <div class="col-sm-7 mx-3">
         <label class="d-none" for="searchQuery"></label>
@@ -31,6 +31,11 @@
 </div>
 <!--Search Section ends here--><script>
   var movieGenres=[
+
+   {
+      "id": 0,
+      "name": "Choose Genre"
+    },
     {
       "id": 28,
       "name": "Action"
@@ -111,6 +116,11 @@
 
 
   var tvGenres=[
+
+   {
+      "id": 0,
+      "name": "Choose Genre"
+    },
     {
       "id": 10759,
       "name": "Action & Adventure"
