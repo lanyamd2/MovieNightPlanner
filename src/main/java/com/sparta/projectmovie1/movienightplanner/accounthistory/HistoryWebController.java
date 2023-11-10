@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/history")
@@ -63,6 +62,20 @@ public class HistoryWebController {
         return "history";
     }
 
+    @GetMapping("/search")
+    public String getHistoryEntriesContainingProductionName(Model model, @RequestParam String productionName, @AuthenticationPrincipal SecurityUser securityUser){
+        model.addAttribute("productionName", productionName);
+
+        List<String> historyIds = historyService.getHistoryEntriesByUserIdAndProductionName(securityUser.getUser().getId(),productionName).stream().map(HistoryEntry::getId).toList();
+        model.addAttribute("historyIds", historyIds);
+
+        model.addAttribute("historyEntryEdit", new HistoryEntry());
+
+        model.addAttribute("historyEntries", historyService.getSearchResults(securityUser.getUser().getId(), productionName));
+
+        return "history-search";
+    }
+
     //Update
     @PatchMapping("/edit")
     public String editHistoryEntry(@ModelAttribute("historyEntryEdit")HistoryEntry historyEntryEdit){
@@ -85,7 +98,7 @@ public class HistoryWebController {
 
     //Delete
     @GetMapping("/delete/{historyEntryId}")
-    String deleteHistoryEntryByHistoryEntryId(@PathVariable("historyEntryId")String id, HttpServletRequest request){
+    String deleteHistoryEntryByHistoryEntryId(@PathVariable("historyEntryId")String id){
         Optional<HistoryEntry> historyEntryOptional = historyRepository.findHistoryEntryById(id);
         if(historyEntryOptional.isPresent()){
             historyRepository.deleteById(id); //successful delete

@@ -25,6 +25,9 @@
     <main lang="en-GB">
         <div class="mx-2" id="header" style="margin-top: 20px;">
             <h1 th:text="${production.name}" class="border-bottom">Movie Title</h1>
+            <div th:if="${productionName}>
+                <span th:text="${productionName}"></span>
+            </div>
         </div>
         <div class="container-fluid" id="content">
             <div class="w-25 float-end col border border-1 rounded ">
@@ -157,6 +160,18 @@
                                                             </div>
                                                             <div class="invalid-feedback">Please fill out this field</div>
                                                         </div>
+                                                        <div class="row d-none">
+                                                            <div class="col-sm-3">
+                                                                <label for="history-productionName">Production Name: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="history-productionName" name="productionName"
+                                                                       th:placeholder="${production.name}"
+                                                                       th:value="${production.name}" type="text"/>
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+
                                                         <div class="row">
                                                             <div class="col-sm-3">
                                                                 <label for="history-date">Select Date: </label>

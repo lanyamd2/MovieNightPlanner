@@ -155,6 +155,18 @@
                                                             </div>
                                                             <div class="invalid-feedback">Please fill out this field</div>
                                                         </div>
+                                                        <div class="row d-none">
+                                                            <div class="col-sm-3">
+                                                                <label for="history-productionName">Production Name: </label>
+                                                            </div>
+                                                            <div class="col-sm-7">
+                                                                <input class="form-control" id="history-productionName" name="productionName"
+                                                                       th:placeholder="${production.name}"
+                                                                       th:value="${production.name}" type="text"/>
+                                                            </div>
+                                                            <div class="invalid-feedback">Please fill out this field</div>
+                                                        </div>
+
                                                         <div class="row">
                                                             <div class="col-sm-3">
                                                                 <label for="history-date">Select Date: </label>
