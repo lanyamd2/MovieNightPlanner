@@ -8,7 +8,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
 
     <!--Adding external style sheet-->
-    <link href="../../css/homepagestyles.css" rel="stylesheet" type="text/css">
+    <link href="/css/homepagestyles.css" rel="stylesheet" type="text/css">
 
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" rel="stylesheet">
@@ -25,9 +25,6 @@
     <main lang="en-GB">
         <div class="mx-2" id="header" style="margin-top: 20px;">
             <h1 th:text="${production.name}" class="border-bottom">Movie Title</h1>
-            <div th:if="${productionName}>
-                <span th:text="${productionName}"></span>
-            </div>
         </div>
         <div class="container-fluid" id="content">
             <div class="w-25 float-end col border border-1 rounded ">
