@@ -47,6 +47,7 @@ public class ProviderService {
     public List<Provider> getCurrentProviders(String userId){
 
         List<MyProviderEntry> myProviderEntryList=myProviderEntryRepo.findByUserId(userId);
+        System.out.println("Number of providers from database--"+myProviderEntryList.size());
 
         List<Provider> movieProviders=getAllProvidersFromTmdb("movie");
         List<Provider> tvProviders=getAllProvidersFromTmdb("tv");
@@ -54,7 +55,12 @@ public class ProviderService {
         List<Provider> currentProviders=new ArrayList<>();
 
         for(MyProviderEntry entry:myProviderEntryList){
-            List<Provider> providersTv=tvProviders.stream().filter(p->p.getProvider_id()== entry.getProviderId()).collect(Collectors.toList());
+            System.out.println("providerId of current entry--"+entry.getProviderId());
+            List<Provider> providersTv=tvProviders.stream().filter(p->{
+                /*System.out.println("id from api--"+p.getProvider_id());
+                System.out.println("id from entry--"+entry.getProviderId());*/
+                return p.getProvider_id()== entry.getProviderId();}).collect(Collectors.toList());
+            System.out.println("size of providersTv--"+providersTv.size());
             System.out.println("here1");
             if(providersTv.size()>0){
                 System.out.println("here2");
@@ -74,5 +80,11 @@ public class ProviderService {
 
         return currentProviders;
 
+    }
+
+
+    public void deleteProvider(Integer providerId,String userId){
+            MyProviderEntry providerEntry=myProviderEntryRepo.findByUserIdAndProviderId(userId,providerId);
+            myProviderEntryRepo.deleteById(providerEntry.get_id());
     }
 }

@@ -67,6 +67,14 @@ public class StreamingServiceController {
 
         return "streaming-services";
 
+    }
 
+
+    @RequestMapping("/removeProvider")
+    public String removeFromMyProviders(@RequestParam Integer providerId,Model model, @AuthenticationPrincipal SecurityUser securityUser){
+        String userId = securityUser.getUser().getId();
+        providerService.deleteProvider(providerId,userId);
+        model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
+        return "streaming-services";
     }
 }

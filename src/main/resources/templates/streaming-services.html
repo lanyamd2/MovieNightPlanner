@@ -16,6 +16,7 @@
 </head>
 <body style="color: #411F50;">
 <div th:insert="(~{navbar.html})"></div>
+<div th:insert="(~{searchbar.html})"></div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
@@ -25,7 +26,8 @@
     </div>
     <div class="row">
        <div class="col-sm-12" th:each="watchprovider:${currentProviders}" th:if="${currentProviders.size()>0}">
-           <span th:text="${watchprovider.getProvider_name()}"></span>
+           <span th:text="${watchprovider.getProvider_name()}"></span>&nbsp;
+           <a th:href="@{/removeProvider(providerId=${watchprovider.getProvider_id()})}">Remove</a>&nbsp;
        </div>
     </div>
     <div class="row">

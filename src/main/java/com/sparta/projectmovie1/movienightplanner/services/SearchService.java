@@ -144,7 +144,7 @@ public class SearchService {
             ProductionList productionList=null;
 
             try{
-                if(user!=null){
+                if(user!=null && watchProviderSearch.length()>0){
                     if(searchGenre!=0){
                         productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + String.valueOf(searchGenre) + "&page="+page+"&api_key=" + tmdbApiKey+watchProviderSearch, ProductionList.class);
                     }
