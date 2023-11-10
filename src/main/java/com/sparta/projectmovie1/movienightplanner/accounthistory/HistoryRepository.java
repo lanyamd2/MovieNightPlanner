@@ -11,6 +11,12 @@ import java.util.Optional;
 @Repository
 public interface HistoryRepository extends MongoRepository<HistoryEntry,String> {
     @Query
+    Optional<HistoryEntry> findHistoryEntryById(String id);
+
+    @Query
+    List<HistoryEntry> findHistoryEntriesByUserIdAndProductionNameContainingIgnoreCase(String userId, String productionName);
+
+    @Query
     List<HistoryEntry> findHistoryEntriesByUserId(String userId);
 
     @Query

@@ -5,11 +5,11 @@ import com.sparta.projectmovie1.movienightplanner.controllers.ProfileController;
 import com.sparta.projectmovie1.movienightplanner.models.MyPlanEntry;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/details")
@@ -23,7 +23,7 @@ public class ProfileWebController {
     }
 
     @GetMapping("movie/{id}")
-    private String getMovieById(@RequestParam(required = false) String addToWatchHistoryError,Model model, @PathVariable("id") String id){
+    private String getMovieById(@RequestParam(required = false) String addToWatchHistoryError,Model model, @PathVariable("id") String id, HttpServletRequest request){
         if (addToWatchHistoryError != null) {
             model.addAttribute("addToWatchHistoryError", "Already added to Watch History.");
         }
@@ -46,7 +46,7 @@ public class ProfileWebController {
     }
 
     @GetMapping("tv/{id}")
-    private String getShowById(@RequestParam(required = false) String addToWatchHistoryError, Model model, @PathVariable("id") String id){
+    private String getShowById(@RequestParam(required = false) String addToWatchHistoryError, Model model, @PathVariable("id") String id,  HttpServletRequest request){
         if (addToWatchHistoryError != null) {
             model.addAttribute("addToWatchHistoryError", "Already added to Watch History.");
         }
