@@ -1,8 +1,10 @@
 package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
+import com.sparta.projectmovie1.movienightplanner.loginconfig.SecurityUser;
 import com.sparta.projectmovie1.movienightplanner.models.*;
 import com.sparta.projectmovie1.movienightplanner.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,7 +53,8 @@ public class HomeController {
                                      @RequestParam String productionType,
                                      @RequestParam Integer searchGenre,
                                      @RequestParam(required = false) Integer page,
-                                     @RequestParam(required = false) String sortBy, Model model){
+                                     @RequestParam(required = false) String sortBy, Model model,
+                                     @AuthenticationPrincipal SecurityUser user){
 
 
 
@@ -67,7 +70,7 @@ public class HomeController {
         model.addAttribute("lastSearchGenreName",searchGenre!=0?searchService.getGenreName(genres,searchGenre):null);
 
         //List<Production> productions=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
-        ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
+        ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page,user);
         List<Production> productions=productionList.getResults();
 
         if(sortBy!=null && sortBy.equals("popularity")){

@@ -183,8 +183,8 @@ public class SearchServiceTests {
 
         Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
 
-        Assertions.assertEquals(1,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().size());
-        Assertions.assertEquals("movie",searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().get(0).getMedia_type());
+        Assertions.assertEquals(1,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page,null).getResults().size());
+        Assertions.assertEquals("movie",searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page,null).getResults().get(0).getMedia_type());
 
     }
 
@@ -233,7 +233,7 @@ public class SearchServiceTests {
 
         Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
 
-        Assertions.assertEquals(0,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().size());
+        Assertions.assertEquals(0,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page,null).getResults().size());
 
     }
 
@@ -252,7 +252,7 @@ public class SearchServiceTests {
 
         Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/search/" + productionType + "?query=" + searchQuery + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
 
-        Assertions.assertEquals(0,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page).getResults().size());
+        Assertions.assertEquals(0,searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page,null).getResults().size());
 
     }
 
@@ -274,7 +274,7 @@ public class SearchServiceTests {
 
         Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + String.valueOf(searchGenre) + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
         Mockito.when(movieService.getReleaseYearFromReleaseDate(Mockito.any(Production.class))).thenReturn("2023");
-        Assertions.assertEquals(1,searchService.getAllSearchResults(null,productionType,searchGenre,page).getResults().size());
+        Assertions.assertEquals(1,searchService.getAllSearchResults(null,productionType,searchGenre,page,null).getResults().size());
 
     }
 

@@ -31,6 +31,11 @@
                        th:classappend="${#authorization.expression('isAuthenticated()')} ? '' : 'disabled'">History
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/providers}" th:if="${#authorization.expression('isAuthenticated()')}"
+                       th:classappend="${#authorization.expression('isAuthenticated()')} ? '' : 'disabled'">StreamingServices
+                    </a>
+                </li>
             </ul>
         </div>
         <div>
