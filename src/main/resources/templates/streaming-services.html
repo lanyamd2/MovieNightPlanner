@@ -17,19 +17,32 @@
 <body style="color: #411F50;">
 <div th:insert="(~{navbar.html})"></div>
 <div th:insert="(~{searchbar.html})"></div>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-sm-12">
             <h3 th:if="${currentProviders.size()==0}">You have not subscribed to any streaming providers</h3>
             <h3 th:if="${currentProviders.size()>0}">Current Streaming Providers</h3>
         </div>
     </div>
+    <br>
     <div class="row">
        <div class="col-sm-12" th:each="watchprovider:${currentProviders}" th:if="${currentProviders.size()>0}">
-           <span th:text="${watchprovider.getProvider_name()}"></span>&nbsp;
-           <a th:href="@{/removeProvider(providerId=${watchprovider.getProvider_id()})}">Remove</a>&nbsp;
+           <div class="row">
+               <div class="col-sm-2"><img th:src="@{'https://www.themoviedb.org/t/p/h30/'+${watchprovider.getLogo_path()}}">&nbsp;
+                   <b><span th:text="${watchprovider.getProvider_name()}"></span></b></div>
+               <div class="col-sm-1"><a th:href="@{/removeProvider(providerId=${watchprovider.getProvider_id()})}" class="btn btn-dark btn-sm">Remove</a>&nbsp;</div>
+               <div class="col-sm-9"></div>
+           </div>
+           <br>
        </div>
+        <br>
     </div>
+    <div class="row">
+        <div class="col-sm-12" th:if="${addToProviderError}">
+            <b><span th:text="${addToProviderError}" style="color: #e33661; text-align:center; font-weight: bold;"></span></b>
+        </div>
+    </div>
+    <br>
     <div class="row">
         <div class="col-sm-12">
             <a th:href="@{/providers/movie}" class="btn btn-dark">Show providers for movie</a>&nbsp;

@@ -57,9 +57,21 @@ public class ProviderService {
         for(MyProviderEntry entry:myProviderEntryList){
             System.out.println("providerId of current entry--"+entry.getProviderId());
             List<Provider> providersTv=tvProviders.stream().filter(p->{
-                /*System.out.println("id from api--"+p.getProvider_id());
-                System.out.println("id from entry--"+entry.getProviderId());*/
-                return p.getProvider_id()== entry.getProviderId();}).collect(Collectors.toList());
+                String valueFromDB=String.valueOf(entry.getProviderId());
+                String valueFromApi=String.valueOf(p.getProvider_id());
+                return ((p.getProvider_id()== entry.getProviderId())||(valueFromDB.equals(valueFromApi)));}).collect(Collectors.toList());
+
+            /*---------2nd approach-----------------*/
+
+            for(Provider theProvider:tvProviders){
+                System.out.println("Inside new loop-"+theProvider.getProvider_id());
+                System.out.println("Inside new loop-"+entry.getProviderId());
+                String valueFromDB=String.valueOf(entry.getProviderId());
+                String valueFromApi=String.valueOf(theProvider.getProvider_id());
+                if((theProvider.getProvider_id()== entry.getProviderId())||(valueFromDB.equals(valueFromApi))){
+                    System.out.println("Found provider---"+theProvider.getProvider_name());
+                }
+            }
             System.out.println("size of providersTv--"+providersTv.size());
             System.out.println("here1");
             if(providersTv.size()>0){
@@ -70,7 +82,10 @@ public class ProviderService {
             }
             else{
                 System.out.println("here4");
-                List<Provider> providersMovie=movieProviders.stream().filter(p->p.getProvider_id()== entry.getProviderId()).collect(Collectors.toList());
+                List<Provider> providersMovie=movieProviders.stream().filter(p->{
+                    String valueFromDB=String.valueOf(entry.getProviderId());
+                    String valueFromApi=String.valueOf(p.getProvider_id());
+                    return ((p.getProvider_id()== entry.getProviderId())||(valueFromDB.equals(valueFromApi)));}).collect(Collectors.toList());
                 if(providersMovie.size()>0){
                     currentProviders.add(providersMovie.get(0));
                 }

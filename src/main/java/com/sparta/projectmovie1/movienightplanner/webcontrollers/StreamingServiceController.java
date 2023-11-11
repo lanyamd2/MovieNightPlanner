@@ -55,12 +55,20 @@ public class StreamingServiceController {
     public String addToMyProviders(@RequestParam Integer providerId,Model model, @AuthenticationPrincipal SecurityUser securityUser){
         String userId = securityUser.getUser().getId();
         System.out.println("providerId---"+providerId);
-        MyProviderEntry myProviderEntry=new MyProviderEntry();
-        myProviderEntry.setProviderId(providerId);
-        myProviderEntry.setUserId(userId);
 
-        providerService.addToMyProviderEntries(myProviderEntry);
+        MyProviderEntry existingProviderEntry=myProviderEntryRepo.findByUserIdAndProviderId(userId,providerId);
 
+        if(existingProviderEntry==null){
+
+            MyProviderEntry myProviderEntry=new MyProviderEntry();
+            myProviderEntry.setProviderId(providerId);
+            myProviderEntry.setUserId(userId);
+
+            providerService.addToMyProviderEntries(myProviderEntry);
+        }
+        else{
+            model.addAttribute("addToProviderError","Provider already added");
+        }
 
         model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
 

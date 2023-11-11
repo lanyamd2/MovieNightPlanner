@@ -245,8 +245,10 @@ public class SearchService {
 
         for(Provider provider:providers){
 
-
-            int size=prouctionTypeProviders.stream().filter(p->p.getProvider_id()==provider.getProvider_id()).collect(Collectors.toList()).size();
+            int size=prouctionTypeProviders.stream().filter(p->{
+                String valueFromDB=String.valueOf(provider.getProvider_id());
+                String valueFromApi=String.valueOf(p.getProvider_id());
+                return ((p.getProvider_id()==provider.getProvider_id())||(valueFromDB.equals(valueFromApi)));}).collect(Collectors.toList()).size();
             if(size>0){
                 providersForTheProductionType.add(provider);
             }
