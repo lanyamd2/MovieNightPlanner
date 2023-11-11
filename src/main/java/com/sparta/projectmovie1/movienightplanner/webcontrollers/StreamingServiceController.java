@@ -41,6 +41,7 @@ public class StreamingServiceController {
         String userId = securityUser.getUser().getId();
         model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
         model.addAttribute("movieProviders",providerService.getAllProvidersFromTmdb("movie"));
+        model.addAttribute("type","movie");
         return "streaming-services";
     }
     @RequestMapping("/providers/tv")
@@ -48,6 +49,7 @@ public class StreamingServiceController {
         String userId = securityUser.getUser().getId();
         model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
         model.addAttribute("tvProviders",providerService.getAllProvidersFromTmdb("tv"));
+        model.addAttribute("type","tv");
         return "streaming-services";
     }
 

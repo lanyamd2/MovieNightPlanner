@@ -49,17 +49,27 @@
             <a th:href="@{/providers/tv}" class="btn btn-dark">Show providers for tv</a>
         </div>
     </div>
+    <br>
+    <div class="row" th:if="${type}">
+        <div class="col-sm-12">
+            <h4>Providers for <span th:text="${type}"></span></h4>
+        </div>
+    </div>
     <div class="row">
-        <table class="table">
-            <tr th:each="provider:${movieProviders}" th:if="${movieProviders}">
-                <td th:text="${provider.getProvider_name()}"></td>
-                <td><a th:href="@{/addToProviders(providerId=${provider.getProvider_id()})}">Add</a></td>
-            </tr>
-            <tr th:each="provider:${tvProviders}" th:if="${tvProviders}">
-                <td th:text="${provider.getProvider_name()}"></td>
-                <td><a th:href="@{/addToProviders(providerId=${provider.getProvider_id()})}">Add</a></td>
-            </tr>
-        </table>
+        <div class="col-sm-8">
+            <table class="table">
+                <tr th:each="provider:${movieProviders}" th:if="${movieProviders}">
+                    <td ><img th:src="@{'https://www.themoviedb.org/t/p/h30/'+${provider.getLogo_path()}}">&nbsp;<span th:text="${provider.getProvider_name()}"></span></td>
+                    <td><a th:href="@{/addToProviders(providerId=${provider.getProvider_id()})}" class="btn btn-dark btn-sm">Add</a></td>
+                </tr>
+                <tr th:each="provider:${tvProviders}" th:if="${tvProviders}">
+                    <td ><img th:src="@{'https://www.themoviedb.org/t/p/h30/'+${provider.getLogo_path()}}">&nbsp;<span th:text="${provider.getProvider_name()}"></span></td>
+                    <td><a th:href="@{/addToProviders(providerId=${provider.getProvider_id()})}" class="btn btn-dark btn-sm">Add</a></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-4"></div>
+
     </div>
 
 
