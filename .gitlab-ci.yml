@@ -47,7 +47,6 @@ test:
 
 deploy staging:
     stage: deploy
-    needs: [build]
     script:
         - echo "Maven deploy to staging started"
         - chmod 600 $SSH_PRIVATE_KEY
