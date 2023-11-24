@@ -19,6 +19,9 @@ public class HistoryEntry {
     @JsonProperty("production_id")
     private Integer productionId;
 
+    @JsonProperty("production_name")
+    private String productionName;
+
     @JsonProperty("date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
@@ -30,11 +33,14 @@ public class HistoryEntry {
     public HistoryEntry() {
     }
 
-    public HistoryEntry(String userId, Integer productionId, Date date) {
+
+    public HistoryEntry(String userId, Integer productionId, String productionName, Date date) {
         this.userId = userId;
         this.productionId = productionId;
+        this.productionName = productionName;
         this.date = date;
     }
+
 
     public String getId() {
         return id;
@@ -60,6 +66,14 @@ public class HistoryEntry {
         this.productionId = productionId;
     }
 
+    public String getProductionName() {
+        return productionName;
+    }
+
+    public void setProductionName(String productionName) {
+        this.productionName = productionName;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -81,6 +95,7 @@ public class HistoryEntry {
         return "HistoryEntry{" +
                 "id='" + id + '\'' +
                 ", userId='" + userId + '\'' +
+                ", productionName='" + productionName + '\'' +
                 ", productionId=" + productionId +
                 ", date=" + date +
                 ", mediaType=" + mediaType +

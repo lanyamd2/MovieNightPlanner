@@ -5,9 +5,10 @@ import com.sparta.projectmovie1.movienightplanner.models.Production;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyPlanEntryRepository;
-import java.util.ArrayList;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -36,29 +37,30 @@ public class MyPlanService {
     this.restTemplate = restTemplate;
   }
 
-  public Map<Date, List<Production>> getAllProductionsWithDatesInPlan(String userId) {
+  public Map<Date, Map<String, Production>> getAllEntriesWithDates(String userId) {
     List<MyPlanEntry> entries = myPlanEntryRepository.findMyPlanEntriesByUserIdAndDateGreaterThanEqual(userId,
         DateUtils.truncate(new Date(), Calendar.DAY_OF_MONTH));
-    Map<Date, List<Production>> entriesByDate = new TreeMap<>();
+    Map<Date, Map<String, Production>> entriesByDate = new TreeMap<>();
     for(MyPlanEntry entry : entries) {
       Date date = entry.getDate();
+      String entryID = entry.getId();
       Production production = getProduction(entry);
-      entriesByDate.computeIfAbsent(date, k -> new ArrayList<>());
-      entriesByDate.get(date).add(production);
+      entriesByDate.computeIfAbsent(date, k -> new HashMap<>());
+      entriesByDate.get(date).put(entryID, production);
     }
     return entriesByDate;
   }
 
-  public List<Production> getProductionsOnDate(String userId, Date date) {
-    return getProductions(myPlanEntryRepository.findMyPlanEntriesByUserIdAndDate(userId, date));
+  public Map<String, Production> getEntriesOnDate(String userId, Date date) {
+    return getEntriesWithIds(myPlanEntryRepository.findMyPlanEntriesByUserIdAndDate(userId, date));
   }
 
-  public List<Production> getProductions(List<MyPlanEntry> myPlanEntries) {
-    List<Production> productions = new ArrayList<>();
+  public Map<String, Production> getEntriesWithIds(List<MyPlanEntry> myPlanEntries) {
+    Map<String, Production> entriesWithIds = new HashMap<>();
     for(MyPlanEntry myPlanEntry : myPlanEntries) {
-      productions.add(getProduction(myPlanEntry));
+      entriesWithIds.put(myPlanEntry.getId(), getProduction(myPlanEntry));
     }
-    return productions;
+    return entriesWithIds;
   }
 
   public Production getProduction(MyPlanEntry entry) {
@@ -78,5 +80,15 @@ public class MyPlanService {
 
   public MyPlanEntry addEntry(MyPlanEntry myPlanEntry) {
     return myPlanEntryRepository.save(myPlanEntry);
+  }
+
+  public MyPlanEntry updateEntryDate(String id, Date date) {
+    MyPlanEntry entry = myPlanEntryRepository.getMyPlanEntryById(id);
+    entry.setDate(date);
+    return myPlanEntryRepository.save(entry);
+  }
+
+  public void deleteEntry(String id) {
+    myPlanEntryRepository.deleteMyPlanEntryById(id);
   }
 }

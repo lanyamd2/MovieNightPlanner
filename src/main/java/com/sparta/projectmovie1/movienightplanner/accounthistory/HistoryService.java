@@ -36,10 +36,9 @@ public class HistoryService {
         return historyRepository.findHistoryEntriesByUserId(userId);
     }
 
-    public boolean isUserHistoryEmpty(String userId){
-        return getAllHistoryEntriesByUserId(userId).isEmpty();
+    public List<HistoryEntry> getHistoryEntriesByUserIdAndProductionName(String userId, String productionName){
+        return historyRepository.findHistoryEntriesByUserIdAndProductionNameContainingIgnoreCase(userId, productionName);
     }
-
 
     public Map<Date, Map<HistoryEntry, Production>> getAllUserHistoryByDate(String userId) {
         List<HistoryEntry> userHistory = getAllHistoryEntriesByUserId(userId);
@@ -48,10 +47,24 @@ public class HistoryService {
         for(HistoryEntry entry : userHistory){
             Date date = entry.getDate();
             Production production = getProduction(entry);
-            userHistoryByDate.computeIfAbsent(date, k-> new Hashtable<HistoryEntry,Production>());
+            userHistoryByDate.computeIfAbsent(date, k-> new HashMap<HistoryEntry,Production>());
             userHistoryByDate.get(date).putIfAbsent(entry,production);
         }
         return userHistoryByDate;
+    }
+
+    public Map<Date, Map<HistoryEntry,Production>> getSearchResults(String userId, String productionName){
+        List<HistoryEntry> searchResults = getHistoryEntriesByUserIdAndProductionName(userId, productionName);
+
+        Map<Date, Map<HistoryEntry, Production>> searchResultsEntries = new TreeMap<>(Collections.reverseOrder());
+        searchResults.forEach(entry -> {
+            Date date = entry.getDate();
+            Production production = getProduction(entry);
+            searchResultsEntries.computeIfAbsent(date, k -> new HashMap<>());
+            searchResultsEntries.get(date).putIfAbsent(entry, production);
+        });
+
+        return searchResultsEntries;
     }
 
     private Production getProduction(HistoryEntry entry) {
