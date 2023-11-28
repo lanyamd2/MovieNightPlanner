@@ -16,12 +16,70 @@
 }
 
 .navbar {
-    background-color: #411F50 ;
-    /*background-image: linear-gradient( #512763, #411F50);*/
+    /*background-color: #411F50 ;*/
+    background-image: linear-gradient( #512763, #411F50);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+/*DARK MODE CHANGES START HERE*/
+.navbar a{
+    color: rgb(197, 206, 219);
+}
+
+.dropdown-menu{
+    background-color: #613973;
+}
+
+.navbar .dropdown-menu a:hover{
+    color: white;
+    background-color: #724487;
+}
+
+.modal-content{
+    background-color: #613973;
+}
+
+.modal-content .form-control{
+    color: white;
+    background-color: #724487;
+}
+
+.searchsection .form-control{
+    border-color: #613973;
+    background-color: #613973;
+}
+.searchsection .form-select{
+    border-color: #613973;
+    background-color: #613973;
+}
+
+.searchsection input::placeholder, option{
+    color: white;
+}
+
+.searchsection input:hover, select:hover{
+    color: white;
+    background-color: #724487;
+}
+
+.searchsection .form-select select{
+    color: white;
+}
+
+/*.others:hover{*/
+/*    background-color: #ba294d; !important;*/
+/*    !*box-shadow: 0 0 10px 100px #ba294d inset;*!*/
+/*}*/
+
+/*.form-select .others option{*/
+/*    color: #ba294d;*/
+/*}*/
+
+/*.searchsection select.form-select .others option:hover{*/
+/*    background-color: #ba294d;*/
+/*}*/
 
 
+/*DARK MODE CHANGES END HERE*/
 .navbar-brand {
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
 }

@@ -14,7 +14,7 @@
     <!--Adding external style sheet-->
     <link href="/css/homepagestyles.css" rel="stylesheet" type="text/css" id="theme-link">
 </head>
-<body onload="changeOptions()" class="light-theme">
+<body onload="changeOptions()" class="text-white" style="background-color: #411F50">
 <!--Nav bar and search bar begin here-->
 <div th:insert="(~{navbar.html})"></div>
 <div th:insert="(~{searchbar.html})"></div>
@@ -43,18 +43,18 @@
                          style="width:200px" th:unless="${production.posterPath!=null}">
                 </div>
                 <div>
-                    <table class="table mt-3 border-top">
+                    <table class="table mt-3 border-top" >
                         <tr th:if="${production.genres!=null}">
                             <th>Genre</th>
-                            <td class="border-start">
+                            <td style="background-color: #411F50; color: white" class="border-start">
                                 <ul class="list-unstyled" th:each="genre:${production.genres}">
                                     <li th:text="${genre.name}">Romance</li>
                                 </ul>
                             </td>
                         </tr>
                         <tr th:if="${!production.releaseDate.isEmpty()}">
-                            <th>Release Date</th>
-                            <td class="border-start" th:text="${production.releaseDate}"></td>
+                            <th style="background-color: #411F50">Release Date</th>
+                            <td style="background-color: #411F50" class="border-start" th:text="${production.releaseDate}"></td>
                         </tr>
                         <tr th:if="${production.runtime!=0}"
                             th:with="h=${production.runtime}/60,m=${production.runtime}%60">
@@ -123,10 +123,10 @@
                                             data-bs-toggle="modal" data-bs-target="#addToWatchHistoryForm">Already Watched?
                                     </button>
                                     <!-- Add to Watch History Modal starts here -->
-                                    <form method="post" th:action="@{/history/create}" th:object="${historyEntry}">
+                                    <form method="post" th:action="@{/history/create}" th:object="${historyEntry}" >
                                         <div aria-hidden="true" aria-labelledby="historyModalLabel" class="modal fade" id="addToWatchHistoryForm"
                                              tabindex="-1">
-                                            <div class="modal-dialog">
+                                            <div class="modal-dialog" >
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title" id="historyModalLabel">When did you watch this?</h5>
@@ -273,12 +273,12 @@
                          th:attr="data-object-type=${production.media_type},
                      data-title=${production.name.toLowerCase()}+' ',
                      data-year=${production.releaseYear},
-                     data-theme='light'"
+                     data-theme='dark'"
                     ></div>
-                    <div style="">
+                    <div>
                         <a data-original="https://www.justwatch.com"
                            href="https://www.justwatch.com"
-                           style="display:flex; font-size: 11px; font-family: sans-serif; color: black; text-decoration: none; align-items:center;"
+                           style="display:flex; font-size: 11px; font-family: sans-serif; text-decoration: none; align-items:center; color: white"
                            target="_blank">
                             <img alt="JustWatch" height="11px"
                                  src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg">

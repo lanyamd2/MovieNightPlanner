@@ -3,7 +3,7 @@
 <link href="/css/homepagestyles.css" rel="stylesheet" type="text/css">
 <body onload="changeOptions()">
 <!--Search Section starts here-->
-<div class="searchsection p-3 mb-2 text-white" style="margin:auto;">
+<div class="searchsection p-3 mb-2" style="margin:auto;" >
   <!--<form th:action="@{/search-results}" method="post">-->
   <form th:action="@{/search-results-new}" method="get">
     <div class="row g-0 justify-content-center">
@@ -13,14 +13,14 @@
       </div>
       <div class="col-sm mx-3">
         <label class="d-none" for="productionType"></label>
-        <select class="form-select" name="productionType" id="productionType" onchange="changeOptions()">
+        <select class="form-select" name="productionType" id="productionType" onchange="changeOptions()" style="color: white">
           <option value="movie">Movie</option>
           <option value="tv">Tv</option>
         </select>
       </div>
       <div class="col-sm mx-3">
         <label class="d-none" for="searchGenre"></label>
-        <select class="form-select" name="searchGenre" id="searchGenre">
+        <select class="form-select" name="searchGenre" id="searchGenre" style="color: white">
         </select>
       </div>
       <div class="col-sm mx-3">
@@ -201,6 +201,8 @@
         var newOption=document.createElement("option");
         newOption.value=movieGenres[i].id;
         newOption.innerHTML=movieGenres[i].name;
+        newOption.setAttribute("class","others");
+        newOption.setAttribute("style","color:pink;");
         element.appendChild(newOption);
       }
     }
@@ -215,10 +217,11 @@
         var newOption=document.createElement("option");
         newOption.value=tvGenres[i].id;
         newOption.innerHTML=tvGenres[i].name;
+        newOption.setAttribute("class","others");
+        // newOption.setAttribute("style","color:pink;");
         element.appendChild(newOption);
       }
     }
-
 
   }
 </script>
