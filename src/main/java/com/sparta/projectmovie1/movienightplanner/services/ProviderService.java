@@ -35,7 +35,7 @@ public class ProviderService {
 
     public List<Provider> getAllProvidersFromTmdb(String productionType){
         ProviderList providerList= restTemplate.getForObject("https://api.themoviedb.org/3/watch/providers/"+productionType+"?watch_region=GB&api_key=" + tmdbApiKey, ProviderList.class);
-        System.out.println(providerList.getResults());
+        //System.out.println(providerList.getResults());
         return providerList.getResults();
     }
 
@@ -47,7 +47,7 @@ public class ProviderService {
     public List<Provider> getCurrentProviders(String userId){
 
         List<MyProviderEntry> myProviderEntryList=myProviderEntryRepo.findByUserId(userId);
-        System.out.println("Number of providers from database--"+myProviderEntryList.size());
+        //System.out.println("Number of providers from database--"+myProviderEntryList.size());
 
         List<Provider> movieProviders=getAllProvidersFromTmdb("movie");
         List<Provider> tvProviders=getAllProvidersFromTmdb("tv");
@@ -55,33 +55,18 @@ public class ProviderService {
         List<Provider> currentProviders=new ArrayList<>();
 
         for(MyProviderEntry entry:myProviderEntryList){
-            System.out.println("providerId of current entry--"+entry.getProviderId());
+
             List<Provider> providersTv=tvProviders.stream().filter(p->{
                 String valueFromDB=String.valueOf(entry.getProviderId());
                 String valueFromApi=String.valueOf(p.getProvider_id());
                 return ((p.getProvider_id()== entry.getProviderId())||(valueFromDB.equals(valueFromApi)));}).collect(Collectors.toList());
 
-            /*---------2nd approach-----------------*/
-
-            for(Provider theProvider:tvProviders){
-                System.out.println("Inside new loop-"+theProvider.getProvider_id());
-                System.out.println("Inside new loop-"+entry.getProviderId());
-                String valueFromDB=String.valueOf(entry.getProviderId());
-                String valueFromApi=String.valueOf(theProvider.getProvider_id());
-                if((theProvider.getProvider_id()== entry.getProviderId())||(valueFromDB.equals(valueFromApi))){
-                    System.out.println("Found provider---"+theProvider.getProvider_name());
-                }
-            }
-            System.out.println("size of providersTv--"+providersTv.size());
-            System.out.println("here1");
             if(providersTv.size()>0){
-                System.out.println("here2");
                 currentProviders.add(providersTv.get(0));
-                System.out.println("here3");
                 continue;
             }
             else{
-                System.out.println("here4");
+
                 List<Provider> providersMovie=movieProviders.stream().filter(p->{
                     String valueFromDB=String.valueOf(entry.getProviderId());
                     String valueFromApi=String.valueOf(p.getProvider_id());

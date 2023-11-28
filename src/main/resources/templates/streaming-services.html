@@ -26,12 +26,50 @@
     </div>
     <br>
     <div class="row">
-       <div class="col-sm-12" th:each="watchprovider:${currentProviders}" th:if="${currentProviders.size()>0}">
+       <div class="col-sm-12" th:each="watchprovider,status:${currentProviders}" th:if="${currentProviders.size()>0}">
            <div class="row">
                <div class="col-sm-2"><img th:src="@{'https://www.themoviedb.org/t/p/h30/'+${watchprovider.getLogo_path()}}">&nbsp;
                    <b><span th:text="${watchprovider.getProvider_name()}"></span></b></div>
-               <div class="col-sm-1"><a th:href="@{/removeProvider(providerId=${watchprovider.getProvider_id()})}" class="btn btn-dark btn-sm">Remove</a>&nbsp;</div>
-               <div class="col-sm-9"></div>
+               <!--<div class="col-sm-1"><a th:href="@{/removeProvider(providerId=${watchprovider.getProvider_id()})}" class="btn btn-dark btn-sm">Remove</a>&nbsp;</div>-->
+               <div class="col-sm-2">
+                   <button type="button" class="btn btn-dark btn-sm"
+                           data-bs-toggle="modal" th:data-bs-target="|#deleteConfirmation${status.index}|" th:attr="data-bs-target='#deleteConfirmation'+${status.index}">Remove
+                   </button>
+               </div>
+               <div class="col-sm-8"></div>
+           </div>
+           <!--Confirmation Modal pop up-->
+           <!-- Modal -->
+           <div class="modal fade" th:id="deleteConfirmation+${status.index}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+               <div class="modal-dialog">
+                   <div class="modal-content">
+                       <form th:action="@{/removeProvider}"  method="post">
+                           <div class="modal-header">
+                               <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                       aria-label="Close"></button>
+                           </div>
+                           <div class="modal-body">
+                               <div class="row">
+                                   <div class="col-sm-12">
+                                       Are you sure you want to remove the provider <b><span th:text="${watchprovider.getProvider_name()}"></span></b>?
+                                   </div>
+                               </div>
+                               <div class="row d-none">
+                                   <div class="col-sm-7">
+                                       <input type="text" id="providerId" name="providerId" class="form-control" th:value="${watchprovider.getProvider_id()}" />
+                                   </div>
+                               </div>
+
+                           </div>
+                           <div class="modal-footer">
+                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                               </button>
+                               <button type="submit" class="btn btn-danger" >Confirm</button>
+                           </div>
+                       </form>
+                   </div>
+               </div>
            </div>
            <br>
        </div>

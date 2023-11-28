@@ -69,7 +69,12 @@ public class HomeController {
         List<Genre> genres=searchService.getGenreList(productionType).getGenres();
         model.addAttribute("lastSearchGenreName",searchGenre!=0?searchService.getGenreName(genres,searchGenre):null);
 
-        //List<Production> productions=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
+        if(user==null){
+            System.out.println("Not logged in");
+        }
+        else{
+            System.out.println("Logged in");
+        }
         ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page,user);
         List<Production> productions=productionList.getResults();
 
