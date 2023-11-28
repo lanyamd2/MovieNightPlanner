@@ -21,6 +21,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
+
 .navbar-brand {
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
 }
@@ -112,3 +113,7 @@
     color: #411F50;
 }
 
+/*.dark-mode{*/
+/*    background-color: #1c141f;*/
+/*    color: white;*/
+/*}*/
