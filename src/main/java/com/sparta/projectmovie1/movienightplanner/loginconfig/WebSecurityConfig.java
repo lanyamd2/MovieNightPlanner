@@ -28,6 +28,7 @@ public class WebSecurityConfig {
                                         "/home",
                                         "/index",
                                         "/registration",
+                                        "/help",
                                         "/search-results-new/**",
                                         "/css/**",
                                         "/images/**",
