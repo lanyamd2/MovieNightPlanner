@@ -77,7 +77,7 @@ public class SearchController {
         }
         LastSearchCriteria lastSearchCriteria=new LastSearchCriteria(searchQuery,productionType,searchGenre);
 
-        ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
+        ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page,null);
 
         if(productionList==null){
             throw new EmptysearchResultException("Search criteria didnt match any item");
