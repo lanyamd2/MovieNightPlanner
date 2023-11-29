@@ -136,7 +136,7 @@ public class SearchService {
             String watchProviderSearch=null;
             if(user!=null){
                  watchProviderSearch=getStreamingSearchString(productionType,user);
-                System.out.println("watch provider search ---"+watchProviderSearch);
+                //System.out.println("watch provider search ---"+watchProviderSearch);
             }
 
 
