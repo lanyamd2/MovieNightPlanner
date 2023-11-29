@@ -40,6 +40,9 @@
         </div>
         <div>
             <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/help}">Help</a>
+                </li>
                 <li sec:authorize="!isAuthenticated()" class="nav-item">
                     <a class="btn nav-link" th:href="@{/login}">Login</a>
                 </li>
