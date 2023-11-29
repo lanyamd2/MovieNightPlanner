@@ -69,7 +69,7 @@ public class HomeController {
         List<Genre> genres=searchService.getGenreList(productionType).getGenres();
         model.addAttribute("lastSearchGenreName",searchGenre!=0?searchService.getGenreName(genres,searchGenre):null);
 
-      
+
         ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page,user);
         List<Production> productions=productionList.getResults();
 
