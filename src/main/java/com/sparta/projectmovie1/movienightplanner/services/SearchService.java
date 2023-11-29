@@ -189,24 +189,6 @@ public class SearchService {
             }
 
             }
-            /*-----------2nd approch--------------*/
-         /*   List<Production> movies=new ArrayList<>();
-            List<Production> series=new ArrayList<>();
-            for(Production production:finalProductionList){
-                if(production.getMedia_type().equals("movie")){
-                    movies.add(movieService.getMovieById(String.valueOf(production.getId())));
-                }
-                else{
-                    Series theSeries=seriesService.getSeriesById(String.valueOf(production.getId()));
-                    theSeries.setMedia_type("tv");
-                    series.add(theSeries);
-
-                }
-            }
-
-            finalProductionList=movies;
-            finalProductionList.addAll(series);*/
-            /*-----------------------------------------------------*/
 
             productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
 

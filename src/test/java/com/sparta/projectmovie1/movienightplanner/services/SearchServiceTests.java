@@ -1,9 +1,8 @@
 package com.sparta.projectmovie1.movienightplanner.services;
 
-import com.sparta.projectmovie1.movienightplanner.models.Genre;
-import com.sparta.projectmovie1.movienightplanner.models.GenreList;
-import com.sparta.projectmovie1.movienightplanner.models.Production;
-import com.sparta.projectmovie1.movienightplanner.models.ProductionList;
+import com.sparta.projectmovie1.movienightplanner.loginconfig.SecurityUser;
+import com.sparta.projectmovie1.movienightplanner.models.*;
+import com.sparta.projectmovie1.movienightplanner.models.users.User;
 import com.sparta.projectmovie1.movienightplanner.services.exceptions.InvalidGenreIdException;
 import jdk.jfr.Description;
 import org.junit.jupiter.api.Assertions;
@@ -29,6 +28,12 @@ public class SearchServiceTests {
 
     @MockBean
     MovieService movieService;
+
+    @MockBean
+    SecurityUser securityUser;
+
+    @MockBean
+    ProviderService providerService;
 
     @Value("${tmdb.api.key}")
     private String tmdbApiKey;
@@ -275,6 +280,26 @@ public class SearchServiceTests {
         Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + String.valueOf(searchGenre) + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class)).thenReturn(productionList);
         Mockito.when(movieService.getReleaseYearFromReleaseDate(Mockito.any(Production.class))).thenReturn("2023");
         Assertions.assertEquals(1,searchService.getAllSearchResults(null,productionType,searchGenre,page,null).getResults().size());
+
+    }
+
+
+    @Test
+    public void getStreamingSearchStringTest(){
+        String productionType="movie";
+        User user=new User();
+        user.setId("dummy1");
+        Mockito.when(securityUser.getUser()).thenReturn(user);
+
+        Provider p1=new Provider();
+        p1.setProvider_id(10);
+        List<Provider> providerList=new ArrayList<>();
+        providerList.add(p1);
+
+        Mockito.when(providerService.getCurrentProviders(securityUser.getUser().getId())).thenReturn(providerList);
+        Mockito.when(providerService.getAllProvidersFromTmdb(productionType)).thenReturn(providerList);
+
+        Assertions.assertEquals("&watch_region=GB&with_watch_providers=10",searchService.getStreamingSearchString(productionType,securityUser));
 
     }
 
