@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                                         "/search-results-new/**",
                                         "/css/**",
                                         "/images/**",
+                                        "/js/**",
                                         "/fonts/**",
                                         "/scripts/**",
                                         "/details/**",
