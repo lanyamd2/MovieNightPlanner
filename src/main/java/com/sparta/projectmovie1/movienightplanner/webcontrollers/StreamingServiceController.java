@@ -92,16 +92,17 @@ public class StreamingServiceController {
     @RequestMapping("/searchProvider/{productionType}")
     public String showSearchedProvider(@PathVariable String productionType,@RequestParam String searchedProvider, Model model,@AuthenticationPrincipal SecurityUser securityUser ){
 
+
         String userId = securityUser.getUser().getId();
         model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
         model.addAttribute("type",productionType);
         if(productionType.equals("movie")){
-            model.addAttribute("movieProviders",providerService.getSearchedProvider(productionType,searchedProvider));
+            model.addAttribute("movieProviders",providerService.getSearchedProvider(productionType,searchedProvider.trim()));
         }
         else{
-            model.addAttribute("tvProviders",providerService.getSearchedProvider(productionType,searchedProvider));
+            model.addAttribute("tvProviders",providerService.getSearchedProvider(productionType,searchedProvider.trim()));
         }
-        if(providerService.getSearchedProvider(productionType,searchedProvider).size()==0){
+        if(providerService.getSearchedProvider(productionType,searchedProvider.trim()).size()==0){
             model.addAttribute("searchedProviderError","No providers matching your search");
         }
         return "streaming-services";

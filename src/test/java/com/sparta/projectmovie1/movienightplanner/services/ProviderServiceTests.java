@@ -75,4 +75,21 @@ public class ProviderServiceTests {
         Assertions.assertEquals(1,providerService.getCurrentProviders("dummy1").size());
 
     }
+
+    @Test
+    public void getSearchedProviderTest(){
+
+        Provider p1=new Provider();
+        p1.setProvider_id(1);
+        p1.setProvider_name("dummy");
+        List<Provider> pList=new ArrayList<>();
+        pList.add(p1);
+        ProviderList providerList=new ProviderList();
+        providerList.setResults(pList);
+
+        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/watch/providers/"+"movie"+"?watch_region=GB&api_key=" + tmdbApiKey, ProviderList.class)).thenReturn(providerList);
+        Mockito.when(restTemplate.getForObject("https://api.themoviedb.org/3/watch/providers/"+"tv"+"?watch_region=GB&api_key=" + tmdbApiKey, ProviderList.class)).thenReturn(providerList);
+
+        Assertions.assertEquals(1,providerService.getSearchedProvider("movie","du").size());
+    }
 }

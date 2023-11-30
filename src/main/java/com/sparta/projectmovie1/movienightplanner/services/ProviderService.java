@@ -89,6 +89,7 @@ public class ProviderService {
     }
 
     public List<Provider> getSearchedProvider(String productionType,String searchedProviderName){
+
         List<Provider> providersOfTheProductionType=getAllProvidersFromTmdb(productionType);
         List<Provider> searchedProviderList=providersOfTheProductionType.stream().filter(p->p.getProvider_name().toLowerCase().startsWith(searchedProviderName.toLowerCase())).collect(Collectors.toList());
         return searchedProviderList;
