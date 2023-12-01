@@ -33,6 +33,8 @@ public class WebSecurityConfig {
                                         "/css/**",
                                         "/images/**",
                                         "/js/**",
+                                        "/js/lib/**",
+                                        "/js/src/**",
                                         "/fonts/**",
                                         "/scripts/**",
                                         "/details/**",
