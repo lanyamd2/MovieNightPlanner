@@ -38,6 +38,14 @@
                     <ul class="dropdown-menu dropdown-menu-end">
                         <!--                        style="background-color: #613973;"-->
                         <li>
+                            <span th:unless="${signedInUser}" class="dropdown-item">Hi, User</span>
+                            <span th:if="${signedInUser}" th:text="'Hi, '+${signedInUser.username}"
+                                  class="dropdown-item">User</span>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
                             <a class="dropdown-item" aria-current="page" th:href="@{/myplan}"
                                th:if="${#authorization.expression('isAuthenticated()')}"
                                th:classappend="${#authorization.expression('isAuthenticated()')} ? '' : 'disabled' ">MyPlan
@@ -58,11 +66,24 @@
                         <li>
                             <div class="dropdown-item form-check form-switch"
                                  th:if="${#authorization.expression('isAuthenticated()')}"
-                                 th:classappend="${#authorization.expression('isAuthenticated()')} ? '' : 'disabled'">
-                                <label class="form-check-label" for="toggleDark" id="toggleDarkLabel">Dark Mode</label>
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                       id="toggleDark" style="float: right">
+                                 th:classappend="${#authorization.expression('isAuthenticated()')} ? '' : 'disabled'"
+                                 th:with="user=${signedInUser}">
+
+                                <form id="toggleDarkForm" action="#" data-th-action="@{/theme}" method="post" >
+                                    <label class="form-check-label" for="toggleDark" id="toggleDarkLabel">Dark
+                                        Mode</label>
+                                    <input class="form-check-input" type="checkbox" role="switch"
+                                           id="toggleDark" style="float: right" name="toggleDarkName"
+                                           th:checked="${signedInUser.isDarkMode}"
+                                           onclick="clickToggleDarkFn(event)">
+                                </form>
+
                             </div>
+                        </li>
+                        <li class="d-none">
+                            <span class="dropdown-item" th:if="${#authorization.expression('isAuthenticated()')}"
+                                  th:classappend="${#authorization.expression('isAuthenticated()')} ? '' : 'disabled'"
+                                  th:text="${signedInUser.isDarkMode}">isDarkMode</span>
                         </li>
                         <li>
                             <a class="dropdown-item" th:href="@{/help}">Help</a>

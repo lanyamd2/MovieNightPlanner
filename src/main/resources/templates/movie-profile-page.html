@@ -267,14 +267,35 @@
                     <p th:text="${production.overview}">Lorem ipsum dolor sit amet.</p>
                 </div>
                 <div class="mx-3" th:if="${production.offers!=null}">
-                    <h4 class="border-bottom" id="Offers">Where to Watch<span id='off'>3</span></h4>
+                    <h4 class="border-bottom" id="Offers">Where to Watch</h4>
+                    <!--BEGINNING SETTING JUSTWATCH WIDGET TO THEME-->
 
+                    <!--BEGINNING SETTING JUSTWATCH WIDGET TO LIGHT-->
                     <div data-api-key="ABCdef12"
                          data-jw-widget
                          th:attr="data-object-type=${production.media_type},
-                     data-title=${production.name.toLowerCase()}+' ',
-                     data-year=${production.releaseYear}" id="justWatchProfileItem"
+                         data-title=${production.name.toLowerCase()}+' ',
+                         data-year=${production.releaseYear},
+                         data-theme='light'"
+                         id="justWatchProfileItemLight"
+                         th:if="${signedInUser==null} or(${signedInUser !=null} and ${!signedInUser.isDarkMode})"
                     ></div>
+                    <!--END SETTING JUSTWATCH WIDGET TO LIGHT-->
+
+                    <!--BEGINNING SETTING JUSTWATCH WIDGET TO DARK-->
+                    <div data-api-key="ABCdef12"
+                         data-jw-widget
+                         th:attr="data-object-type=${production.media_type},
+                         data-title=${production.name.toLowerCase()}+' ',
+                         data-year=${production.releaseYear},
+                         data-theme='dark'"
+                         id="justWatchProfileItemDark"
+                         th:if="${signedInUser!=null} and ${signedInUser.isDarkMode}"
+                    ></div>
+                    <!--END SETTING JUSTWATCH WIDGET TO DARK-->
+
+                    <!--END SETTING JUSTWATCH WIDGET TO THEME-->
+
                     <div style="">
                         <a data-original="https://www.justwatch.com"
                            href="https://www.justwatch.com"

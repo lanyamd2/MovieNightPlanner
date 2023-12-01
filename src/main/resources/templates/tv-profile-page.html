@@ -263,13 +263,34 @@
                 </div>
                 <div th:if="${production.offers!=null}" class="mx-3">
                     <h4 id="Offers" class="border-bottom">Where to Watch</h4>
-                    <!--                    <span id='off'>3</span>-->
-                    <div data-jw-widget
-                         data-api-key="ABCdef12"
+                    <!--BEGINNING SETTING JUSTWATCH WIDGET TO THEME-->
+
+                    <!--BEGINNING SETTING JUSTWATCH WIDGET TO LIGHT-->
+                    <div data-api-key="ABCdef12"
+                         data-jw-widget
                          th:attr="data-object-type=${production.media_type},
-                     data-title=${production.name.toLowerCase()}+' ',
-                     data-year=${production.releaseYear}"
+                         data-title=${production.name.toLowerCase()}+' ',
+                         data-year=${production.releaseYear},
+                         data-theme='light'"
+                         id="justWatchProfileItemLight"
+                         th:if="${signedInUser==null} or(${signedInUser !=null} and ${!signedInUser.isDarkMode})"
                     ></div>
+                    <!--END SETTING JUSTWATCH WIDGET TO LIGHT-->
+
+                    <!--BEGINNING SETTING JUSTWATCH WIDGET TO DARK-->
+                    <div data-api-key="ABCdef12"
+                         data-jw-widget
+                         th:attr="data-object-type=${production.media_type},
+                         data-title=${production.name.toLowerCase()}+' ',
+                         data-year=${production.releaseYear},
+                         data-theme='dark'"
+                         id="justWatchProfileItemDark"
+                         th:if="${signedInUser!=null} and ${signedInUser.isDarkMode}"
+                    ></div>
+                    <!--END SETTING JUSTWATCH WIDGET TO DARK-->
+
+                    <!--END SETTING JUSTWATCH WIDGET TO THEME-->
+
                     <div style="">
                         <a style="display:flex; font-size: 11px; font-family: sans-serif; color: black; text-decoration: none; align-items:center;"
                            target="_blank" data-original="https://www.justwatch.com" href="https://www.justwatch.com">
