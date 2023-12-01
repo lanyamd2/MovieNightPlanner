@@ -34,13 +34,9 @@ public class UserController {
 //        System.out.println("in setUserTheme : "+toggleDarkValue);
 
         String referrerURL=request.getHeader("Referer");
-        if(referrerURL.contains("removeProvider") || referrerURL.contains("addToProviders")){
-            System.out.println("Referrer value ->"+request.getHeader("Referer"));
-            return "redirect:"+"http://localhost:8080/providers";
-        }
-        else{
+
             return "redirect:"+request.getHeader("Referer");
-        }
+        
 
     }
 
