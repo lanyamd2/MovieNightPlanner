@@ -36,7 +36,7 @@ public class UserController {
         String referrerURL=request.getHeader("Referer");
 
             return "redirect:"+request.getHeader("Referer");
-        
+
 
     }
 
