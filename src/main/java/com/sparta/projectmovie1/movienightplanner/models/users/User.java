@@ -29,6 +29,9 @@ public class User {
     @JsonProperty("password")
     private String password;
 
+    @JsonProperty("isDarkMode")
+    private boolean isDarkMode;
+
     private String roles;
 
     public String getId() {
@@ -79,6 +82,13 @@ public class User {
         this.password = password;
     }
 
+    public boolean isDarkMode() {
+        return isDarkMode;
+    }
+    public void setDarkMode(boolean darkMode) {
+        isDarkMode = darkMode;
+    }
+
     public String getRoles() {
         return roles;
     }
@@ -91,9 +101,10 @@ public class User {
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
+                ", isDarkMode=" + isDarkMode +
+                ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", roles='" + roles + '\'' +
