@@ -75,7 +75,7 @@ public class HomeControllerTests {
         Mockito.when(searchService.getAllSearchResults(Mockito.any(String.class),
                                                         Mockito.any(String.class),
                                                         Mockito.any(Integer.class),
-                                                        Mockito.any(Integer.class))).thenReturn(productionList);
+                                                        Mockito.any(Integer.class),Mockito.eq(null))).thenReturn(productionList);
 
         MvcResult mvcResult=mockMvc.perform(MockMvcRequestBuilders.get("/search-results-new")
                         .param("searchQuery","dummy")

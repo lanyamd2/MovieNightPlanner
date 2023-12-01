@@ -2,21 +2,22 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="${production.name}">Movie Profile</title>
     <meta content="L. Murphy-Delgado" name="author"/>
     <meta content="This is page generates when the user has selected a movie/tv show by its ID" name="description"/>
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
     <!--Adding external style sheet-->
     <link href="/css/homepagestyles.css" rel="stylesheet" type="text/css">
 
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body onload="changeOptions()" style="color: #411F50;">
+<body onload="changeOptions()">
 <!--Nav bar and search bar begin here-->
-<div th:insert="(~{navbar.html})"></div>
+<div th:insert="(~{navbar.html::navbar})"></div>
 <div th:insert="(~{searchbar.html})"></div>
 <!--nav bar and search bar end here-->
 <!--Profile Page begins here-->
@@ -267,13 +268,34 @@
                 </div>
                 <div class="mx-3" th:if="${production.offers!=null}">
                     <h4 class="border-bottom" id="Offers">Where to Watch</h4>
+                    <!--BEGINNING SETTING JUSTWATCH WIDGET TO THEME-->
+
+                    <!--BEGINNING SETTING JUSTWATCH WIDGET TO LIGHT-->
                     <div data-api-key="ABCdef12"
                          data-jw-widget
                          th:attr="data-object-type=${production.media_type},
-                     data-title=${production.name.toLowerCase()}+' ',
-                     data-year=${production.releaseYear},
-                     data-theme='light'"
+                         data-title=${production.name.toLowerCase()}+' ',
+                         data-year=${production.releaseYear},
+                         data-theme='light'"
+                         id="justWatchProfileItemLight"
+                         th:if="${signedInUser==null} or(${signedInUser !=null} and ${!signedInUser.isDarkMode})"
                     ></div>
+                    <!--END SETTING JUSTWATCH WIDGET TO LIGHT-->
+
+                    <!--BEGINNING SETTING JUSTWATCH WIDGET TO DARK-->
+                    <div data-api-key="ABCdef12"
+                         data-jw-widget
+                         th:attr="data-object-type=${production.media_type},
+                         data-title=${production.name.toLowerCase()}+' ',
+                         data-year=${production.releaseYear},
+                         data-theme='dark'"
+                         id="justWatchProfileItemDark"
+                         th:if="${signedInUser!=null} and ${signedInUser.isDarkMode}"
+                    ></div>
+                    <!--END SETTING JUSTWATCH WIDGET TO DARK-->
+
+                    <!--END SETTING JUSTWATCH WIDGET TO THEME-->
+
                     <div style="">
                         <a data-original="https://www.justwatch.com"
                            href="https://www.justwatch.com"
@@ -283,7 +305,7 @@
                                  src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg">
                         </a>
                     </div>
-                    <script async src="https://widget.justwatch.com/justwatch_widget.js"></script>
+
                 </div>
             </div>
         </div>
@@ -303,5 +325,24 @@
 
     document.getElementById("myplan-date").setAttribute("max", maxDateFormatted);
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"-->
+<!--        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"-->
+<!--        crossorigin="anonymous"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+<script src="https://widget.justwatch.com/justwatch_widget.js"></script>
+<!--Adding external javascript for light/dark theme-->
+<script type="text/javascript" th:src="@{/js/src/toggledark.js}"></script>
+
 </body>
 </html>

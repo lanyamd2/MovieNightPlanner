@@ -1,5 +1,6 @@
 package com.sparta.projectmovie1.movienightplanner.services;
 
+import com.sparta.projectmovie1.movienightplanner.loginconfig.SecurityUser;
 import com.sparta.projectmovie1.movienightplanner.models.*;
 import com.sparta.projectmovie1.movienightplanner.models.movies.Movie;
 import com.sparta.projectmovie1.movienightplanner.models.tvshows.Series;
@@ -28,11 +29,17 @@ public class SearchService {
     private MovieService movieService;
     private SeriesService seriesService;
 
+    private ProviderService providerService;
+
     @Autowired
-    public SearchService(RestTemplate restTemplate,MovieService movieService,SeriesService seriesService) {
+    public SearchService(RestTemplate restTemplate,
+                         MovieService movieService,
+                         SeriesService seriesService,
+                         ProviderService providerService) {
         this.restTemplate = restTemplate;
         this.movieService=movieService;
         this.seriesService=seriesService;
+        this.providerService=providerService;
     }
 
 
@@ -67,7 +74,7 @@ public class SearchService {
         return sortedResults;
     }
 
-    public ProductionList getAllSearchResults(String searchQuery, String productionType, Integer searchGenre, Integer page) {
+    public ProductionList getAllSearchResults(String searchQuery, String productionType, Integer searchGenre, Integer page, SecurityUser user) {
 
         ProductionList productionListObj=null;
         List<Production> finalProductionList = null;
@@ -126,14 +133,34 @@ public class SearchService {
 
 
             //System.out.println(productionType+"-----------------"+genreName);
+            String watchProviderSearch=null;
+            if(user!=null){
+                 watchProviderSearch=getStreamingSearchString(productionType,user);
+                //System.out.println("watch provider search ---"+watchProviderSearch);
+            }
+
+
+
             ProductionList productionList=null;
 
             try{
-                if(searchGenre!=0){
-                    productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + String.valueOf(searchGenre) + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+                if(user!=null && watchProviderSearch.length()>0){
+                    if(searchGenre!=0){
+                        productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + String.valueOf(searchGenre) + "&page="+page+"&api_key=" + tmdbApiKey+watchProviderSearch, ProductionList.class);
+                    }
+                    else{
+                        productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?page="+page+"&api_key=" + tmdbApiKey+watchProviderSearch, ProductionList.class);
+                    }
+
                 }
                 else{
-                    productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+                    if(searchGenre!=0){
+                        productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?with_genres=" + String.valueOf(searchGenre) + "&page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+                    }
+                    else{
+                        productionList = restTemplate.getForObject("https://api.themoviedb.org/3/discover/" + productionType + "?page="+page+"&api_key=" + tmdbApiKey, ProductionList.class);
+                    }
+
                 }
 
 
@@ -162,24 +189,6 @@ public class SearchService {
             }
 
             }
-            /*-----------2nd approch--------------*/
-         /*   List<Production> movies=new ArrayList<>();
-            List<Production> series=new ArrayList<>();
-            for(Production production:finalProductionList){
-                if(production.getMedia_type().equals("movie")){
-                    movies.add(movieService.getMovieById(String.valueOf(production.getId())));
-                }
-                else{
-                    Series theSeries=seriesService.getSeriesById(String.valueOf(production.getId()));
-                    theSeries.setMedia_type("tv");
-                    series.add(theSeries);
-
-                }
-            }
-
-            finalProductionList=movies;
-            finalProductionList.addAll(series);*/
-            /*-----------------------------------------------------*/
 
             productionListObj=new ProductionList(productionList.getPage(),finalProductionList, productionList.getTotal_pages());
 
@@ -204,6 +213,46 @@ public class SearchService {
         return genreName;
     }
 
+
+    public String getStreamingSearchString(String productionType,SecurityUser securityUser){
+
+        String userId = securityUser.getUser().getId();
+
+        String streamingProvider="";
+
+        List<Provider> providers=providerService.getCurrentProviders(userId);
+        List<Provider> prouctionTypeProviders=providerService.getAllProvidersFromTmdb(productionType);
+
+        List<Provider> providersForTheProductionType=new ArrayList<>();
+
+        for(Provider provider:providers){
+
+            int size=prouctionTypeProviders.stream().filter(p->{
+                String valueFromDB=String.valueOf(provider.getProvider_id());
+                String valueFromApi=String.valueOf(p.getProvider_id());
+                return ((p.getProvider_id()==provider.getProvider_id())||(valueFromDB.equals(valueFromApi)));}).collect(Collectors.toList()).size();
+            if(size>0){
+                providersForTheProductionType.add(provider);
+            }
+        }
+
+        if(providersForTheProductionType.size()>0){
+            streamingProvider=streamingProvider+"&watch_region=GB&with_watch_providers=";
+            int i=0;
+            for(Provider provider:providersForTheProductionType){
+                i++;
+                if(i<providersForTheProductionType.size()){
+                    streamingProvider=streamingProvider+String.valueOf(provider.getProvider_id())+"|";
+                }
+                else{
+                    streamingProvider=streamingProvider+String.valueOf(provider.getProvider_id());
+                }
+            }
+        }
+
+
+        return streamingProvider;
+    }
 
 
 }
