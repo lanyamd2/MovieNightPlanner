@@ -59,6 +59,14 @@
     <h2>Search Results for - <span th:text="${#strings.capitalize(lastSearchCriteria.getProductionType())}"></span>
                             <span th:if="${lastSearchGenreName}" th:text="','+${lastSearchGenreName}"></span>
     </h2>
+    <br>
+    <!--Providers warning message section starts-->
+    <div class="row" th:if="${savedProviderNotSupportedForProductionTypeError}">
+        <div class="col-sm-12">
+            <span th:text="${savedProviderNotSupportedForProductionTypeError}" style="color: #e33661; text-align:center; font-weight: bold;"></span>
+        </div>
+    </div>
+    <!--Providers warning message section ends-->
     <span id="theNum" th:text="${productions.size()}" class="d-none"></span>
     <br>
     <!--Next and Back Button Section starts-->

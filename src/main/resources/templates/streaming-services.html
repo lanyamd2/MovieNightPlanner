@@ -92,7 +92,21 @@
         <div class="col-sm-12">
             <h4>Providers for <span th:text="${type}"></span></h4>
         </div>
+        <div class="col-sm-12">
+            <div class="row">
+            <div class="col-sm-3">
+            <form th:action="@{'/searchProvider/'+${type}}">
+                <input type="text" name="searchedProvider" id="searchedProvider" placeholder="provider name" class="form-control-sm">
+                <input type="submit" class="btn btn-dark btn-sm" value="Search">
+            </form>
+            </div>
+            </div>
+        </div>
+        <div class="col-sm-12" th:if="${searchedProviderError}">
+            <p th:text="${searchedProviderError}"></p>
+        </div>
     </div>
+    <br>
     <div class="row">
         <div class="col-sm-8">
             <table class="table">
