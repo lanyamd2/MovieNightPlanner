@@ -59,7 +59,7 @@ public class UserService {
     public void updateUserTheme(User user, boolean desiredIsDark){
         if(isExistingUsername(user.getUsername())){
             user.setDarkMode(desiredIsDark);
-            System.out.println("FROM USER SERVICE: "+user);
+            //System.out.println("FROM USER SERVICE: "+user);
             userRepository.save(user);
         }else{
             throw new UsernameNotFoundException(user.getUsername()+"not found in database");

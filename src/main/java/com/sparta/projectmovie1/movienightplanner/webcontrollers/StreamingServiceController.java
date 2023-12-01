@@ -5,10 +5,12 @@ import com.sparta.projectmovie1.movienightplanner.models.MyProviderEntry;
 import com.sparta.projectmovie1.movienightplanner.models.Provider;
 import com.sparta.projectmovie1.movienightplanner.repositories.MyProviderEntryRepository;
 import com.sparta.projectmovie1.movienightplanner.services.ProviderService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,9 +57,9 @@ public class StreamingServiceController {
     }
 
     @RequestMapping("/addToProviders")
-    public String addToMyProviders(@RequestParam Integer providerId,Model model, @AuthenticationPrincipal SecurityUser securityUser){
+    public String addToMyProviders(@RequestParam Integer providerId,Model model, @AuthenticationPrincipal SecurityUser securityUser,HttpServletRequest request){
         String userId = securityUser.getUser().getId();
-        System.out.println("providerId---"+providerId);
+        //System.out.println("providerId---"+providerId);
 
         MyProviderEntry existingProviderEntry=myProviderEntryRepo.findByUserIdAndProviderId(userId,providerId);
 
@@ -76,17 +78,17 @@ public class StreamingServiceController {
         model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
 
 
-        return "streaming-services";
+        return "redirect:"+request.getHeader("Referer");
 
     }
 
 
     @RequestMapping("/removeProvider")
-    public String removeFromMyProviders(@RequestParam Integer providerId,Model model, @AuthenticationPrincipal SecurityUser securityUser){
+    public String removeFromMyProviders(@RequestParam Integer providerId, Model model, @AuthenticationPrincipal SecurityUser securityUser, HttpServletRequest request){
         String userId = securityUser.getUser().getId();
         providerService.deleteProvider(providerId,userId);
         model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
-        return "streaming-services";
+        return "redirect:"+request.getHeader("Referer");
     }
 
     @RequestMapping("/searchProvider/{productionType}")

@@ -32,7 +32,12 @@ public class UserController {
         }
 
 //        System.out.println("in setUserTheme : "+toggleDarkValue);
-        return "redirect:"+request.getHeader("Referer");
+
+        String referrerURL=request.getHeader("Referer");
+
+            return "redirect:"+request.getHeader("Referer");
+
+
     }
 
 }
