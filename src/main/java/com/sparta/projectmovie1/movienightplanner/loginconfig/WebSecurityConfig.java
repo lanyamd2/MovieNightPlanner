@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                                         "/search-results-new/**",
                                         "/css/**",
                                         "/images/**",
+                                        "/js/**",
                                         "/fonts/**",
                                         "/scripts/**",
                                         "/details/**",
@@ -43,7 +44,9 @@ public class WebSecurityConfig {
                 .userDetailsService(jpaUserDetailsService)
                 .formLogin((form)-> form.loginPage("/login")
                         .permitAll()
-                ).logout((logout)->logout.permitAll())
+                ).logout((logout)->
+
+                        logout.permitAll())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }
