@@ -59,7 +59,7 @@ public class StreamingServiceController {
     @RequestMapping("/addToProviders")
     public String addToMyProviders(@RequestParam Integer providerId,Model model, @AuthenticationPrincipal SecurityUser securityUser,HttpServletRequest request){
         String userId = securityUser.getUser().getId();
-        System.out.println("providerId---"+providerId);
+        //System.out.println("providerId---"+providerId);
 
         MyProviderEntry existingProviderEntry=myProviderEntryRepo.findByUserIdAndProviderId(userId,providerId);
 
