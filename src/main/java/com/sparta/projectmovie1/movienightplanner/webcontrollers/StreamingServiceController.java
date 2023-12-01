@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class StreamingServiceController {
     }
 
     @RequestMapping("/addToProviders")
-    public String addToMyProviders(@RequestParam Integer providerId,Model model, @AuthenticationPrincipal SecurityUser securityUser,HttpServletRequest request){
+    public String addToMyProviders(@RequestParam Integer providerId, Model model, @AuthenticationPrincipal SecurityUser securityUser, HttpServletRequest request, RedirectAttributes redirectAttrs){
         String userId = securityUser.getUser().getId();
         //System.out.println("providerId---"+providerId);
 
@@ -72,13 +73,16 @@ public class StreamingServiceController {
             providerService.addToMyProviderEntries(myProviderEntry);
         }
         else{
-            model.addAttribute("addToProviderError","Provider already added");
+            
+            redirectAttrs.addFlashAttribute("addToProviderError", "Provider already added");
+            //model.addAttribute("addToProviderError","Provider already added");
         }
 
         model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
 
 
-        return "redirect:"+request.getHeader("Referer");
+        //return "redirect:"+request.getHeader("Referer");
+        return "redirect:"+"http://localhost:8080/providers";
 
     }
 
