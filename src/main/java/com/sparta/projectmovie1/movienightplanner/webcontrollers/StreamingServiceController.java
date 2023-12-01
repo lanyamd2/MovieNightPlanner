@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -87,4 +88,25 @@ public class StreamingServiceController {
         model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
         return "streaming-services";
     }
+
+    @RequestMapping("/searchProvider/{productionType}")
+    public String showSearchedProvider(@PathVariable String productionType,@RequestParam String searchedProvider, Model model,@AuthenticationPrincipal SecurityUser securityUser ){
+
+
+        String userId = securityUser.getUser().getId();
+        model.addAttribute("currentProviders",providerService.getCurrentProviders(userId));
+        model.addAttribute("type",productionType);
+        if(productionType.equals("movie")){
+            model.addAttribute("movieProviders",providerService.getSearchedProvider(productionType,searchedProvider.trim()));
+        }
+        else{
+            model.addAttribute("tvProviders",providerService.getSearchedProvider(productionType,searchedProvider.trim()));
+        }
+        if(providerService.getSearchedProvider(productionType,searchedProvider.trim()).size()==0){
+            model.addAttribute("searchedProviderError","No providers matching your search");
+        }
+        return "streaming-services";
+    }
+
+
 }
