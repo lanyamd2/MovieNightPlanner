@@ -16,6 +16,8 @@ let modalheaders = document.getElementsByClassName('modal-header');
 let modalbodies = document.getElementsByClassName('modal-body');
 let modalfooters = document.getElementsByClassName('modal-footer');
 let modalContentRows = document.getElementsByClassName('modal-content row');
+let rowItems = document.getElementsByClassName("row-item");
+console.log("number of row-items = " + rowItems.length);
 // console.log("number of rows inside modal-content = "+modalContentRows.length);
 // console.log('number of modal headers = ' + modalheaders.length);
 // console.log('number of modal bodies = ' + modalbodies.length);
@@ -79,13 +81,14 @@ function setDropDownItems() {
 }
 
 function setDarkTheme() {
-    navbar.style.backgroundImage = 'linear-gradient( #351a40, #1b0d21)';
+    navbar.style.backgroundImage = 'linear-gradient(rgb(57, 0, 80), rgb(27, 13, 33))';
+
     // navbar.style.transition = '2s';
 
     if (searchbars.length > 0) {
         for (let i = 0; i < searchbars.length; i++) {
             searchbars[i].style.color = 'white';
-            searchbars[i].style.backgroundImage = 'linear-gradient( #a62847,#8a2038)';
+            searchbars[i].style.backgroundImage = 'linear-gradient(rgb(169, 8, 48), rgb(95, 6, 26))';
         }
     }
 
@@ -111,7 +114,8 @@ function setDarkTheme() {
     setDropDownItems();
     if (modalheaders.length > 0) {
         for (let i = 0; i < modalheaders.length; i++) {
-            modalheaders[i].style.background = 'purple';
+            modalheaders[i].style.background = '#411F50';
+
         }
     }
     if (modalbodies.length > 0) {
@@ -124,18 +128,24 @@ function setDarkTheme() {
             modalfooters[i].style.background = 'purple';
         }
     }
-    if(modalContentRows.length > 0){
-        for(let i = 0; i < modalContentRows.length; i++){
-            modalContentRows[i].style.background ='purple';
-            modalContentRows[i].style.color ='white';
-            let descendentsOfMCR = modalContentRows.getElementsByTagName('*');
-            if(descendentsOfMCR.length > 0){
-                for(let j = 0; j < descendentsOfMCR.length; j++){
-                    descendentsOfMCR[j].style.background="purple";
-                    modalContentRows[i].style.color ='white';
-                }
-            }
-
+    // if(modalContentRows.length > 0){
+    //     for(let i = 0; i < modalContentRows.length; i++){
+    //         modalContentRows[i].style.background ='purple';
+    //         modalContentRows[i].style.color ='white';
+    //         let descendentsOfMCR = modalContentRows.getElementsByTagName('*');
+    //         if(descendentsOfMCR.length > 0){
+    //             for(let j = 0; j < descendentsOfMCR.length; j++){
+    //                 descendentsOfMCR[j].style.background="purple";
+    //                 modalContentRows[i].style.color ='white';
+    //             }
+    //         }
+    //
+    //     }
+    // }
+    if(rowItems.length > 0){
+        for(let i=0; i < rowItems.length; i++){
+            rowItems[i].style.background = 'purple';
+            rowItems[i].style.color = 'white';
         }
     }
     if (tables.length > 0) {
@@ -147,7 +157,7 @@ function setDarkTheme() {
         let thElements = document.getElementsByTagName('th');
         if (thElements.length > 0) {
             for (let i = 0; i < thElements.length; i++) {
-                thElements[i].style.background = 'purple';
+                thElements[i].style.background = 'black';
                 thElements[i].style.color = 'white';
                 // thElements[i].style.transition = '2s';
             }
@@ -155,7 +165,7 @@ function setDarkTheme() {
         let tdElements = document.getElementsByTagName('td');
         if (tdElements.length > 0) {
             for (let i = 0; i < tdElements.length; i++) {
-                tdElements[i].style.background = 'purple';
+                tdElements[i].style.background = 'black';
                 tdElements[i].style.color = 'white';
                 // tdElements[i].style.transition = '2s';
             }
@@ -163,14 +173,18 @@ function setDarkTheme() {
     }
     if (faqQuestions.length > 0) {
         for (let i = 0; i < faqQuestions.length; i++) {
-            faqQuestions[i].style.background = 'black';
+            faqQuestions[i].style.background = '#411F50';
             faqQuestions[i].style.color = 'white';
+            // faqQuestions[i].setAttribute("--bs-accordion-active-bg", "#edcfef");
+
+            // edcfef
             // faqQuestions[i].style.transition = '2s';
         }
     }
+
     if (faqAnswers.length > 0) {
         for (let i = 0; i < faqAnswers.length; i++) {
-            faqAnswers[i].style.background = 'purple';
+            faqAnswers[i].style.background = 'black';
             faqAnswers[i].style.color = 'white';
             // faqAnswers[i].style.transition = '2s';
         }
@@ -223,7 +237,9 @@ function setLightTheme() {
     setDropDownItems();
     if (modalheaders.length > 0) {
         for (let i = 0; i < modalheaders.length; i++) {
-            modalheaders[i].style.background = 'white';
+            modalheaders[i].style.background = '#411F50';
+            modalheaders[i].style.color = 'white';
+
         }
     }
     if (modalbodies.length > 0) {
@@ -236,17 +252,23 @@ function setLightTheme() {
             modalfooters[i].style.background = 'white';
         }
     }
-    if(modalContentRows.length > 0){
-        for(let i = 0; i < modalContentRows.length; i++){
-            modalContentRows[i].style.background ='white';
-            modalContentRows[i].style.color ='#411F50';
-            let descendentsOfMCR = modalContentRows.getElementsByTagName('*');
-            if(descendentsOfMCR.length > 0){
-                for(let j = 0; j < descendentsOfMCR.length; j++){
-                    descendentsOfMCR[j].style.background="white";
-                    modalContentRows[i].style.color ='#411F50';
-                }
-            }
+    // if(modalContentRows.length > 0){
+    //     for(let i = 0; i < modalContentRows.length; i++){
+    //         modalContentRows[i].style.background ='white';
+    //         modalContentRows[i].style.color ='#411F50';
+    //         let descendentsOfMCR = modalContentRows.getElementsByTagName('*');
+    //         if(descendentsOfMCR.length > 0){
+    //             for(let j = 0; j < descendentsOfMCR.length; j++){
+    //                 descendentsOfMCR[j].style.background="white";
+    //                 modalContentRows[i].style.color ='#411F50';
+    //             }
+    //         }
+    //     }
+    // }
+    if(rowItems.length > 0){
+        for(let i=0; i < rowItems.length; i++){
+            rowItems[i].style.background = 'white';
+            rowItems[i].style.color = '#411F50';
         }
     }
     if (tables.length > 0) {
@@ -273,8 +295,8 @@ function setLightTheme() {
     }
     if (faqQuestions.length > 0) {
         for (let i = 0; i < faqQuestions.length; i++) {
-            faqQuestions[i].style.background = 'purple';
-            faqQuestions[i].style.color = 'white';
+            faqQuestions[i].style.background = '#edcfef';
+            faqQuestions[i].style.color = '#411F50';
             // faqQuestions[i].style.transition = '2s';
         }
     }
@@ -300,7 +322,7 @@ function setLightTheme() {
     }
     //END OF WORKING setLightTheme() at the moment
 }
-
+setLightTheme();
 if (toggleDark != null) {
     let isChecked = toggleDark.checked; // checks the current value of the dark theme toggle switch, true if dark mode is on
     console.log(isChecked);
