@@ -3,6 +3,7 @@ package com.sparta.projectmovie1.movienightplanner.services;
 import com.sparta.projectmovie1.movienightplanner.models.users.User;
 import com.sparta.projectmovie1.movienightplanner.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,6 +21,7 @@ public class UserService {
 
     public void registerUser(User user){
         user.setRoles("ROLE_USER");
+        user.setDarkMode(false);
         userRepository.save(user);
     }
 
@@ -52,6 +54,16 @@ public class UserService {
 
         Matcher m = p.matcher(password);
         return m.matches();
+    }
+
+    public void updateUserTheme(User user, boolean desiredIsDark){
+        if(isExistingUsername(user.getUsername())){
+            user.setDarkMode(desiredIsDark);
+            //System.out.println("FROM USER SERVICE: "+user);
+            userRepository.save(user);
+        }else{
+            throw new UsernameNotFoundException(user.getUsername()+"not found in database");
+        }
     }
 
 }

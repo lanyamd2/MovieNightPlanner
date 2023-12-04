@@ -1,8 +1,11 @@
 package com.sparta.projectmovie1.movienightplanner.webcontrollers;
 
+import com.sparta.projectmovie1.movienightplanner.loginconfig.SecurityUser;
 import com.sparta.projectmovie1.movienightplanner.models.*;
+import com.sparta.projectmovie1.movienightplanner.services.ProviderService;
 import com.sparta.projectmovie1.movienightplanner.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,10 +18,12 @@ import java.util.List;
 public class HomeController {
 
     private SearchService searchService;
+    private ProviderService providerService;
 
     @Autowired
-    public HomeController(SearchService searchService) {
+    public HomeController(SearchService searchService,ProviderService providerService) {
         this.searchService = searchService;
+        this.providerService=providerService;
     }
 
 
@@ -51,7 +56,8 @@ public class HomeController {
                                      @RequestParam String productionType,
                                      @RequestParam Integer searchGenre,
                                      @RequestParam(required = false) Integer page,
-                                     @RequestParam(required = false) String sortBy, Model model){
+                                     @RequestParam(required = false) String sortBy, Model model,
+                                     @AuthenticationPrincipal SecurityUser user){
 
 
 
@@ -66,8 +72,8 @@ public class HomeController {
         List<Genre> genres=searchService.getGenreList(productionType).getGenres();
         model.addAttribute("lastSearchGenreName",searchGenre!=0?searchService.getGenreName(genres,searchGenre):null);
 
-        //List<Production> productions=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
-        ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page);
+
+        ProductionList productionList=searchService.getAllSearchResults(searchQuery,productionType,searchGenre,page,user);
         List<Production> productions=productionList.getResults();
 
         if(sortBy!=null && sortBy.equals("popularity")){
@@ -80,6 +86,15 @@ public class HomeController {
 
         MyPlanEntry myPlanEntry=new MyPlanEntry();
         model.addAttribute("myPlanEntry",myPlanEntry);
+
+        if(user!=null &&
+                (searchQuery==null || searchQuery.equals("")) &&
+                providerService.getCurrentProviders(user.getUser().getId()).size()>0 &&
+                searchService.getStreamingSearchString(productionType,user).equals("")){
+            model.addAttribute("savedProviderNotSupportedForProductionTypeError",
+                    "None of the saved providers supports the production type("+productionType+") you searched for." +
+                                "Have a look at the following from other providers");
+        }
 
         return "results";
     }

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Help</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous">
+</head>
+<body>
+<div th:insert="(~{navbar.html})"></div>
+<div class="container">
+  <div class="row mx-auto" style="margin-top: 20px;">
+    <h2 class="text-center">Frequently Asked Questions</h2>
+  </div>
+  <div class="accordion" id="faqs">
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse0" aria-expanded="true" aria-controls="collapse0">
+          How do I search for a film or TV show?
+        </button>
+      </h5>
+      <div id="collapse0" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          The main, plan, history, and providers pages all contain a search bar, in which a search
+          query can be made.
+          <br><br>
+          For all search queries, you must select whether to search for a movie or TV show by
+          selecting the desired option within the relevant dropdown.
+          <br><br>
+          A basic search can be made by just having the production type (movie or TV show) selected
+          and simply clicking the ‘Search’ button. You will then be presented with the results of
+          currently trending movies or TV shows.
+          <br><br>
+          Selecting the type of genre and the production type within the relevant dropdowns and then
+          clicking ‘Search’ will return results of currently trending movies or TV shows of the
+          selected genre.
+          <br><br>
+          By typing into the search box, having a production type selected, and then clicking
+          ‘Search’, you can perform a more refined search that presents you with results according
+          to what has been entered in the search box.
+          <br><br>
+          For an even more refined search, having the type of genre and the production type
+          selected, along with text entered in the search box will present results according to what
+          has been entered in the search box, as well as matching the type of genre and production
+          type selected.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+          How do I sort the search results?
+        </button>
+      </h5>
+      <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          By default, when performing a search with the search box empty, the most trending results
+          are presented. When performing a search with the search box populated, the results that
+          best match the search query are presented.
+          <br><br>
+          The results can be sorted by popularity by simply selecting ‘Popularity’ within the
+          ‘SortBy’ drop down located near the top right corner of the results page, and then
+          clicking on ‘Apply’. This will refresh the results so that they are sorted accordingly.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
+          How do I find movies and TV shows based on what streaming providers I have access to?
+        </button>
+      </h5>
+      <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          When signed in, clicking ‘MyProviders’ within the ‘More’ dropdown located on the right of
+          the top banner will take you to the provider selection page.
+          <br><br>
+          On this page, a collection of supported streaming providers can be viewed by clicking on
+          the buttons to either see providers for movies or providers for TV shows. Each provider
+          listed has an ‘Add’ button next to them, which can be clicked on in order to have them
+          selected.
+          <br><br>
+          With the desired streaming providers selected, a search query can then be made using the
+          search bar by selecting the type of production (movie or TV show) and optionally, the type
+          of genre as well. The presented results will match the providers that have been selected
+          as long as a search is made with the search box being empty.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse16" aria-expanded="true" aria-controls="collapse16">
+          How do I see the details of a movie or TV show?
+        </button>
+      </h5>
+      <div id="collapse16" class="accordon-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          By simply clicking on the poster picture belonging to a movie or TV show, you can see its
+          details.
+          <br><br>
+          These poster pictures are used to represent a movie or TV show on many pages throughout
+          the application, such as the main page, results pages, the MyPlan page, and the Watch
+          History page.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse15" aria-expanded="true" aria-controls="collapse15">
+          How do I see what streaming services a movie or TV show can be watched on?
+        </button>
+      </h5>
+      <div id="collapse15" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          A movie or TV show’s streaming service availability can be viewed on its details page,
+          which can be accessed by clicking on its associated poster picture, used to represent a
+          movie or TV show all throughout the application, such as on the main page, results pages,
+          the MyPlan page, and the Watch History page.
+          <br><br>
+          Streaming service availability can also be seen when clicking on the ‘Add to My Plan’
+          button underneath a poster picture on the main page or results pages.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+          Why can’t I access my plan or watch history?
+        </button>
+      </h5>
+      <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          Many features of this application such as the plan and watch history are unique to each
+          user, and must be tied to an account. In order to be able to access these features, you
+          must first have an account, and then ensure that you are logged in. You will then be able
+          to access the desired pages under the ‘More’ dropdown located on the right of the top
+          banner.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+          How do I go back to the main page?
+        </button>
+      </h5>
+      <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          Simply clicking on the ‘Movie Night Planner’ logo located in the middle of the top banner
+          from any page will direct you to the main page.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
+          How do I view my plan?
+        </button>
+      </h5>
+      <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          To be able to access your plan, you must first be logged in to the application. Once
+          logged in, clicking on ‘MyPlan’ within the ‘More’ dropdown located to the right of the top
+          banner will direct you to the MyPlan page.
+          <br><br>
+          The MyPlan page allows you to view all movies and TV shows you have added to your plan.
+          Clicking on the calendar icon on the date selector at the top of the page, selecting a
+          date, and then clicking ‘Select’ will allow you to see what you have added on a specific
+          day.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse19" aria-expanded="true" aria-controls="collapse19">
+          How do I add a movie or TV show to my plan?
+        </button>
+      </h5>
+      <div id="collapse19" class="accordon-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          There are multiple ways in which a movie or TV show can be added to your plan.
+          <br><br>
+          One way is by clicking on the ‘Add to My Plan’ button underneath each poster picture shown
+          on the main page, as well as the results pages when entering a search query. A window will
+          appear in which you can select the date on which you plan to watch the chose movie or TV
+          show. Clicking on the calendar icon, selecting a date on the calendar, and then clicking
+          on ‘Select’ will then add the movie or TV show to your plan on the chosen date.
+          <br><br>
+          A movie or TV show can also be added to your plan through its associated details page. By
+          clicking on the ‘Add to My Plan’ button at the top of the page, a similar window will
+          appear in which you can select the date for the chosen movie or TV show to be added to
+          your plan. Simply click on the calendar icon, select the date, and then click ‘Select’ to
+          add to your plan.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse17" aria-expanded="true" aria-controls="collapse17">
+          Why can’t I add a movie or TV show to my plan?
+        </button>
+      </h5>
+      <div id="collapse17" class="accordon-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          Movies or TV shows that aren’t currently available on any streaming services do not have
+          the option to be added to your plan.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
+          How do I delete an entry in my plan?
+        </button>
+      </h5>
+      <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          Entries in your plan can be deleted by clicking on the ‘Edit Plan’ button located below
+          the date selector at the top of the page. Once clicked, ‘Delete’ buttons should appear
+          under each entry. When clicking on the ‘Delete’ button under the desired entry, a
+          confirmation window will appear, in which clicking on ‘Confirm’ will delete the entry.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
+          How do I change the date of an entry in my plan?
+        </button>
+      </h5>
+      <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          Clicking on the ‘Edit Plan’ button located below the date selector at the top of the page
+          will allow for ‘Change Date’ buttons to appear under each entry. When clicking on the
+          ‘Change Date’ button under the desired entry, a window will appear in which the new date
+          can be specified by clicking on the calendar button and then selecting the desired date.
+          Once a new date has been selected, it can be confirmed by clicking the ‘Confirm’ button.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse8" aria-expanded="true" aria-controls="collapse8">
+          How do I view my watch history?
+        </button>
+      </h5>
+      <div id="collapse8" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          To view your watch history, you must first be logged in. Once logged in, it can be
+          accessed by clicking on ‘History’ within the ‘More’ dropdown located the right of the top
+          banner.
+          <br><br>
+          The Watch History page allows you to view movies and TV shows that you have marked as
+          watched. Entering text into the text field at the top of the page, and then clicking
+          ‘Search’ will return results of any matching movie or TV show that you have in your watch
+          history.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse18" aria-expanded="true" aria-controls="collapse18">
+          How do I add a movie or TV show to my watch history?
+        </button>
+      </h5>
+      <div id="collapse18" class="accordon-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          When on the details page of a movie or TV show, which can be accessed by clicking on an
+          associated poster picture found all throughout the application, clicking on the ‘Already
+          Watched?’ button located at the top of the page will open a window in which you can select
+          the date on which you watched the movie or TV show. Simply click on the calendar icon,
+          select the date from the calendar, and click ‘Select’ to add to your watch history.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse9" aria-expanded="true" aria-controls="collapse9">
+          How do I delete an entry in my watch history?
+        </button>
+      </h5>
+      <div id="collapse9" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          Each entry on the Watch History page has a set of buttons beside it, with one being a
+          ‘Delete’ button. When clicking on the ‘Delete’ button next to a desired entry, a
+          confirmation popup will appear asking you to confirm the deletion. Clicking ‘OK’ will
+          delete the entry.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse10" aria-expanded="true" aria-controls="collapse10">
+          How do I change the date of an entry in my watch history?
+        </button>
+      </h5>
+      <div id="collapse10" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          Each entry on the Watch History page has an ‘Edit’ button beside it. When clicking this
+          button, a window will appear in which you are able to select a new date, this can be done
+          by clicking the calendar icon and selecting a date on the calendar. To confirm the new
+          date, simply click ‘Select’.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse11" aria-expanded="true" aria-controls="collapse11">
+          How do I create an account?
+        </button>
+      </h5>
+      <div id="collapse11" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          When clicking on ‘Login’ within the ‘More’ dropdown located to the right of the top
+          banner, you will be taken to the Login page. Underneath the text fields for username and
+          password, there is a ‘Registration’ button, clicking on this will take you to the
+          Registration page in which you can enter your details to create an account.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse12" aria-expanded="true" aria-controls="collapse12">
+          How do I log in?
+        </button>
+      </h5>
+      <div id="collapse12" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          Clicking on ‘Login’ within the ‘More’ dropdown located to the right of the top banner will
+          take you to the Login page in which you can enter your username and password in the
+          relevant text fields and then press ‘Login’ to attempt to log in.
+          <br><br>
+          If successful, you will be able to have full access to all the features offered by the
+          application.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse13" aria-expanded="true" aria-controls="collapse13">
+          How do I enable/disable dark mode?
+        </button>
+      </h5>
+      <div id="collapse13" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          By clicking on the ‘Dark Mode’ toggle within the ‘More’ dropdown located to the right of
+          the top banner, you can either enable or disable it.
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h5 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse14" aria-expanded="true" aria-controls="collapse14">
+          What streaming services does this application track?
+        </button>
+      </h5>
+      <div id="collapse14" class="accordion-collapse collapse" data-bs-parent="#faqs">
+        <div class="accordion-body">
+          <div th:each="provider:${providers}">
+            <p th:text="${provider.getClearName()}"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" th:src="@{/js/src/toggledark.js}"></script>
+
+</body>
+</html>

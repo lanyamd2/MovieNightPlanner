@@ -28,9 +28,13 @@ public class WebSecurityConfig {
                                         "/home",
                                         "/index",
                                         "/registration",
+                                        "/help",
                                         "/search-results-new/**",
                                         "/css/**",
                                         "/images/**",
+                                        "/js/**",
+                                        "/js/lib/**",
+                                        "/js/src/**",
                                         "/fonts/**",
                                         "/scripts/**",
                                         "/details/**",
@@ -42,7 +46,9 @@ public class WebSecurityConfig {
                 .userDetailsService(jpaUserDetailsService)
                 .formLogin((form)-> form.loginPage("/login")
                         .permitAll()
-                ).logout((logout)->logout.permitAll())
+                ).logout((logout)->
+
+                        logout.permitAll())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
     }

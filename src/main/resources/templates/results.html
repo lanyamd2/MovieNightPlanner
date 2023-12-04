@@ -7,7 +7,8 @@
     <title>Home</title>
 
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 
     <!--Adding external style sheet-->
     <link href="../css/homepagestyles.css" rel="stylesheet" type="text/css">
@@ -23,13 +24,14 @@
 <!--Search Section ends here-->
 <br>
 <div class="container">
-<br>
+    <br>
     <!--Sorting Section starts here-->
     <div class="sortSection">
         <div class="row">
             <div class="col-sm-8"></div>
             <div class="col-sm-4">
-                <form th:action="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},page=${page})}" method="post">
+                <form th:action="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},page=${page})}"
+                      method="post">
                     <div class="row">
                         <div class="col-sm-4">
                             <!--<select class="form-select form-select-sm" name="timeWindow" id="timeWindow">
@@ -39,7 +41,8 @@
                             </select>-->
                         </div>
                         <div class="col-sm-4">
-                            <select class="form-select form-select-sm" style="border-color: #411F50;" name="sortBy" id="sortBy">
+                            <select class="form-select form-select-sm" style="border-color: #411F50;" name="sortBy"
+                                    id="sortBy">
                                 <option value="" disabled selected>SortBy</option>
                                 <option value="popularity">Popularity</option>
                             </select>
@@ -57,19 +60,32 @@
 
     <br>
     <h2>Search Results for - <span th:text="${#strings.capitalize(lastSearchCriteria.getProductionType())}"></span>
-                            <span th:if="${lastSearchGenreName}" th:text="','+${lastSearchGenreName}"></span>
+        <span th:if="${lastSearchGenreName}" th:text="','+${lastSearchGenreName}"></span>
     </h2>
+    <br>
+    <!--Providers warning message section starts-->
+    <div class="row" th:if="${savedProviderNotSupportedForProductionTypeError}">
+        <div class="col-sm-12">
+            <span th:text="${savedProviderNotSupportedForProductionTypeError}"
+                  style="color: #e33661; text-align:center; font-weight: bold;"></span>
+        </div>
+    </div>
+    <!--Providers warning message section ends-->
     <span id="theNum" th:text="${productions.size()}" class="d-none"></span>
     <br>
     <!--Next and Back Button Section starts-->
     <div class="row">
         <!--<span th:text="${page}"></span>&nbsp;<span th:text="${totalpages}"></span>-->
         <div class="col-sm-2">
-            <a th:if="${page>1}" th:href="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},page=${page-1})}" class="btn btn-dark">Back</a>
-            <a th:if="${page<totalpages}" th:href="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},page=${page+1})}" class="btn btn-dark">Next</a>
+            <a th:if="${page>1}"
+               th:href="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},page=${page-1})}"
+               class="btn btn-dark">Back</a>
+            <a th:if="${page<totalpages}"
+               th:href="@{/search-results-new(searchQuery=${lastSearchCriteria.getSearchQuery()},productionType=${lastSearchCriteria.getProductionType()},searchGenre=${lastSearchCriteria.getSearchGenre()},page=${page+1})}"
+               class="btn btn-dark">Next</a>
         </div>
         <div class="col-sm-10"></div>
-        </div>
+    </div>
     <!--Next and Back Button Section ends-->
 
     <!--Search results display section starts here-->
@@ -78,31 +94,36 @@
     <div class="displaySection">
         <div class="row">
             <div class="col-sm-3" th:each="production,status:${productions}">
-                <a  th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}" style="text-decoration:none;color:black">
-                <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}" th:if="${production.posterPath!=null}" class="img-thumbnail">
+                <a th:href="@{'/details/'+${production.getMedia_type()}+'/'+${production.getId()}}"
+                   style="text-decoration:none;color:black">
+                    <img th:src="@{'https://www.themoviedb.org/t/p/w220_and_h330_face'+${production.getPosterPath()}}"
+                         th:if="${production.posterPath!=null}" class="img-thumbnail">
                     <img alt="Poster"
                          class="img-thumbnail"
                          style="width:220px"
                          src="https://i0.wp.com/moviemarker.co.uk/wp-content/uploads/NoPosterAvailable.jpg"
-                          th:unless="${production.posterPath!=null}">
-                <br>
-                <b><span th:text="${production.getName()}"></span></b>
+                         th:unless="${production.posterPath!=null}">
+                    <br>
+                    <b><span th:text="${production.getName()}"></span></b>
                     <span th:if="${production.getMedia_type()} eq 'movie'">(Movie)</span>
                     <span th:unless="${production.getMedia_type()} eq 'movie'">(Tv)</span>
-                <!--<span th:text="${production.getPopularity()}"></span>-->
-                <!--<span th:text="${production.getMedia_type()}"></span>-->
-                <br>
+                    <!--<span th:text="${production.getPopularity()}"></span>-->
+                    <!--<span th:text="${production.getMedia_type()}"></span>-->
+                    <br>
                 </a>
                 <button type="button" class="btn btn-dark btn-sm"
-                        data-bs-toggle="modal" th:data-bs-target="|#addToMyPlanForm${status.index}|" th:attr="data-bs-target='#addToMyPlanForm'+${status.index}">Add to My Plan
+                        data-bs-toggle="modal" th:data-bs-target="|#addToMyPlanForm${status.index}|"
+                        th:attr="data-bs-target='#addToMyPlanForm'+${status.index}">Add to My Plan
                 </button>
                 <br><br>
                 <!-- Modal -->
-                <div class="modal fade" th:id="addToMyPlanForm+${status.index}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                <div class="modal fade" th:id="addToMyPlanForm+${status.index}" tabindex="-1"
+                     aria-labelledby="exampleModalLabel"
                      aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form th:action="@{'/addtoplan/'+${production.getMedia_type()}}"  th:object="${myPlanEntry}" method="post">
+                            <form th:action="@{'/addtoplan/'+${production.getMedia_type()}}" th:object="${myPlanEntry}"
+                                  method="post">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Choose a date</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -114,55 +135,77 @@
                                             <label for="productionId">Production ID: </label>
                                         </div>
                                         <div class="col-sm-7">
-                                            <input type="text" id="productionId" name="productionId" class="form-control" th:value="${production.getId()}"  required/>
+                                            <input type="text" id="productionId" name="productionId"
+                                                   class="form-control" th:value="${production.getId()}" required/>
                                         </div>
                                         <div class="invalid-feedback">Please fill out this field</div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-3">
+                                        <div class="row-item col-sm-3">
                                             <label for="date">Select Date: </label>
                                         </div>
-                                        <div class="col-sm-7">
-                                            <input type="date" id="date" name="date" class="form-control "  th:disabled="${#lists.isEmpty(production.offers)}" required>
+                                        <div class="row-item col-sm-7">
+                                            <input type="date" id="date" name="date" class="form-control "
+                                                   th:disabled="${#lists.isEmpty(production.offers)}" required>
                                         </div>
                                         <div class="invalid-feedback">Please fill out this field</div>
                                     </div>
-                                </div>
-                                <!--where to watch starts-->
-                                <div class="row">
-                                    <div class="col-sm-1"></div>
-                                    <div class="col-sm-10">
-                                        <h5><b>Streaming Offers</b></h5>
+                                    <!--where to watch starts-->
+                                    <div class="row mt-3">
+                                        <div class="row-item col-sm-1"></div>
+                                        <div class="row-item col-sm-10">
+                                            <h5><b>Streaming Offers</b></h5>
+                                        </div>
+                                        <div class="row-item col-sm-1"></div>
                                     </div>
-                                    <div class="col-sm-1"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-1"></div>
-                                    <div class="col-sm-10">
-                                        <div data-jw-widget
-                                             data-api-key="ABCdef12"
-                                             th:attr="data-object-type=${production.getMedia_type() eq 'movie'?'movie':'show'},
+                                    <div class="row">
+                                        <div class="row-item col-sm-1"></div>
+                                        <div class="row-item col-sm-10">
+                                            <!--BEGINNING SETTING JUSTWATCH WIDGET TO THEME-->
+                                            <!--BEGINNING SETTING JUSTWATCH WIDGET TO LIGHT-->
+                                            <div data-jw-widget
+                                                 data-api-key="ABCdef12"
+                                                 th:attr="data-object-type=${production.getMedia_type() eq 'movie'?'movie':'show'},
                      data-title=${#strings.toLowerCase(production.getName())},
                      data-year=${production.getReleaseYear()},
                      data-theme='light'"
-                                        ></div>
-                                        <div style="">
-                                            <a style="display:flex; font-size: 11px; font-family: sans-serif; color: black; text-decoration: none; align-items:center;"
-                                               target="_blank" data-original="https://www.justwatch.com" href="https://www.justwatch.com">
-                                                <img alt="JustWatch" height="11px"
-                                                     src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg">
-                                            </a>
+                                                 th:if="${signedInUser==null} or(${signedInUser !=null} and ${!signedInUser.isDarkMode})"
+
+                                            ></div>
+                                            <!--END SETTING JUSTWATCH WIDGET TO LIGHT-->
+                                            <!--BEGINNING SETTING JUSTWATCH WIDGET TO DARK-->
+                                            <div data-jw-widget
+                                                 data-api-key="ABCdef12"
+                                                 th:attr="data-object-type=${production.getMedia_type() eq 'movie'?'movie':'show'},
+                     data-title=${#strings.toLowerCase(production.getName())},
+                     data-year=${production.getReleaseYear()},
+                     data-theme='dark'"
+                                                 th:if="${signedInUser!=null} and ${signedInUser.isDarkMode}"
+                                            ></div>
+                                            <!--END SETTING JUSTWATCH WIDGET TO DARK-->
+                                            <!--END SETTING JUSTWATCH WIDGET TO THEME-->
+                                            <div style="">
+                                                <a style="display:flex; font-size: 11px; font-family: sans-serif; color: black; text-decoration: none; align-items:center;"
+                                                   target="_blank" data-original="https://www.justwatch.com"
+                                                   href="https://www.justwatch.com">
+                                                    <img alt="JustWatch" height="11px"
+                                                         src="https://widget.justwatch.com/assets/JW_logo_color_10px.svg">
+                                                </a>
+                                            </div>
+                                            <script async
+                                                    src="https://widget.justwatch.com/justwatch_widget.js"></script>
                                         </div>
-                                        <script async src="https://widget.justwatch.com/justwatch_widget.js"></script>
                                     </div>
-                                    <div class="col-sm-1"></div>
+                                    <!--where to watch ends-->
+                                    <div class="row-item col-sm-1"></div>
                                 </div>
-                                <!--where to watch ends-->
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
                                     </button>
-                                    <button type="submit" class="btn btn-danger" th:if="${not #lists.isEmpty(production.offers)}">Select</button>
+                                    <button type="submit" class="btn btn-danger"
+                                            th:if="${not #lists.isEmpty(production.offers)}">Select
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -178,9 +221,12 @@
     <!--Search results display section starts here-->
 
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
 <!-- JavaScript Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
 <script>
     var today = new Date().toISOString().split('T')[0];
 
@@ -189,15 +235,15 @@
     const [maxDateFormatted] = maxDate.toISOString().split('T');
 
     console.log(document.getElementById("theNum"))
-    var l=document.getElementById("theNum").innerHTML
+    var l = document.getElementById("theNum").innerHTML
     console.log(l)
-    for(let i=0;i<l;i++){
-    var theId="addToMyPlanForm"+i;
-    document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[4].childNodes[3].childNodes[3].childNodes[1].setAttribute("min",today)
-    document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[4].childNodes[3].childNodes[3].childNodes[1].setAttribute("max",maxDateFormatted)
+    for (let i = 0; i < l; i++) {
+        var theId = "addToMyPlanForm" + i;
+        document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[4].childNodes[3].childNodes[3].childNodes[1].setAttribute("min", today)
+        document.getElementById(theId).childNodes[1].childNodes[1].childNodes[1].childNodes[4].childNodes[3].childNodes[3].childNodes[1].setAttribute("max", maxDateFormatted)
     }
 
 </script>
-
+<script type="text/javascript" th:src="@{/js/src/toggledark.js}"></script>
 </body>
 </html>
