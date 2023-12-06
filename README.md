@@ -1,7 +1,7 @@
 # MovieNightPlanner
 ## About
 
-Developed by: Movie Night 01
+Developed by Movie Night 01
 
 The web application searches for requested movies and TV series from the `TMDB API` and `JustWatch API` and presents them to the user.
 
